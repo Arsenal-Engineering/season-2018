@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick
 
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 
-    override fun calculateMotorOutput(): DriveControllerOutput {
+    override fun calculateMotorOutput(controllerInput: DriveControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 
         var x = joystick.x;
