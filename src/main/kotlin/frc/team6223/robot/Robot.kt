@@ -7,8 +7,8 @@ import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
 
-public val operatorInterface = OI()
-public val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
+val operatorInterface = OI()
+val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
 
 class Robot(): IterativeRobot() {
 

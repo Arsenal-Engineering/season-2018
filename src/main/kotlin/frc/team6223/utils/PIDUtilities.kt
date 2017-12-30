@@ -6,7 +6,7 @@ public data class PIDConstants(val kP: Double, val kI: Double?, val kD: Double?)
 
 public class PIDController(val constants: PIDConstants) {
 
-    private var setPoint: Double = 0.0;
+    var setPoint: Double = 0.0;
     private var previousError: Double = 0.0;
 
     public fun runController(current: Double): Double {

@@ -1,15 +1,13 @@
 package frc.team6223.robot.commands
 
 import edu.wpi.first.wpilibj.command.Command
-import frc.team6223.robot.OI
-import frc.team6223.robot.controllers.ArcadeDriveController
+import frc.team6223.robot.controllers.PIDDistanceController
 import frc.team6223.robot.driveSubsystem
-import frc.team6223.robot.operatorInterface
 
-class DriveTrainMovement: Command() {
+class DriveTrainDistance(val dist: Double): Command() {
     override fun initialize() {
         super.initialize()
-        driveSubsystem.driveMode = ArcadeDriveController(operatorInterface.primaryJoystick)
+        driveSubsystem.driveMode = PIDDistanceController(this.dist)
     }
 
     override fun execute() {
