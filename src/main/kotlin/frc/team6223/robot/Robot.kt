@@ -1,7 +1,9 @@
 package frc.team6223.robot
 
 import edu.wpi.first.wpilibj.IterativeRobot
+import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
+import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
 
@@ -9,6 +11,8 @@ public val operatorInterface = OI()
 public val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
 
 class Robot(): IterativeRobot() {
+
+    private val currentCommandList: ArrayList<Command> = ArrayList();
 
     override fun robotInit() {
         super.robotInit()
@@ -20,10 +24,23 @@ class Robot(): IterativeRobot() {
 
     override fun teleopInit() {
         super.teleopInit()
+        val mutIter = currentCommandList.iterator();
+        while (mutIter.hasNext()) {
+            val item = mutIter.next();
+            item.cancel();
+            mutIter.remove();
+        }
+        DriveTrainMovement().start()
     }
 
     override fun disabledInit() {
         super.disabledInit()
+        val mutIter = currentCommandList.iterator();
+        while (mutIter.hasNext()) {
+            val item = mutIter.next();
+            item.cancel();
+            mutIter.remove();
+        }
     }
 
     override fun autonomousPeriodic() {
