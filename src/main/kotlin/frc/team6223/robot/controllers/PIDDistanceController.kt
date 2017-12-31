@@ -1,12 +1,12 @@
 package frc.team6223.robot.controllers
 
-import frc.team6223.utils.PIDConstants
-import frc.team6223.utils.PIDController
+import frc.team6223.utils.pid.PIDFConstants
+import frc.team6223.utils.pid.PIDFController
 
 class PIDDistanceController(val dist: Double): DriveController {
 
     // completely not tuned and literally just a guess
-    private val pidController = PIDController(PIDConstants(1.0, 1.0, null))
+    private val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
 
     override fun calculateMotorOutput(controllerInput: DriveControllerInput): DriveControllerOutput {
         val out = this.pidController.runController(controllerInput.leftEncoder.distance);
