@@ -3,10 +3,9 @@ package frc.team6223.robot.commands
 import edu.wpi.first.wpilibj.command.Command
 import frc.team6223.robot.OI
 import frc.team6223.robot.controllers.ArcadeDriveController
-import frc.team6223.robot.driveSubsystem
-import frc.team6223.robot.operatorInterface
+import frc.team6223.robot.subsystems.DriveSystem
 
-class DriveTrainMovement: Command() {
+class DriveTrainMovement(val driveSubsystem: DriveSystem, val operatorInterface: OI): Command() {
     override fun initialize() {
         super.initialize()
         driveSubsystem.driveMode = ArcadeDriveController(operatorInterface.primaryJoystick)

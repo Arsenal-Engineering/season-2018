@@ -1,18 +1,15 @@
 package frc.team6223.robot
 
 import edu.wpi.first.wpilibj.IterativeRobot
-import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
 
-val operatorInterface = OI()
-val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
-
 class Robot(): IterativeRobot() {
 
-    private val currentCommandList: ArrayList<Command> = ArrayList();
+    private val operatorInterface = OI()
+    private val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
 
     override fun robotInit() {
         super.robotInit()
@@ -20,27 +17,18 @@ class Robot(): IterativeRobot() {
 
     override fun autonomousInit() {
         super.autonomousInit()
+        this.clearScheduler()
     }
 
     override fun teleopInit() {
         super.teleopInit()
-        val mutIter = currentCommandList.iterator();
-        while (mutIter.hasNext()) {
-            val item = mutIter.next();
-            item.cancel();
-            mutIter.remove();
-        }
-        DriveTrainMovement().start()
+        this.clearScheduler()
+        DriveTrainMovement(driveSubsystem, operatorInterface).start()
     }
 
     override fun disabledInit() {
         super.disabledInit()
-        val mutIter = currentCommandList.iterator();
-        while (mutIter.hasNext()) {
-            val item = mutIter.next();
-            item.cancel();
-            mutIter.remove();
-        }
+        this.clearScheduler()
     }
 
     override fun autonomousPeriodic() {
@@ -57,6 +45,10 @@ class Robot(): IterativeRobot() {
 
     private fun runScheduler() {
         Scheduler.getInstance().run()
+    }
+
+    private fun clearScheduler() {
+        Scheduler.getInstance().removeAll()
     }
 
 }

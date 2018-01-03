@@ -27,7 +27,7 @@ class DriveSystem(driveMode: DriveController) : Subsystem() {
 
     }
 
-    public fun driveMotors() {
+    fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(DriveControllerInput(leftEncoder, rightEncoder))
         leftController.set(driveOut.left)
         rightController.set(driveOut.right)
