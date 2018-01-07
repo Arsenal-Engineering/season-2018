@@ -6,7 +6,7 @@ plugins {
     id "java"
     id "eclipse"
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2018-beta-5b"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.06"
     id 'org.jetbrains.kotlin.jvm' version "1.2.10"
 }
 
@@ -35,6 +35,7 @@ repositories {
 // and NavX.
 dependencies {
     compile wpilib()
+    compile ctre()
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     //compile navx(), bare
 }
