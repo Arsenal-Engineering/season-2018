@@ -13,6 +13,11 @@ abstract class Unit<T: ScaleUnit> {
     abstract operator fun minus(dec: Unit<T>): Unit<T>
     abstract operator fun times(mult: Unit<T>): Unit<T>
     abstract operator fun div(div: Unit<T>): Unit<T>
+
+    abstract operator fun plus(inc: Double): Unit<T>
+    abstract operator fun minus(dec: Double): Unit<T>
+    abstract operator fun times(mult: Double): Unit<T>
+    abstract operator fun div(div: Double): Unit<T>
     abstract override operator fun equals(other: Any?): Boolean
 
     override fun hashCode(): Int {

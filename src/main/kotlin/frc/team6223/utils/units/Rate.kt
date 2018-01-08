@@ -1,51 +1,106 @@
 package frc.team6223.utils.units
 
-open class Rate<tU: ScaleUnit, dU: ScaleUnit>(val topUnit: Unit<tU>, val bottomUnit: Unit<dU>) {
+open class Rate<tU: ScaleUnit, dU: ScaleUnit>(val topUnit: Unit<tU>, val bottomUnit: Unit<dU>): Unit<RateScaleFactor<tU, dU>>() {
     private val internalRate = topUnit.numericValue(topUnit.scale) / bottomUnit.numericValue(bottomUnit.scale)
+    override val scale = RateScaleFactor(topUnit.scale, bottomUnit.scale)
+    override val defaultScale: RateScaleFactor<tU, dU> = RateScaleFactor(topUnit.defaultScale, bottomUnit.defaultScale)
 
-    fun getAs(): Double {
+    override fun numericValue(): Double {
         return internalRate
     }
 
-    fun getAsTop(rep: tU): Double {
-        return internalRate / rep.scaleFactor
+    override fun numericValue(rep: RateScaleFactor<tU, dU>): Double {
+        return this.rescaleRate(rep.topScaleUnit, rep.bottomScaleUnit).numericValue()
     }
 
-    fun getAsTopRate(rep: tU): Rate<tU, dU> {
+    fun rescaleTopScalar(rep: tU): Double {
+        return this.rescaleTopRate(rep).numericValue()
+    }
+
+    fun rescaleTopRate(rep: tU): Rate<tU, dU> {
         return Rate(topUnit.rescale(rep), bottomUnit)
     }
 
-    fun getAsBottom(rep: dU): Double {
-        return this.getAsBottomRate(rep).getAs()
+    fun rescaleBottomScalar(rep: dU): Double {
+        return this.rescaleBottomRate(rep).numericValue()
     }
 
-    fun getAsBottomRate(rep: dU): Rate<tU, dU> {
+    fun rescaleBottomRate(rep: dU): Rate<tU, dU> {
         return Rate(topUnit, bottomUnit.rescale(rep))
     }
 
-    fun getAsTopBottom(rep: tU, repBot: dU): Double {
-        return this.getAsTopBottomRate(rep, repBot).getAs()
+    fun rescaleScalar(rep: tU, repBot: dU): Double {
+        return this.rescaleRate(rep, repBot).numericValue()
     }
 
-    fun getAsTopBottomRate(rep: tU, repBot: dU): Rate<tU, dU> {
+    fun rescaleRate(rep: tU, repBot: dU): Rate<tU, dU> {
         return Rate(this.topUnit.rescale(rep), this.bottomUnit.rescale(repBot))
     }
 
-    /*
-    operator fun plus(inc: Rate<tU, dU>): Rate<tU, dU> {
-
+    override fun rescale(rep: RateScaleFactor<tU, dU>): Unit<RateScaleFactor<tU, dU>> {
+        return this.rescaleRate(rep.topScaleUnit, rep.bottomScaleUnit)
     }
-    operator fun minus(dec: Rate<tU, dU>): Rate<tU, dU> {
 
+    override fun unit(): Unit<RateScaleFactor<tU, dU>> {
+        return this
     }
-    operator fun times(mult: Rate<tU, dU>): Rate<tU, dU> {
 
+    override fun plus(inc: Unit<RateScaleFactor<tU, dU>>): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.plus(inc.rescale(this.scale).numericValue()), this.bottomUnit)
     }
-    operator fun div(div: Rate<tU, dU>): Rate<tU, dU> {
 
+    override fun minus(dec: Unit<RateScaleFactor<tU, dU>>): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.minus(dec.rescale(this.scale).numericValue()), this.bottomUnit)
     }
-    */
+
+    override fun times(mult: Unit<RateScaleFactor<tU, dU>>): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.times(mult.rescale(this.scale).numericValue()), this.bottomUnit)
+    }
+
+    override fun div(div: Unit<RateScaleFactor<tU, dU>>): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.div(div.rescale(this.scale).numericValue()), this.bottomUnit)
+    }
+
+    override fun plus(inc: Double): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.plus(inc), this.bottomUnit)
+    }
+
+    override fun minus(dec: Double): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.minus(dec), this.bottomUnit)
+    }
+
+    override fun times(mult: Double): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.times(mult), this.bottomUnit)
+    }
+
+    override fun div(div: Double): Unit<RateScaleFactor<tU, dU>> {
+        return Rate(this.topUnit.div(div), this.bottomUnit)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return when(other) {
+            is Rate<*,*> -> this.topUnit == other.topUnit && this.bottomUnit == other.bottomUnit
+            else -> false
+        }
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + topUnit.hashCode()
+        result = 31 * result + bottomUnit.hashCode()
+        result = 31 * result + internalRate.hashCode()
+        result = 31 * result + scale.hashCode()
+        return result
+    }
+
+
 }
 
-sealed class TimeRate<tU: ScaleUnit>(topUnit: Unit<tU>): Rate<tU, TimeUnits>(topUnit, Time(1.0, TimeUnits.SECONDS))
-sealed class Velocity(distance: Distance, time: Time): Rate<DistanceUnits, TimeUnits>(distance, time)
+open class RateScaleFactor<out tU: ScaleUnit, out dU: ScaleUnit>(val topScaleUnit: tU, val bottomScaleUnit: dU): ScaleUnit {
+    override val scaleFactor = topScaleUnit.scaleFactor / bottomScaleUnit.scaleFactor
+}
+
+typealias VelocityScaleFactor = RateScaleFactor<DistanceUnits, TimeUnits>
+
+class Velocity(distance: Distance, time: Time): Rate<DistanceUnits, TimeUnits>(distance, time)
+class Acceleration(velocity: Velocity, time: Time): Rate<VelocityScaleFactor, TimeUnits>(velocity, time)

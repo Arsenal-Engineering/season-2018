@@ -21,19 +21,35 @@ class Time(val time: Double, override val scale: TimeUnits): Unit<TimeUnits>() {
     }
 
     override fun plus(inc: Unit<TimeUnits>): Unit<TimeUnits> {
-        return Time(this.numericValue() + inc.numericValue(), TimeUnits.MILLISECONDS)
+        return Time(this.numericValue() + inc.numericValue(), scale)
     }
 
     override fun minus(dec: Unit<TimeUnits>): Unit<TimeUnits> {
-        return Time(this.numericValue() - dec.numericValue(), TimeUnits.MILLISECONDS)
+        return Time(this.numericValue() - dec.numericValue(), scale)
     }
 
     override fun times(mult: Unit<TimeUnits>): Unit<TimeUnits> {
-        return Time(this.numericValue() * mult.numericValue(), TimeUnits.MILLISECONDS)
+        return Time(this.numericValue() * mult.numericValue(), scale)
     }
 
     override fun div(div: Unit<TimeUnits>): Unit<TimeUnits> {
-        return Time(this.numericValue() / div.numericValue(), TimeUnits.MILLISECONDS)
+        return Time(this.numericValue() / div.numericValue(), scale)
+    }
+
+    override fun plus(inc: Double): Unit<TimeUnits> {
+        return Time(this.numericValue() + inc, scale)
+    }
+
+    override fun minus(dec: Double): Unit<TimeUnits> {
+        return Time(this.numericValue() - dec, scale)
+    }
+
+    override fun times(mult: Double): Unit<TimeUnits> {
+        return Time(this.numericValue() * mult, scale)
+    }
+
+    override fun div(div: Double): Unit<TimeUnits> {
+        return Time(this.numericValue() / div, scale)
     }
 
     override fun equals(other: Any?): Boolean {

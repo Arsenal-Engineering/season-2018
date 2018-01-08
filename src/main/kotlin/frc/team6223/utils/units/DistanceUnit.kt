@@ -37,6 +37,22 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
         return Distance(this.numericValue() / div.numericValue(), defaultScale)
     }
 
+    override fun plus(inc: Double): Unit<DistanceUnits> {
+        return Distance(this.numericValue() + inc, defaultScale)
+    }
+
+    override fun minus(dec: Double): Unit<DistanceUnits> {
+        return Distance(this.numericValue() - dec, defaultScale)
+    }
+
+    override fun times(mult: Double): Unit<DistanceUnits> {
+        return Distance(this.numericValue() * mult, defaultScale)
+    }
+
+    override fun div(div: Double): Unit<DistanceUnits> {
+        return Distance(this.numericValue() / div, defaultScale)
+    }
+
     override fun equals(other: Any?): Boolean {
         return when(other) {
             is Distance -> other.numericValue() == this.numericValue()
