@@ -71,11 +71,11 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
 
 }
 
-enum class DistanceUnits(override val scaleFactor: Double): ScaleUnit {
-    MILLIMETERS(.001),
-    CENTIMETERS(.01),
-    METERS(1.0),
-    KILOMETERS(1000.0),
-    INCHES(0.0254),
-    FEET(0.3048),
+enum class DistanceUnits(override val scaleFactor: Double, override val abbreviation: String): ScaleUnit {
+    MILLIMETERS(.001, "mm"),
+    CENTIMETERS(.01, "cm"),
+    METERS(1.0, "m"),
+    KILOMETERS(1000.0, "km"),
+    INCHES(0.0254, "in"),
+    FEET(0.3048, "ft"),
 }

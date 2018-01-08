@@ -70,9 +70,9 @@ class Time(val time: Double, override val scale: TimeUnits): Unit<TimeUnits>() {
 
 }
 
-enum class TimeUnits(override val scaleFactor: Double): ScaleUnit {
-    MICROSECONDS(.001),
-    MILLISECONDS(1.0),
-    SECONDS(1000.0),
-    MINUTE(60000.0)
+enum class TimeUnits(override val scaleFactor: Double, override val abbreviation: String): ScaleUnit {
+    MICROSECONDS(.001, "microseconds"),
+    MILLISECONDS(1.0, "ms"),
+    SECONDS(1000.0, "s"),
+    MINUTE(60000.0, "min")
 }

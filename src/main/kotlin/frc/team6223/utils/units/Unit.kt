@@ -26,8 +26,13 @@ abstract class Unit<T: ScaleUnit> {
         return result
     }
 
+    override fun toString(): String {
+        return this.numericValue().toString() + " " + this.scale.abbreviation
+    }
+
 }
 
 interface ScaleUnit {
     val scaleFactor: Double
+    val abbreviation: String
 }

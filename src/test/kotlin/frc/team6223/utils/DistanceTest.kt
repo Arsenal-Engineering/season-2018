@@ -8,8 +8,8 @@ import io.kotlintest.matchers.plusOrMinus
 
 class DistanceTest: StringSpec() {
     init {
+        val dist = Distance(1.0, DistanceUnits.METERS)
         "distance should input correctly as meters" {
-            val dist = Distance(1.0, DistanceUnits.METERS)
             dist.numericValue() shouldBe 1.0
             dist.numericValue(DistanceUnits.MILLIMETERS) shouldBe 1000.0
             dist.numericValue(DistanceUnits.CENTIMETERS) shouldBe 100.0
@@ -36,6 +36,10 @@ class DistanceTest: StringSpec() {
 
         "distance should input correctly as feet" {
             Distance(1.0, DistanceUnits.FEET).numericValue() shouldBe .3048
+        }
+
+        "distance should properly output via toString()" {
+            dist.toString() shouldBe "1.0 m"
         }
     }
 }

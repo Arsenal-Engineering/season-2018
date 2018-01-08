@@ -93,11 +93,16 @@ open class Rate<tU: ScaleUnit, dU: ScaleUnit>(val topUnit: Unit<tU>, val bottomU
         return result
     }
 
+    override fun toString(): String {
+        return this.numericValue().toString() + " " + this.scale.abbreviation
+    }
+
 
 }
 
 open class RateScaleFactor<out tU: ScaleUnit, out dU: ScaleUnit>(val topScaleUnit: tU, val bottomScaleUnit: dU): ScaleUnit {
     override val scaleFactor = topScaleUnit.scaleFactor / bottomScaleUnit.scaleFactor
+    override val abbreviation: String = topScaleUnit.abbreviation + "/" + bottomScaleUnit.abbreviation
 }
 
 typealias VelocityScaleFactor = RateScaleFactor<DistanceUnits, TimeUnits>

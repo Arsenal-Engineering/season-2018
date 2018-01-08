@@ -48,5 +48,9 @@ class RateTest: StringSpec() {
             val rate = Rate(Distance(1.0, DistanceUnits.METERS), Time(5.0, TimeUnits.SECONDS))
             rate.numericValue() shouldBe 0.20
         }
+
+        "rate formats correctly via toString()" {
+            rate.toString() shouldBe "1.0 m/s"
+        }
     }
 }
