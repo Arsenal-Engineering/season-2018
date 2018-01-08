@@ -27,7 +27,7 @@ abstract class Unit<T: ScaleUnit> {
     }
 
     override fun toString(): String {
-        return this.numericValue().toString() + " " + this.scale.abbreviation
+        return this.numericValue(scale).toString() + " " + this.scale.abbreviation
     }
 
 }
