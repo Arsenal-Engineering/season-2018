@@ -1,10 +1,14 @@
 package frc.team6223.robot.controllers
 
+import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.Joystick
+import frc.team6223.utils.drivecontroller.ControllerInput
+import frc.team6223.utils.drivecontroller.DriveController
+import frc.team6223.utils.drivecontroller.DriveControllerOutput
 
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 
-    override fun calculateMotorOutput(controllerInput: DriveControllerInput): DriveControllerOutput {
+    override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 
         var x = joystick.x;
@@ -17,23 +21,22 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
 
         val maxInput = Math.copySign(Math.max(Math.abs(y), Math.abs(x)), y)
 
-        // If we're moving forward, we must be in the 1st or 2nd quadrant
-        if (y >= 0.0) {
-            // If we're turning right (or moving forward with no turning), we're in the 1st quadrant
-            // Otherwise, we're in the second quadrant
-            if (x >= 0.0) {
-                return DriveControllerOutput(maxInput, y - x)
-            } else {
-                return DriveControllerOutput(y + x, maxInput)
-            }
-        } else {
-            // If we're turning right (or moving forward with no turning, we're in the 3rd quadrant
-            // Otherwise, we're in the fourth quadrant
-            if (x >= 0.0) {
-                return DriveControllerOutput(y + x, maxInput)
-            } else {
-                return DriveControllerOutput(maxInput, y - x)
-            }
+        return when {
+            // If we're moving forward, we must be in the 1st or 2nd quadrant
+            y >= 0.0 ->
+                when {
+                    // If we're turning right (or moving forward with no turning), we're in the 1st quadrant
+                    x >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, y - x)
+                    // Otherwise, we're in the second quadrant
+                    else -> DriveControllerOutput(ControlMode.PercentOutput, y + x, maxInput)
+                }
+            else ->
+                when {
+                    // If we're turning right (or moving forward with no turning, we're in the 3rd quadrant
+                    x >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, y + x, maxInput)
+                    // Otherwise, we're in the fourth quadrant
+                    else -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, y - x)
+                }
         }
     }
 
