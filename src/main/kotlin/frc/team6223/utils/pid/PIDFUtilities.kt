@@ -1,6 +1,8 @@
 package frc.team6223.utils.pid
 
 import frc.team6223.utils.time.currentTimeSec
+import frc.team6223.utils.units.Time
+import frc.team6223.utils.units.TimeUnits
 
 public data class PIDFConstants(val kP: Double, val kI: Double, val kD: Double, val kF: Double)
 
@@ -11,7 +13,7 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
             field = value;
 
             integralGain = 0.0;
-            lastTime = Double.NaN;
+            lastTime = Time(Double.NaN, TimeUnits.SECONDS);
             lastError = Double.NaN;
         };
 
@@ -20,12 +22,12 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
             field = value;
 
             integralGain = 0.0;
-            lastTime = Double.NaN;
+            lastTime = Time(Double.NaN, TimeUnits.SECONDS);
             lastError = Double.NaN;
         };
 
     private var lastError: Double = Double.NaN;
-    private var lastTime = Double.NaN;
+    private var lastTime = Time(Double.NaN, TimeUnits.SECONDS);
 
     private var integralGain: Double = 0.0;
 
@@ -36,7 +38,7 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
         val deltaTime = currentTimeSec - lastTime
         this.lastTime = currentTimeSec
 
-        val calculated: Double = this.constants.kD * (error - this.lastError / deltaTime);
+        val calculated: Double = this.constants.kD * (error - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS));
         val derivative = if (calculated != 0.0 && calculated != Double.NaN) {
             calculated
         } else {

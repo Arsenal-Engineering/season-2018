@@ -2,12 +2,14 @@ package frc.team6223.utils.time
 
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.util.BaseSystemNotInitializedException
+import frc.team6223.utils.units.Time
+import frc.team6223.utils.units.TimeUnits
 
-public val currentTimeSec: Double
+val currentTimeSec: Time
     get() {
-        var time: Double = System.currentTimeMillis() / 1000.0;
+        var time = Time(System.currentTimeMillis().toDouble(), TimeUnits.MILLISECONDS).rescale(TimeUnits.SECONDS)
         try {
-            time = Timer.getFPGATimestamp();
+            time = Time(Timer.getFPGATimestamp(), TimeUnits.SECONDS)
         } catch (e: BaseSystemNotInitializedException) {}
-        return time;
+        return time
     };
