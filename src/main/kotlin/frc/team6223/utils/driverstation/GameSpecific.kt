@@ -17,14 +17,14 @@ private val currentAllianceSwitchSide =
         }
 
 private val currentAllianceScaleSide =
-        when (fieldString[0]) {
+        when (fieldString[1]) {
             'L' -> FieldSide.LEFT
             'R' -> FieldSide.RIGHT
             else -> FieldSide.INVALID
         }
 
 private val currentAllianceOpposingSwitchSide =
-        when (fieldString[0]) {
+        when (fieldString[2]) {
             'L' -> FieldSide.LEFT
             'R' -> FieldSide.RIGHT
             else -> FieldSide.INVALID
