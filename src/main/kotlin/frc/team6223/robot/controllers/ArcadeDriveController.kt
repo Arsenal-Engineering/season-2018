@@ -19,6 +19,18 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
         y = Math.copySign(y * y, y)
         x = Math.copySign(x * x, x)
 
+        y = when {
+            y >= 1.0 -> 1.0
+            y <= -1.0 -> -1.0
+            else -> y
+        }
+
+        x = when {
+            x >= 1.0 -> 1.0
+            x <= -1.0 -> -1.0
+            else -> x
+        }
+
         val maxInput = Math.copySign(Math.max(Math.abs(y), Math.abs(x)), y)
 
         return when {
