@@ -25,15 +25,12 @@ class DriveSystem(driveMode: DriveController) : Subsystem() {
     private val leftController = TalonMotor(LEFT_DRIVE_CONTROLLER)
     private val rightController = TalonMotor(RIGHT_DRIVE_CONTROLLER)
 
-    private val leftEncoder = Encoder(LEFT_MOTOR_ENCODER_CHANNEL_A, LEFT_MOTOR_ENCODER_CHANNEL_B, false, CounterBase.EncodingType.k4X)
-    private val rightEncoder = Encoder(RIGHT_MOTOR_ENCODER_CHANNEL_A, RIGHT_MOTOR_ENCODER_CHANNEL_B, false, CounterBase.EncodingType.k4X)
-
     override fun initDefaultCommand() {
 
     }
 
     fun driveMotors() {
-        val driveOut = this.driveMode.calculateMotorOutput(ControllerInput(leftEncoder, rightEncoder, navX))
+        val driveOut = this.driveMode.calculateMotorOutput(ControllerInput(0.0, 0.0, navX))
         when (driveOut.controlMode) {
             ControlMode.PercentOutput -> {
                 leftController.setPercentOut(driveOut.left)
