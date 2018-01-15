@@ -11,43 +11,43 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 
-        var x = joystick.x;
-        var y = joystick.y;
+        var moveValue = joystick.y;
+        var rotateValue = joystick.x;
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
-        y = Math.copySign(y * y, y)
-        x = Math.copySign(x * x, x)
+        rotateValue = Math.copySign(rotateValue * rotateValue, rotateValue)
+        moveValue = Math.copySign(moveValue * moveValue, moveValue)
 
-        y = when {
-            y >= 1.0 -> 1.0
-            y <= -1.0 -> -1.0
-            else -> y
+        rotateValue = when {
+            rotateValue >= 1.0 -> 1.0
+            rotateValue <= -1.0 -> -1.0
+            else -> rotateValue
         }
 
-        x = when {
-            x >= 1.0 -> 1.0
-            x <= -1.0 -> -1.0
-            else -> x
+        moveValue = when {
+            moveValue >= 1.0 -> 1.0
+            moveValue <= -1.0 -> -1.0
+            else -> moveValue
         }
 
-        val maxInput = Math.copySign(Math.max(Math.abs(y), Math.abs(x)), y)
+        val maxInput = Math.copySign(Math.max(Math.abs(rotateValue), Math.abs(moveValue)), rotateValue)
 
         return when {
             // If we're moving forward, we must be in the 1st or 2nd quadrant
-            y >= 0.0 ->
+            rotateValue >= 0.0 ->
                 when {
                     // If we're turning right (or moving forward with no turning), we're in the 1st quadrant
-                    x >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, y - x)
+                    moveValue >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, rotateValue - moveValue)
                     // Otherwise, we're in the second quadrant
-                    else -> DriveControllerOutput(ControlMode.PercentOutput, y + x, maxInput)
+                    else -> DriveControllerOutput(ControlMode.PercentOutput, rotateValue + moveValue, maxInput)
                 }
             else ->
                 when {
                     // If we're turning right (or moving forward with no turning, we're in the 3rd quadrant
-                    x >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, y + x, maxInput)
+                    moveValue >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, rotateValue + moveValue, maxInput)
                     // Otherwise, we're in the fourth quadrant
-                    else -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, y - x)
+                    else -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, rotateValue - moveValue)
                 }
         }
     }
