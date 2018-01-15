@@ -12,8 +12,8 @@
       <entry name="!?*.groovy" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel target="1.8">
-      <module name="preseason-2018_main" target="1.9" />
-      <module name="preseason-2018_test" target="1.9" />
+      <module name="season-2018_main" target="1.8" />
+      <module name="season-2018_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="CopyrightManager" default="" />
@@ -24,10 +24,9 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="/usr/share/java/gradle" />
-        <option name="gradleJvm" value="9" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -66,14 +65,18 @@
     <option name="LOCALE" />
     <option name="OPEN_IN_BROWSER" value="true" />
   </component>
+  <component name="Kotlin2JsCompilerArguments">
+    <option name="sourceMapEmbedSources" />
+    <option name="sourceMapPrefix" />
+  </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/preseason-2018.iml" filepath="$PROJECT_DIR$/preseason-2018.iml" />
-      <module fileurl="file://$PROJECT_DIR$/preseason-2018_main.iml" filepath="$PROJECT_DIR$/preseason-2018_main.iml" group="preseason-2018" />
-      <module fileurl="file://$PROJECT_DIR$/preseason-2018_test.iml" filepath="$PROJECT_DIR$/preseason-2018_test.iml" group="preseason-2018" />
+      <module fileurl="file://$PROJECT_DIR$/season-2018.iml" filepath="$PROJECT_DIR$/season-2018.iml" />
+      <module fileurl="file://$PROJECT_DIR$/season-2018_main.iml" filepath="$PROJECT_DIR$/season-2018_main.iml" group="season-2018" />
+      <module fileurl="file://$PROJECT_DIR$/season-2018_test.iml" filepath="$PROJECT_DIR$/season-2018_test.iml" group="season-2018" />
     </modules>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_9" project-jdk-name="9" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">
@@ -94,49 +97,37 @@
     </library>
     <library name="Gradle: edu.wpi.first.cscore:cscore-java:1.1.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/1.1.0/e63b9c42297cfb5919ee65cbfade0a0c3b935f3c/cscore-java-1.1.0.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/1.1.0/89fb12244cef59046d8b23ad332651d3b2503e96/cscore-java-1.1.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/1.1.0/61a5a76d1b118633183cc4e353e51c428900cf45/cscore-java-1.1.0-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/1.1.0/95b6a073aff6556d48cd563411419ecc6a7e438/cscore-java-1.1.0-sources.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.cscore/cscore-java/1.1.0/c56f19be2fcb805d8442b25291e2fdc1b118e480/cscore-java-1.1.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.ntcore:ntcore-java:4.0.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/4.0.0/a3ec109013101237f7e621492aec97db96fb1f2e/ntcore-java-4.0.0.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/4.0.0/990c1034226bc7fd81d2a21ee3de08ba477fbcfb/ntcore-java-4.0.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/4.0.0/bad0cd25f33c8764b6b8f43163bc74505033ddf0/ntcore-java-4.0.0-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/4.0.0/3ca3c91a0633e437aa37444e3966a4425b9556d/ntcore-java-4.0.0-sources.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.ntcore/ntcore-java/4.0.0/43b974107629beb83d40c0ac43d92107343056ac/ntcore-java-4.0.0-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpilibj:wpilibj-java:2018.1.1">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2018.1.1/b50e8bbfd1ce67a022d27443f5723aa26cfbb728/wpilibj-java-2018.1.1.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2018.1.1/359c51bfd879c57dbc63157df3df66235980865/wpilibj-java-2018.1.1.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2018.1.1/3cde0b6ce678dfeff34c6065d217f5f5f26509cd/wpilibj-java-2018.1.1-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2018.1.1/f61a4aea3e1eede661a9d98e052dfab7174a0162/wpilibj-java-2018.1.1-sources.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpilibj/wpilibj-java/2018.1.1/beb4907631b352f07723679c3e90632c0533e725/wpilibj-java-2018.1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Gradle: edu.wpi.first.wpiutil:wpiutil-java:3.0.0">
       <CLASSES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/3.0.0/233772e649ecffc05c35693763eb22c5d802bd55/wpiutil-java-3.0.0.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/3.0.0/d84261f299dfb9c953334e600c331c28640a074/wpiutil-java-3.0.0.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/3.0.0/51f4cd6bd8005b85d17871f2e4b089d9ae84ec38/wpiutil-java-3.0.0-sources.jar!/" />
-        <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/3.0.0/65489c6e22c9a05c0c5b702ae8615963bb423631/wpiutil-java-3.0.0-sources.jar!/" />
         <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/edu.wpi.first.wpiutil/wpiutil-java/3.0.0/950917d431d417eea7f1f90cba3d144ede38814b/wpiutil-java-3.0.0-sources.jar!/" />
       </SOURCES>
     </library>
