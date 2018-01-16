@@ -10,7 +10,7 @@ import frc.team6223.utils.pid.PIDFController
 class PIDDistanceController(val dist: Double): DriveController {
 
     // completely not tuned and literally just a guess
-    private val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
+    val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         val out = this.pidController.runController(controllerInput.leftRotations);
@@ -23,6 +23,10 @@ class PIDDistanceController(val dist: Double): DriveController {
     }
 
     override fun stop() {
-        println("Moved $dist ft");
+        if (!pidController.isFinished) {
+            println("Did not complete movement, currentError is: " + pidController.currentError)
+        } else {
+            println("Moved $dist ft")
+        }
     }
 }

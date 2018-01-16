@@ -29,6 +29,8 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
     var currentError = setPoint
         private set
 
+    var isFinished = (setPoint - currentError) == 0.0
+
     private var lastError: Double = Double.NaN;
     private var lastTime = Time(Double.NaN, TimeUnits.SECONDS);
 
