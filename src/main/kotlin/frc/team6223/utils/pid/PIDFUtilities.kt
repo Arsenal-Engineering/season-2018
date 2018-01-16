@@ -26,6 +26,9 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
             lastError = Double.NaN;
         };
 
+    var currentError = setPoint
+        private set
+
     private var lastError: Double = Double.NaN;
     private var lastTime = Time(Double.NaN, TimeUnits.SECONDS);
 
@@ -34,21 +37,21 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
     fun runController(current: Double): Double {
 
         // calculate constants for this iteration of the loop
-        val error = setPoint - current;
+        this.currentError = setPoint - current;
         val deltaTime = currentTimeSec - lastTime
         this.lastTime = currentTimeSec
 
-        val calculated: Double = this.constants.kD * (error - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS));
+        val calculated: Double = this.constants.kD * (currentError - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS));
         val derivative = if (calculated != 0.0 && calculated != Double.NaN) {
             calculated
         } else {
             0.0
         }
 
-        integralGain += error;
+        integralGain += currentError;
 
         // first calculate the P, which should always exist
-        var output = (this.constants.kP * error);
+        var output = (this.constants.kP * currentError);
         // next check for the I gain
         output += (this.constants.kI * integralGain);
         // next check for the D gain
