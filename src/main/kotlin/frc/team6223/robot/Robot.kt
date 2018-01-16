@@ -1,15 +1,25 @@
 package frc.team6223.robot
 
+import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.IterativeRobot
+import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.command.Scheduler
 import frc.team6223.robot.commands.DriveTrainMovement
+import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
+import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
+import frc.team6223.utils.srx.TalonMotor
 
 class Robot(): IterativeRobot() {
 
     private val operatorInterface = OI()
-    private val driveSubsystem = DriveSystem(ArcadeDriveController(operatorInterface.primaryJoystick))
+    private val driveSubsystem = DriveSystem(
+            ArcadeDriveController(operatorInterface.primaryJoystick),
+            AHRS(SerialPort.Port.kMXP),
+            TalonMotor(LEFT_DRIVE_CONTROLLER),
+            TalonMotor(RIGHT_DRIVE_CONTROLLER)
+    )
 
     override fun robotInit() {
         super.robotInit()
