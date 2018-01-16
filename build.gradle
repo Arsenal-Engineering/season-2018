@@ -2,6 +2,7 @@ import jaci.openrio.gradle.GradleRIOPlugin
 import jaci.openrio.gradle.frc.FRCJavaArtifact
 import jaci.openrio.gradle.frc.RoboRIO
 
+// Applying plugins to Gradle
 plugins {
     id "java"
     id "eclipse"
@@ -10,10 +11,11 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version "1.2.10"
 }
 
+// Definitions
 def TEAM = 6223
 def ROBOT_CLASS = "frc.team6223.robot.Robot"
 
-// Define my targets (RoboRIO) and artifacts (deployable files)
+// Define the script targets (RoboRIO) and artifacts (deployable files)
 deploy {
     targets {
         target("roborio", RoboRIO) {
@@ -27,12 +29,15 @@ deploy {
     }
 }
 
+// Dependency Repositories
 repositories {
     mavenCentral()
 }
 
-// Defining my dependencies. In this case, WPILib (+ friends), CTRE Toolsuite (Talon SRX)
-// and NavX.
+// Defining dependencies
+// Robot: WPILib, CTRE Phoenix (Talon SRX), NavX,
+// Kotlin: Kotlin StdLibrary, Kotlin Reflect
+// Testing: KotlinTest
 dependencies {
     compile wpilib()
     compile ctre()
@@ -42,14 +47,13 @@ dependencies {
     testCompile group: 'io.kotlintest', name: 'kotlintest', version: '2.0.7'
 }
 
-// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding the manifest so WPILib
-// knows where to look for our Robot Class.
+// Setting up jar file: generating fat jar, and adding WPILib manifest settings
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
 }
 
+// Setting a task to generate the wrapper files
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
 }
