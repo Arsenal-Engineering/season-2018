@@ -4,11 +4,16 @@ import jaci.openrio.gradle.frc.RoboRIO
 
 // Applying plugins to Gradle
 plugins {
+    // We use Java
     id "java"
-    id "eclipse"
+    // Allow for the use of the IntelliJ IDEA IDE
     id "idea"
-    id "jaci.openrio.gradle.GradleRIO" version "2018.01.06"
+    // Depend on GradleRIO
+    id "jaci.openrio.gradle.GradleRIO" version "2018.01.15"
+    // Depend on Kotlin for the JVM
     id 'org.jetbrains.kotlin.jvm' version "1.2.10"
+    // Depend on Dokka for documentation management
+    id "org.jetbrains.dokka" version "0.9.15"
 }
 
 // Definitions
@@ -39,12 +44,14 @@ repositories {
 // Kotlin: Kotlin StdLibrary, Kotlin Reflect
 // Testing: KotlinTest
 dependencies {
-    compile wpilib()
-    compile ctre()
-    compile navx()
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    compile "org.jetbrains.kotlin:kotlin-reflect"
 
     testCompile group: 'io.kotlintest', name: 'kotlintest', version: '2.0.7'
+
+    compile ctre()
+    compile wpilib()
+    compile navx()
 }
 
 // Setting up jar file: generating fat jar, and adding WPILib manifest settings
@@ -56,4 +63,9 @@ jar {
 // Setting a task to generate the wrapper files
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
+}
+
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/javadoc"
 }
