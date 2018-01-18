@@ -11,7 +11,7 @@ plugins {
     // Depend on GradleRIO
     id "jaci.openrio.gradle.GradleRIO" version "2018.01.15"
     // Depend on Kotlin for the JVM
-    id 'org.jetbrains.kotlin.jvm' version "1.2.10"
+    id 'org.jetbrains.kotlin.jvm' version "1.2.20"
     // Depend on Dokka for documentation management
     id "org.jetbrains.dokka" version "0.9.15"
 }
