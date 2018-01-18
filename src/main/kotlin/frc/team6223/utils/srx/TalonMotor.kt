@@ -8,7 +8,7 @@ class TalonMotor(talonId: Int) {
     val followers: List<FollowerSRX> = ArrayList()
 
     val reportedPosition = talonSrx.getSelectedSensorPosition(0)
-    val reportedVelocity = talonSrx.getSelectedSensorPosition(0)
+    val reportedVelocity = talonSrx.getSelectedSensorVelocity(0)
 
     fun setPercentOut(percentOut: Double) {
         talonSrx.set(ControlMode.PercentOutput, percentOut)

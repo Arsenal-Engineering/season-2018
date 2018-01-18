@@ -3,8 +3,12 @@ package frc.team6223.robot
 import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.IterativeRobot
 import edu.wpi.first.wpilibj.SerialPort
+import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
+import frc.team6223.robot.commands.DriveTrainDistance
 import frc.team6223.robot.commands.DriveTrainMovement
+import frc.team6223.robot.commands.DriveTrainVelocity
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
@@ -20,14 +24,18 @@ class Robot(): IterativeRobot() {
             TalonMotor(LEFT_DRIVE_CONTROLLER),
             TalonMotor(RIGHT_DRIVE_CONTROLLER)
     )
+    private val sendableChooser = SendableChooser<Command>()
 
     override fun robotInit() {
         super.robotInit()
+        sendableChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
+        sendableChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
     }
 
     override fun autonomousInit() {
         super.autonomousInit()
         this.clearScheduler()
+
     }
 
     override fun teleopInit() {

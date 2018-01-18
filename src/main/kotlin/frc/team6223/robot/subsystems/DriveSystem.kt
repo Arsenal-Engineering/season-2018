@@ -49,7 +49,10 @@ class DriveSystem(driveMode: DriveController,
      * The primary method to run the [DriveController] on the [DriveSystem].
      */
     fun driveMotors() {
-        val driveOut = this.driveMode.calculateMotorOutput(ControllerInput(0.0, 0.0, navX))
+        val driveOut = this.driveMode.calculateMotorOutput(
+                // todo: test talon's with proper encoder rates.
+                ControllerInput(0.0, 0.0, 0.0, 0.0, navX)
+        )
         when (driveOut.controlMode) {
             ControlMode.PercentOutput -> {
                 leftController.setPercentOut(driveOut.left)
