@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import frc.team6223.utils.units.Distance
 import frc.team6223.utils.units.Velocity
 
-class TalonMotor(talonId: Int, quadratureEnabled: Boolean) {
+class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
     private val talonSrx: TalonSRX  = TalonSRX(talonId)
     //todo: followers should be managed by methods
     val followers: List<FollowerSRX> = ArrayList()
