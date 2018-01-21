@@ -4,23 +4,24 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
+import frc.team6223.utils.units.Distance
+import frc.team6223.utils.units.Velocity
 
 class TalonMotor(talonId: Int, quadratureEnabled: Boolean) {
     private val talonSrx: TalonSRX  = TalonSRX(talonId)
+    //todo: followers should be managed by methods
     val followers: List<FollowerSRX> = ArrayList()
 
     private var sensorCollection: SensorCollection? = null
 
-    // todo: convert to distance
-    val talonPosition: Int
+    val position: Distance
         get() {
-            return sensorCollection?.pulseWidthPosition ?: 0
+            return Distance.convertMagPulseToDistance(sensorCollection?.pulseWidthPosition ?: 0)
         }
 
-    // todo: convert to velocity
-    val talonVelocity: Int
+    val velocity: Velocity
         get() {
-            return sensorCollection?.pulseWidthVelocity ?: 0
+            return Velocity.convertMagPulseRateToVelocity(sensorCollection?.pulseWidthVelocity ?: 0)
         }
 
     fun setPercentOut(percentOut: Double) {
