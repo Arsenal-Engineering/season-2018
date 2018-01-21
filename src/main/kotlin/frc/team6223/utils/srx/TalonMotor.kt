@@ -3,6 +3,7 @@ package frc.team6223.utils.srx
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import frc.team6223.utils.units.Distance
 import frc.team6223.utils.units.Velocity
@@ -40,7 +41,9 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean) {
         if (quadratureEnabled) {
             // we have CTRE mag encoder, swap to relative mode
             this.talonSrx.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
-            // todo: decrease status 3 frame period - see SRM 20.3 and 20.8
+            // HALVE the period of the frame time: from 160 -> 80
+            // This should change frequency
+            this.talonSrx.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
             this.sensorCollection = talonSrx.sensorCollection
 
         }
