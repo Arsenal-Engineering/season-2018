@@ -17,12 +17,12 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
 
     val position: Distance
         get() {
-            return Distance.convertMagPulseToDistance(sensorCollection?.pulseWidthPosition ?: 0)
+            return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
         }
 
     val velocity: Velocity
         get() {
-            return Velocity.convertMagPulseRateToVelocity(sensorCollection?.pulseWidthVelocity ?: 0)
+            return Velocity.convertMagPulseRateToVelocity(sensorCollection?.quadratureVelocity ?: 0)
         }
 
     fun setPercentOut(percentOut: Double) {
