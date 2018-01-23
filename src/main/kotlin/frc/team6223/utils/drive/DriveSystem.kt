@@ -46,7 +46,6 @@ class DriveSystem(driveMode: DriveController,
      */
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(
-                // todo: test talon's with proper encoder rates.
                 ControllerInput(
                         leftController.reportedPosition, leftController.reportedVelocity,
                         rightController.reportedPosition, rightController.reportedVelocity,
