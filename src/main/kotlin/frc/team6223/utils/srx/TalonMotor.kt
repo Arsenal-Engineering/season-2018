@@ -13,6 +13,8 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
     private val followers: MutableList<FollowerSRX> = ArrayList()
 
     private var sensorCollection: SensorCollection? = null
+    var currentInternalControlMode: MotorControlMode = MotorControlMode.VoltagePercentOut
+        private set
 
     val position: Distance
         get() {
@@ -25,11 +27,8 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
         }
 
     fun set(mode: MotorControlMode = MotorControlMode.VoltagePercentOut, percentOut: Double) {
-        when(mode) {
-            MotorControlMode.ExperimentalMotionProfiling ->
-                throw UnsupportedOperationException("Motion Profiling is experimental and uses it's own separate API.")
-            else -> talonSrx.set(ControlMode.PercentOutput, percentOut)
-        }
+        currentInternalControlMode = mode
+        talonSrx.set(ControlMode.PercentOutput, percentOut)
     }
 
     fun addFollower(followerId: Int) {
