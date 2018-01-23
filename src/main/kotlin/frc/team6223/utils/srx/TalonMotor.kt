@@ -10,8 +10,7 @@ import frc.team6223.utils.units.Velocity
 
 class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
     private val talonSrx: TalonSRX  = TalonSRX(talonId)
-    //todo: followers should be managed by methods
-    val followers: List<FollowerSRX> = ArrayList()
+    private val followers: MutableList<FollowerSRX> = ArrayList()
 
     private var sensorCollection: SensorCollection? = null
 
@@ -31,6 +30,10 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
                 throw UnsupportedOperationException("Motion Profiling is experimental and uses it's own separate API.")
             else -> talonSrx.set(ControlMode.PercentOutput, percentOut)
         }
+    }
+
+    fun addFollower(followerId: Int) {
+        followers.add(FollowerSRX(followerId))
     }
 
 
