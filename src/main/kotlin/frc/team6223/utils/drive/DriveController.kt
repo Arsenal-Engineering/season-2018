@@ -4,26 +4,25 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import com.kauailabs.navx.frc.AHRS
 
 
-data class DriveControllerOutput(val controlMode: ControlMode, val left: Double, val right: Double);
-
 interface DriveController {
 
-    public fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput;
-    public fun start();
-    public fun stop();
+    fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput;
+    fun start();
+    fun stop();
 
 }
 
-class ControllerInput(leftEncoder: Int, leftEncoderRate: Int, rightEncoder: Int, rightEncoderRate: Int,
-                      navX: AHRS) {
-    val leftRotations = leftEncoder
-    val leftRotationRate = leftEncoderRate
-    val rightRotations = rightEncoder
-    val rightRotationRate = rightEncoderRate
+data class DriveControllerOutput(val controlMode: ControlMode, val left: Double, val right: Double);
 
-    val yawRotation = navX.yaw
-    val yawRate = navX.rate
+data class ControllerInput(val leftEncoder: Int, val leftEncoderRate: Int,
+                           val rightEncoder: Int, val rightEncoderRate: Int,
+                           val yawRotation: Float, val yawRate: Double,
+                           val pitchRotation: Float,
+                           val rollRotation: Float) {
 
-    val pitchRotation = navX.pitch
-    val rollRotation = navX.roll
+    constructor(leftEncoder: Int, leftEncoderRate: Int, rightEncoder: Int, rightEncoderRate: Int,
+                navX: AHRS): this(leftEncoder, leftEncoderRate, rightEncoder, rightEncoderRate,
+            navX.yaw, navX.rate,
+            navX.pitch,
+            navX.roll)
 }

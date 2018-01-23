@@ -13,7 +13,7 @@ class PIDDistanceController(val dist: Double): DriveController {
     val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
-        val out = this.pidController.runController(controllerInput.leftRotations);
+        val out = this.pidController.runController(controllerInput.leftEncoder.toDouble());
         // todo: separate left and right rates
         return DriveControllerOutput(ControlMode.PercentOutput, out, out);
     }
