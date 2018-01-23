@@ -31,7 +31,7 @@ public class VelocityController implements DriveController {
     @NotNull
     @Override
     public DriveControllerOutput calculateMotorOutput(@NotNull ControllerInput controllerInput) {
-        double motorVal = pidfController.runController(controllerInput.getLeftRotationRate());
+        double motorVal = pidfController.runController(controllerInput.getLeftEncoderRate());
         // todo: separate left and right rates
         return new DriveControllerOutput(ControlMode.PercentOutput, motorVal, motorVal);
     }
