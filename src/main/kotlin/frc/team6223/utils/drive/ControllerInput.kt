@@ -2,7 +2,7 @@ package frc.team6223.utils.drive
 
 import com.kauailabs.navx.frc.AHRS
 
-class ControllerInput(leftEncoder: Double, leftEncoderRate: Double, rightEncoder: Double, rightEncoderRate: Double,
+class ControllerInput(leftEncoder: Int, leftEncoderRate: Int, rightEncoder: Int, rightEncoderRate: Int,
                       navX: AHRS) {
     val leftRotations = leftEncoder
     val leftRotationRate = leftEncoderRate

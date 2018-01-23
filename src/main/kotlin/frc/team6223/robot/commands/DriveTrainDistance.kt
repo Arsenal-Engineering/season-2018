@@ -2,7 +2,7 @@ package frc.team6223.robot.commands
 
 import edu.wpi.first.wpilibj.command.Command
 import frc.team6223.robot.controllers.PIDDistanceController
-import frc.team6223.robot.subsystems.DriveSystem
+import frc.team6223.utils.drive.DriveSystem
 
 /**
  * A [Command] to move a [DriveSystem] a certain distance

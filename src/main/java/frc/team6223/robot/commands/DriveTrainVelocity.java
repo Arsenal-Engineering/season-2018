@@ -3,7 +3,7 @@ package frc.team6223.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team6223.robot.controllers.VelocityController;
-import frc.team6223.robot.subsystems.DriveSystem;
+import frc.team6223.utils.drive.DriveSystem;
 
 
 public class DriveTrainVelocity extends Command {

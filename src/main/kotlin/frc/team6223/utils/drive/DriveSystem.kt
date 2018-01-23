@@ -1,4 +1,4 @@
-package frc.team6223.robot.subsystems
+package frc.team6223.utils.drive
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.kauailabs.navx.frc.AHRS
@@ -47,7 +47,10 @@ class DriveSystem(driveMode: DriveController,
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(
                 // todo: test talon's with proper encoder rates.
-                ControllerInput(0.0, 0.0, 0.0, 0.0, navX)
+                ControllerInput(
+                        leftController.reportedPosition, leftController.reportedVelocity,
+                        rightController.reportedPosition, rightController.reportedVelocity,
+                        navX)
         )
         when (driveOut.controlMode) {
             ControlMode.PercentOutput -> {

@@ -39,6 +39,7 @@ abstract class CoreRobot: IterativeRobot() {
     override fun teleopInit() {
         super.teleopInit()
         this.clearScheduler()
+        this.setTeleoperatedCommand()
     }
 
     override fun teleopPeriodic() {
@@ -50,6 +51,7 @@ abstract class CoreRobot: IterativeRobot() {
     abstract fun injectAutonomousCommands(): SendableChooser<Command>
     abstract fun allocateSubsystems()
     abstract fun allocateOperatorInterface()
+    abstract fun setTeleoperatedCommand()
 
     private fun runScheduler() {
         Scheduler.getInstance().run()
