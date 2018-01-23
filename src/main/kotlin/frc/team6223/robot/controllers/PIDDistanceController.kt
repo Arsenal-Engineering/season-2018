@@ -1,11 +1,11 @@
 package frc.team6223.robot.controllers
 
 import com.ctre.phoenix.motorcontrol.ControlMode
-import frc.team6223.utils.drivecontroller.ControllerInput
-import frc.team6223.utils.drivecontroller.DriveController
-import frc.team6223.utils.drivecontroller.DriveControllerOutput
-import frc.team6223.utils.pid.PIDFConstants
-import frc.team6223.utils.pid.PIDFController
+import frc.team6223.utils.drive.ControllerInput
+import frc.team6223.utils.drive.DriveController
+import frc.team6223.utils.drive.DriveControllerOutput
+import frc.team6223.utils.software.PIDFConstants
+import frc.team6223.utils.software.PIDFController
 
 class PIDDistanceController(val dist: Double): DriveController {
 

@@ -1,9 +1,9 @@
-package frc.team6223.utils.time
+package frc.team6223.utils.hardware
 
 import edu.wpi.first.wpilibj.Timer
 import edu.wpi.first.wpilibj.util.BaseSystemNotInitializedException
-import frc.team6223.utils.units.Time
-import frc.team6223.utils.units.TimeUnits
+import frc.team6223.utils.software.units.Time
+import frc.team6223.utils.software.units.TimeUnits
 
 val currentTimeSec: Time
     get() {

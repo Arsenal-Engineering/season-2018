@@ -1,7 +1,6 @@
-package frc.team6223.utils.drivecontroller
+package frc.team6223.utils.drive
 
 import com.kauailabs.navx.frc.AHRS
-import edu.wpi.first.wpilibj.Encoder
 
 class ControllerInput(leftEncoder: Double, leftEncoderRate: Double, rightEncoder: Double, rightEncoderRate: Double,
                       navX: AHRS) {

@@ -2,14 +2,10 @@ package frc.team6223.robot.subsystems
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.kauailabs.navx.frc.AHRS
-import edu.wpi.first.wpilibj.CounterBase
-import edu.wpi.first.wpilibj.Encoder
-import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.command.Subsystem
-import frc.team6223.robot.conf.*
-import frc.team6223.utils.drivecontroller.ControllerInput
-import frc.team6223.utils.drivecontroller.DriveController
-import frc.team6223.utils.srx.TalonMotor
+import frc.team6223.utils.drive.ControllerInput
+import frc.team6223.utils.drive.DriveController
+import frc.team6223.utils.hardware.TalonMotor
 
 /**
  * A subsystem for running 2 [TalonMotor]'s using a [DriveController].

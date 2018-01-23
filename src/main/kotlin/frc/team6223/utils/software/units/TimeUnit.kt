@@ -1,4 +1,4 @@
-package frc.team6223.utils.units
+package frc.team6223.utils.software.units
 
 class Time(val time: Double, override val scale: TimeUnits): Unit<TimeUnits>() {
 

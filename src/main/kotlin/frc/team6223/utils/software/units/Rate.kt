@@ -1,4 +1,4 @@
-package frc.team6223.utils.units
+package frc.team6223.utils.software.units
 
 open class Rate<tU: ScaleUnit, dU: ScaleUnit>(val topUnit: Unit<tU>, val bottomUnit: Unit<dU>): Unit<RateScaleFactor<tU, dU>>() {
     private val internalRate = topUnit.numericValue(topUnit.scale) / bottomUnit.numericValue(bottomUnit.scale)

@@ -1,7 +1,7 @@
 package frc.team6223.utils
 
-import frc.team6223.utils.units.Time
-import frc.team6223.utils.units.TimeUnits
+import frc.team6223.utils.software.units.Time
+import frc.team6223.utils.software.units.TimeUnits
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 

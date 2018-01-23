@@ -1,4 +1,4 @@
-package frc.team6223.utils.units
+package frc.team6223.utils.software.units
 
 /**
  * A representation of a scalar (or vector) quantity that scales via a given ScaleUnit

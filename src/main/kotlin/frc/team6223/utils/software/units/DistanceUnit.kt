@@ -1,4 +1,4 @@
-package frc.team6223.utils.units
+package frc.team6223.utils.software.units
 
 
 class Distance(val distance: Double, override val scale: DistanceUnits): Unit<DistanceUnits>() {

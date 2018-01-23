@@ -13,7 +13,7 @@ import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
-import frc.team6223.utils.srx.TalonMotor
+import frc.team6223.utils.hardware.TalonMotor
 
 class Robot(): IterativeRobot() {
 

@@ -1,4 +1,4 @@
-package frc.team6223.utils.drivecontroller
+package frc.team6223.utils.drive
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 
