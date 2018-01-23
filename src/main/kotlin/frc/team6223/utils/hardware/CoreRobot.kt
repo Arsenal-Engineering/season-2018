@@ -1,12 +1,13 @@
 package frc.team6223.utils.hardware
 
 import edu.wpi.first.wpilibj.IterativeRobot
+import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
-abstract class CoreRobot: IterativeRobot() {
+abstract class CoreRobot: TimedRobot() {
 
     override fun robotInit() {
         super.robotInit()
