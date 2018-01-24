@@ -11,6 +11,7 @@ import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.utils.drive.DriveSystem
+import frc.team6223.utils.hardware.ArsenalNavXMicro
 import frc.team6223.utils.hardware.CoreRobot
 import frc.team6223.utils.hardware.TalonMotor
 
@@ -33,7 +34,7 @@ class Robot(): CoreRobot() {
     override fun allocateSubsystems() {
         driveSubsystem = DriveSystem(
                 ArcadeDriveController(operatorInterface.primaryJoystick),
-                AHRS(SerialPort.Port.kMXP),
+                ArsenalNavXMicro(),
                 TalonMotor(LEFT_DRIVE_CONTROLLER),
                 TalonMotor(RIGHT_DRIVE_CONTROLLER)
         )

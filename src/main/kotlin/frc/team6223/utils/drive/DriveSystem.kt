@@ -5,25 +5,26 @@ import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.utils.drive.ControllerInput
 import frc.team6223.utils.drive.DriveController
+import frc.team6223.utils.hardware.ArsenalNavXMicro
 import frc.team6223.utils.hardware.TalonMotor
 
 /**
  * A subsystem for running 2 [TalonMotor]'s using a [DriveController].
  *
- * The subsystem requires a NavX-MXP [AHRS] passed into it so as to provide the pitch/yaw/roll data to the drive
+ * The subsystem requires a NavX-MXP [ArsenalNavXMicro] passed into it so as to provide the pitch/yaw/roll data to the drive
  * controller. Furthermore, an unlimited amount of [TalonMotor.FollowerSRX]'s can be attached to the [TalonMotor]'s
  * provided
  *
  * @param driveMode The [DriveController] that the subsystem initially starts running if it is not changed
- * @property navX The [AHRS] that is attached to the RoboRIO. It is essential that this NavX be in the center of the
- * drive train
+ * @property navX The [ArsenalNavXMicro] that is attached to the RoboRIO. It is essential that this NavX be in the
+ * center of the drive train
  * @property leftController The [TalonMotor] that runs the left side of the drive train
  * @property rightController The [TalonMotor] that runs the right side of the drive train
  * @constructor Creates a basic drive subsystem that runs on 2 Talon controllers
  *
  */
 class DriveSystem(driveMode: DriveController,
-                  private val navX: AHRS,
+                  private val navX: ArsenalNavXMicro,
                   private val leftController: TalonMotor,
                   private val rightController: TalonMotor): Subsystem() {
 
