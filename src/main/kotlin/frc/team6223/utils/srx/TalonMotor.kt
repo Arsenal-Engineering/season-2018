@@ -8,29 +8,84 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import frc.team6223.utils.units.Distance
 import frc.team6223.utils.units.Velocity
 
+/**
+ * Manages a [TalonSRX] in order to keep the code complexity low.
+ *
+ * The [TalonSRX] class provides a large amount of utilities that are unnecessarily complicated. The [TalonMotor]
+ * class simplifies the inner workings of a Talon in order to allow for ease of use. The [TalonMotor] class assumes
+ * you are using a CTRE Magnetic Encoder - support for more encoder classes may come eventually. Furthermore, the
+ * [TalonMotor] class has simple follower support, and it has a set of useful default control modes for open- and
+ * closed- loop control that set a flag usable by other pieces of code.
+ *
+ * The abstraction layer created by the [TalonMotor] should allow for ease of use by new coders and new teams alike,
+ * while still allowing for powerful creations.
+ *
+ * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
+ * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
+ */
 class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
+    /**
+     * The internal Talon
+     */
     private val talonSrx: TalonSRX  = TalonSRX(talonId)
+
+    /**
+     * A list of the followers this Talon has attached to it
+     */
     private val followers: MutableList<FollowerSRX> = ArrayList()
 
+    /**
+     * The internal sensor collection of the Talon. Only used if quadrature encoding is enabled
+     */
     private var sensorCollection: SensorCollection? = null
+
+    /**
+     * The current internal control mode. This setting does NOT affect how you send data to the Talon.
+     *
+     * Instead, the internal control mode will be used in the future to provide completion status to commands and
+     * linked subsystems.
+     */
     var currentInternalControlMode: MotorControlMode = MotorControlMode.VoltagePercentOut
         private set
 
+    /**
+     * The current encoder position, translated from Talon native units (encoder ticks) to inches.
+     */
     val position: Distance
         get() {
             return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
         }
 
+    /**
+     * The current encoder rate (velocity), translated from Talon native units per 100 ms to inches per millisecond.
+     */
     val velocity: Velocity
         get() {
             return Velocity.convertMagPulseRateToVelocity(sensorCollection?.quadratureVelocity ?: 0)
         }
 
+    /**
+     * Set the current voltage percentage output of the Talon.
+     *
+     * The number passed to this method should be between -1 and 1, and it is the voltage percent output.
+     * If you're not sure which control mode you should be using, VoltagePercentOut is your best bet. This disables
+     * any extra closed-loop features that may be implemented.
+     *
+     * @param mode The [MotorControlMode] to use
+     * @param percentOut A number between -1 and 1 that is the relative percentage output to push to the Talon. If
+     * negative doesn't make the motor move clockwise, ensure the Talon is inverted correctly
+     */
     fun set(mode: MotorControlMode = MotorControlMode.VoltagePercentOut, percentOut: Double) {
         currentInternalControlMode = mode
         talonSrx.set(ControlMode.PercentOutput, percentOut)
     }
 
+    /**
+     * Add a new follower to the Talon
+     *
+     * Given a Talon ID number, this method adds a new [FollowerSRX] to the follower list, which is then following
+     * the exact voltage percent output as this Talon.
+     */
     fun addFollower(followerId: Int) {
         followers.add(FollowerSRX(followerId))
     }
