@@ -9,11 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
 abstract class CoreRobot: TimedRobot() {
 
+    private val autonomousChooser = this.injectAutonomousCommands()
+
     override fun robotInit() {
         super.robotInit()
         this.allocateSubsystems()
         this.allocateOperatorInterface()
-        SmartDashboard.putData(this.injectAutonomousCommands())
+        SmartDashboard.putData(this.autonomousChooser)
     }
 
     override fun disabledInit() {
@@ -29,6 +31,7 @@ abstract class CoreRobot: TimedRobot() {
     override fun autonomousInit() {
         super.autonomousInit()
         this.clearScheduler()
+        autonomousChooser.selected.start()
     }
 
     override fun autonomousPeriodic() {
