@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.robot.conf.*
 import frc.team6223.utils.drivecontroller.ControllerInput
 import frc.team6223.utils.drivecontroller.DriveController
+import frc.team6223.utils.srx.MotorControlMode
 import frc.team6223.utils.srx.TalonMotor
 
 /**
@@ -53,14 +54,8 @@ class DriveSystem(driveMode: DriveController,
                 // todo: test talon's with proper encoder rates.
                 ControllerInput(0.0, 0.0, 0.0, 0.0, navX)
         )
-        when (driveOut.controlMode) {
-            ControlMode.PercentOutput -> {
-                leftController.setPercentOut(driveOut.left)
-                rightController.setPercentOut(driveOut.right)
-            }
-            // noop because we haven't implemented other control modes
-            else -> {}
-        }
+        leftController.set(driveOut.controlMode, driveOut.left)
+        rightController.set(driveOut.controlMode, driveOut.right)
 
     }
 

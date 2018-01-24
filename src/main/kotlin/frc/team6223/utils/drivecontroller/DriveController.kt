@@ -1,9 +1,9 @@
 package frc.team6223.utils.drivecontroller
 
-import com.ctre.phoenix.motorcontrol.ControlMode
+import frc.team6223.utils.srx.MotorControlMode
 
 
-data class DriveControllerOutput(val controlMode: ControlMode, val left: Double, val right: Double);
+data class DriveControllerOutput(val controlMode: MotorControlMode, val left: Double, val right: Double);
 
 interface DriveController {
 

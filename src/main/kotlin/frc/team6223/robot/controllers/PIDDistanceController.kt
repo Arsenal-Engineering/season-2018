@@ -6,6 +6,7 @@ import frc.team6223.utils.drivecontroller.DriveController
 import frc.team6223.utils.drivecontroller.DriveControllerOutput
 import frc.team6223.utils.pid.PIDFConstants
 import frc.team6223.utils.pid.PIDFController
+import frc.team6223.utils.srx.MotorControlMode
 
 class PIDDistanceController(val dist: Double): DriveController {
 
@@ -15,7 +16,7 @@ class PIDDistanceController(val dist: Double): DriveController {
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         val out = this.pidController.runController(controllerInput.leftRotations);
         // todo: separate left and right rates
-        return DriveControllerOutput(ControlMode.PercentOutput, out, out);
+        return DriveControllerOutput(MotorControlMode.PIDDistance, out, out);
     }
 
     override fun start() {

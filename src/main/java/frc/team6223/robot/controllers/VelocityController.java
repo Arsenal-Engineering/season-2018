@@ -7,6 +7,7 @@ import frc.team6223.utils.drivecontroller.DriveController;
 import frc.team6223.utils.drivecontroller.DriveControllerOutput;
 import frc.team6223.utils.pid.PIDFConstants;
 import frc.team6223.utils.pid.PIDFController;
+import frc.team6223.utils.srx.MotorControlMode;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -33,7 +34,7 @@ public class VelocityController implements DriveController {
     public DriveControllerOutput calculateMotorOutput(@NotNull ControllerInput controllerInput) {
         double motorVal = pidfController.runController(controllerInput.getLeftRotationRate());
         // todo: separate left and right rates
-        return new DriveControllerOutput(ControlMode.PercentOutput, motorVal, motorVal);
+        return new DriveControllerOutput(MotorControlMode.PIDVelocity, motorVal, motorVal);
     }
 
     @Override

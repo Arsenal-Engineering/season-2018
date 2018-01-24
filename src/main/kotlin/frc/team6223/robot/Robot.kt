@@ -21,8 +21,8 @@ class Robot(): IterativeRobot() {
     private val driveSubsystem = DriveSystem(
             ArcadeDriveController(operatorInterface.primaryJoystick),
             AHRS(SerialPort.Port.kMXP),
-            TalonMotor(LEFT_DRIVE_CONTROLLER),
-            TalonMotor(RIGHT_DRIVE_CONTROLLER)
+            TalonMotor(LEFT_DRIVE_CONTROLLER, true),
+            TalonMotor(RIGHT_DRIVE_CONTROLLER, true)
     )
     private val sendableChooser = SendableChooser<Command>()
 
