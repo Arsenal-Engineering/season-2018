@@ -5,10 +5,13 @@ import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 
 abstract class ArsenalRobot : TimedRobot() {
 
     private val autonomousChooser = this.injectAutonomousCommands()
+    lateinit var operatorInterface: ArsenalOperatorInterface
+        private set
 
     override fun robotInit() {
         super.robotInit()
@@ -53,7 +56,7 @@ abstract class ArsenalRobot : TimedRobot() {
     abstract fun dashboardPeriodic()
     abstract fun injectAutonomousCommands(): SendableChooser<Command>
     abstract fun allocateSubsystems()
-    abstract fun allocateOperatorInterface()
+    abstract fun allocateOperatorInterface(): ArsenalOperatorInterface
     abstract fun setTeleoperatedCommand()
 
     private fun runScheduler() {

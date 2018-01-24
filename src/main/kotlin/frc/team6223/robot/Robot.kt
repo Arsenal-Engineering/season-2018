@@ -12,10 +12,10 @@ import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 
 class Robot(): ArsenalRobot() {
 
-    private lateinit var operatorInterface: OI
     private lateinit var driveSubsystem: ArsenalDrive
 
     override fun dashboardPeriodic() {
@@ -38,8 +38,8 @@ class Robot(): ArsenalRobot() {
         )
     }
 
-    override fun allocateOperatorInterface() {
-        operatorInterface = OI()
+    override fun allocateOperatorInterface(): ArsenalOperatorInterface {
+        return OI()
     }
 
     override fun setTeleoperatedCommand() {
