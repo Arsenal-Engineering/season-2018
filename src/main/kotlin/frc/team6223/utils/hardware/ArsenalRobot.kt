@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 
-abstract class CoreRobot: TimedRobot() {
+abstract class ArsenalRobot : TimedRobot() {
 
     private val autonomousChooser = this.injectAutonomousCommands()
 

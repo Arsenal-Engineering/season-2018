@@ -3,7 +3,7 @@ package frc.team6223.utils.hardware
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 
-class TalonMotor(talonId: Int) {
+class ArsenalTalon(talonId: Int) {
     private val talonSrx: TalonSRX = TalonSRX(talonId)
     val followers: List<FollowerSRX> = ArrayList()
 
@@ -18,7 +18,7 @@ class TalonMotor(talonId: Int) {
     inner class FollowerSRX(followerId: Int) {
         private val follower: TalonSRX = TalonSRX(followerId)
         init {
-            follower.follow(this@TalonMotor.talonSrx)
+            follower.follow(this@ArsenalTalon.talonSrx)
         }
     }
 

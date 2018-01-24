@@ -1,32 +1,29 @@
 package frc.team6223.utils.drive
 
 import com.ctre.phoenix.motorcontrol.ControlMode
-import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.command.Subsystem
-import frc.team6223.utils.drive.ControllerInput
-import frc.team6223.utils.drive.DriveController
 import frc.team6223.utils.hardware.ArsenalNavXMicro
-import frc.team6223.utils.hardware.TalonMotor
+import frc.team6223.utils.hardware.ArsenalTalon
 
 /**
- * A subsystem for running 2 [TalonMotor]'s using a [DriveController].
+ * A subsystem for running 2 [ArsenalTalon]'s using a [DriveController].
  *
  * The subsystem requires a NavX-MXP [ArsenalNavXMicro] passed into it so as to provide the pitch/yaw/roll data to the drive
- * controller. Furthermore, an unlimited amount of [TalonMotor.FollowerSRX]'s can be attached to the [TalonMotor]'s
+ * controller. Furthermore, an unlimited amount of [ArsenalTalon.FollowerSRX]'s can be attached to the [ArsenalTalon]'s
  * provided
  *
  * @param driveMode The [DriveController] that the subsystem initially starts running if it is not changed
  * @property navX The [ArsenalNavXMicro] that is attached to the RoboRIO. It is essential that this NavX be in the
  * center of the drive train
- * @property leftController The [TalonMotor] that runs the left side of the drive train
- * @property rightController The [TalonMotor] that runs the right side of the drive train
+ * @property leftController The [ArsenalTalon] that runs the left side of the drive train
+ * @property rightController The [ArsenalTalon] that runs the right side of the drive train
  * @constructor Creates a basic drive subsystem that runs on 2 Talon controllers
  *
  */
 class DriveSystem(driveMode: DriveController,
                   private val navX: ArsenalNavXMicro,
-                  private val leftController: TalonMotor,
-                  private val rightController: TalonMotor): Subsystem() {
+                  private val leftController: ArsenalTalon,
+                  private val rightController: ArsenalTalon): Subsystem() {
 
     /**
      * The current [DriveController] used by the [DriveSystem] to move the robot.
