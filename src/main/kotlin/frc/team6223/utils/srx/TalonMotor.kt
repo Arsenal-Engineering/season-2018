@@ -49,6 +49,17 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
         private set
 
     /**
+     * If the motor is currently inverted.
+     *
+     * Setting the value to true will invert the positive and negative output. Do this only if the motor turns the
+     * opposite of the intended direction
+     */
+    var inverted: Boolean = false
+        set(value) {
+            this.talonSrx.inverted = value
+        }
+
+    /**
      * The current encoder position, translated from Talon native units (encoder ticks) to inches.
      */
     val position: Distance
