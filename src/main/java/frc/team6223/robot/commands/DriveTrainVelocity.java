@@ -3,16 +3,16 @@ package frc.team6223.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team6223.robot.controllers.VelocityController;
-import frc.team6223.utils.drive.DriveSystem;
+import frc.team6223.arsenalFramework.drive.ArsenalDrive;
 
 
 public class DriveTrainVelocity extends Command {
     private final double velocityTarget;
-    private final DriveSystem driveSystem;
+    private final ArsenalDrive driveSystem;
 
     private final VelocityController velocityController;
 
-    public DriveTrainVelocity(double velocityTarget, DriveSystem driveSystem) {
+    public DriveTrainVelocity(double velocityTarget, ArsenalDrive driveSystem) {
         this.velocityTarget = velocityTarget;
         this.driveSystem = driveSystem;
         velocityController = new VelocityController(velocityTarget);

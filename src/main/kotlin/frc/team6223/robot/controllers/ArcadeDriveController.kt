@@ -2,9 +2,9 @@ package frc.team6223.robot.controllers
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.Joystick
-import frc.team6223.utils.drive.ControllerInput
-import frc.team6223.utils.drive.DriveController
-import frc.team6223.utils.drive.DriveControllerOutput
+import frc.team6223.arsenalFramework.drive.ControllerInput
+import frc.team6223.arsenalFramework.drive.DriveController
+import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 

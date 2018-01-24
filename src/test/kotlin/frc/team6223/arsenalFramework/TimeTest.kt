@@ -1,7 +1,7 @@
-package frc.team6223.utils
+package frc.team6223.arsenalFramework
 
-import frc.team6223.utils.software.units.Time
-import frc.team6223.utils.software.units.TimeUnits
+import frc.team6223.arsenalFramework.software.units.Time
+import frc.team6223.arsenalFramework.software.units.TimeUnits
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 

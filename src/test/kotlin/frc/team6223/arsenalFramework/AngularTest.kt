@@ -1,7 +1,7 @@
-package frc.team6223.utils
+package frc.team6223.arsenalFramework
 
-import frc.team6223.utils.software.units.Angle
-import frc.team6223.utils.software.units.AngleUnits
+import frc.team6223.arsenalFramework.software.units.Angle
+import frc.team6223.arsenalFramework.software.units.AngleUnits
 import io.kotlintest.matchers.plusOrMinus
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec

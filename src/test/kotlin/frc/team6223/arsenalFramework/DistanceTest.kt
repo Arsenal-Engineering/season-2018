@@ -1,7 +1,7 @@
-package frc.team6223.utils
+package frc.team6223.arsenalFramework
 
-import frc.team6223.utils.software.units.Distance
-import frc.team6223.utils.software.units.DistanceUnits
+import frc.team6223.arsenalFramework.software.units.Distance
+import frc.team6223.arsenalFramework.software.units.DistanceUnits
 import io.kotlintest.matchers.shouldBe
 import io.kotlintest.specs.StringSpec
 import io.kotlintest.matchers.plusOrMinus

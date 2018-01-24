@@ -1,9 +1,9 @@
-package frc.team6223.utils.drive
+package frc.team6223.arsenalFramework.drive
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.command.Subsystem
-import frc.team6223.utils.hardware.ArsenalNavXMicro
-import frc.team6223.utils.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
+import frc.team6223.arsenalFramework.hardware.ArsenalTalon
 
 /**
  * A subsystem for running 2 [ArsenalTalon]'s using a [DriveController].
@@ -20,13 +20,13 @@ import frc.team6223.utils.hardware.ArsenalTalon
  * @constructor Creates a basic drive subsystem that runs on 2 Talon controllers
  *
  */
-class DriveSystem(driveMode: DriveController,
-                  private val navX: ArsenalNavXMicro,
-                  private val leftController: ArsenalTalon,
-                  private val rightController: ArsenalTalon): Subsystem() {
+class ArsenalDrive(driveMode: DriveController,
+                   private val navX: ArsenalNavXMicro,
+                   private val leftController: ArsenalTalon,
+                   private val rightController: ArsenalTalon): Subsystem() {
 
     /**
-     * The current [DriveController] used by the [DriveSystem] to move the robot.
+     * The current [DriveController] used by the [ArsenalDrive] to move the robot.
      *
      * When replaced, the old [DriveController] is stopped and the new [DriveController] is enabled.
      */
@@ -40,7 +40,7 @@ class DriveSystem(driveMode: DriveController,
     override fun initDefaultCommand() {}
 
     /**
-     * The primary method to run the [DriveController] on the [DriveSystem].
+     * The primary method to run the [DriveController] on the [ArsenalDrive].
      */
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(

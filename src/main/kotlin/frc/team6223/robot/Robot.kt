@@ -8,15 +8,15 @@ import frc.team6223.robot.commands.DriveTrainVelocity
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
-import frc.team6223.utils.drive.DriveSystem
-import frc.team6223.utils.hardware.ArsenalNavXMicro
-import frc.team6223.utils.hardware.ArsenalRobot
-import frc.team6223.utils.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.drive.ArsenalDrive
+import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
+import frc.team6223.arsenalFramework.hardware.ArsenalRobot
+import frc.team6223.arsenalFramework.hardware.ArsenalTalon
 
 class Robot(): ArsenalRobot() {
 
     private lateinit var operatorInterface: OI
-    private lateinit var driveSubsystem: DriveSystem
+    private lateinit var driveSubsystem: ArsenalDrive
 
     override fun dashboardPeriodic() {
         // put all SmartDash code here
@@ -30,7 +30,7 @@ class Robot(): ArsenalRobot() {
     }
 
     override fun allocateSubsystems() {
-        driveSubsystem = DriveSystem(
+        driveSubsystem = ArsenalDrive(
                 ArcadeDriveController(operatorInterface.primaryJoystick),
                 ArsenalNavXMicro(),
                 ArsenalTalon(LEFT_DRIVE_CONTROLLER),

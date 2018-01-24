@@ -2,16 +2,16 @@ package frc.team6223.robot.commands
 
 import edu.wpi.first.wpilibj.command.Command
 import frc.team6223.robot.controllers.PIDDistanceController
-import frc.team6223.utils.drive.DriveSystem
+import frc.team6223.arsenalFramework.drive.ArsenalDrive
 
 /**
- * A [Command] to move a [DriveSystem] a certain distance
+ * A [Command] to move a [ArsenalDrive] a certain distance
  *
  * This command uses the [PIDDistanceController] to attempt to move the robot a certain distance in feet.
  * @property dist The distance in feet to move
- * @property driveSubsystem The [DriveSystem] to move
+ * @property driveSubsystem The [ArsenalDrive] to move
  */
-class DriveTrainDistance(private val dist: Double, private val driveSubsystem: DriveSystem): Command() {
+class DriveTrainDistance(private val dist: Double, private val driveSubsystem: ArsenalDrive): Command() {
 
     private val distController = PIDDistanceController(this.dist)
 

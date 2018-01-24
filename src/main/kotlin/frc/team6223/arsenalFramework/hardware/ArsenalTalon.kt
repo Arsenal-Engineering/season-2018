@@ -1,4 +1,4 @@
-package frc.team6223.utils.hardware
+package frc.team6223.arsenalFramework.hardware
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.can.TalonSRX

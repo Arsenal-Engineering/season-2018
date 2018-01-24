@@ -1,8 +1,8 @@
-package frc.team6223.utils.software
+package frc.team6223.arsenalFramework.software
 
-import frc.team6223.utils.hardware.currentTimeSec
-import frc.team6223.utils.software.units.Time
-import frc.team6223.utils.software.units.TimeUnits
+import frc.team6223.arsenalFramework.hardware.currentTimeSec
+import frc.team6223.arsenalFramework.software.units.Time
+import frc.team6223.arsenalFramework.software.units.TimeUnits
 
 public data class PIDFConstants(val kP: Double, val kI: Double, val kD: Double, val kF: Double)
 
