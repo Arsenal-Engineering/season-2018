@@ -13,11 +13,9 @@ import jaci.pathfinder.Waypoint
 import jaci.pathfinder.followers.EncoderFollower
 import jaci.pathfinder.modifiers.TankModifier
 
-class MotionProfileController(private val waypoints: Array<Waypoint>,
-                              private val trajectoryConfig: Trajectory.Config,
+class MotionProfileController(private val trajectory: Trajectory,
                               private val maxVelocity: Velocity): DriveController {
 
-    private lateinit var trajectory: Trajectory
     private lateinit var leftTrajectory: Trajectory
     private lateinit var rightTrajectory: Trajectory
     private lateinit var leftTrajectoryFollower: EncoderFollower
@@ -38,7 +36,6 @@ class MotionProfileController(private val waypoints: Array<Waypoint>,
 
     override fun start(leftInitial: Distance, rightInitial: Distance) {
         println("Generating trajectory")
-        trajectory = Pathfinder.generate(waypoints, trajectoryConfig)
         val tankModifier = TankModifier(trajectory).modify(wheelBaseWidth)
 
         leftTrajectory = tankModifier.leftTrajectory
@@ -79,4 +76,7 @@ class MotionProfileController(private val waypoints: Array<Waypoint>,
             println("Not finished moving on motion profile. Robot is in unknown state")
         }
     }
+
+    constructor(points: Array<Waypoint>, trajectoryConfig: Trajectory.Config, maxVelocity: Velocity):
+            this(Pathfinder.generate(points, trajectoryConfig), maxVelocity)
 }
