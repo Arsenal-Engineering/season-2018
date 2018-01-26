@@ -1,5 +1,7 @@
 package frc.team6223.arsenalFramework.software.units
 
+import frc.team6223.robot.conf.wheelCircumference
+
 
 class Distance(val distance: Double, override val scale: DistanceUnits): Unit<DistanceUnits>() {
 
@@ -68,6 +70,12 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
         return result
     }
 
+    companion object {
+        inline fun convertMagPulseToDistance(magPulse: Int): Distance {
+            // divide mag pulse number by 4096 then multiply that by wheel circumference
+            return Distance(((magPulse / 4096) * wheelCircumference), DistanceUnits.INCHES)
+        }
+    }
 
 }
 

@@ -107,5 +107,12 @@ open class RateScaleFactor<out tU: ScaleUnit, out dU: ScaleUnit>(val topScaleUni
 
 typealias VelocityScaleFactor = RateScaleFactor<DistanceUnits, TimeUnits>
 
-class Velocity(distance: Distance, time: Time): Rate<DistanceUnits, TimeUnits>(distance, time)
+class Velocity(distance: Distance, time: Time): Rate<DistanceUnits, TimeUnits>(distance, time) {
+    companion object {
+        inline fun convertMagPulseRateToVelocity(magPulseRate: Int): Velocity {
+            // divide mag encoder rate by 4096 and multiply by wheel circumference to get rate per 100 ms
+            return Velocity(Distance.convertMagPulseToDistance(magPulseRate), Time(100.0, TimeUnits.MILLISECONDS))
+        }
+    }
+}
 class Acceleration(velocity: Velocity, time: Time): Rate<VelocityScaleFactor, TimeUnits>(velocity, time)

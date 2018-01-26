@@ -45,18 +45,12 @@ class ArsenalDrive(driveMode: DriveController,
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(
                 ControllerInput(
-                        leftController.reportedPosition, leftController.reportedVelocity,
-                        rightController.reportedPosition, rightController.reportedVelocity,
+                        leftController.position, leftController.velocity,
+                        rightController.position, rightController.velocity,
                         navX)
         )
-        when (driveOut.controlMode) {
-            ControlMode.PercentOutput -> {
-                leftController.setPercentOut(driveOut.left)
-                rightController.setPercentOut(driveOut.right)
-            }
-            // noop because we haven't implemented other control modes
-            else -> {}
-        }
+        leftController.set(driveOut.controlMode, driveOut.left)
+        rightController.set(driveOut.controlMode, driveOut.right)
 
     }
 

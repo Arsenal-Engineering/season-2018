@@ -4,8 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
+import frc.team6223.arsenalFramework.hardware.MotorControlMode
 import frc.team6223.arsenalFramework.software.PIDFConstants
 import frc.team6223.arsenalFramework.software.PIDFController
+import frc.team6223.arsenalFramework.software.units.DistanceUnits
 
 class PIDDistanceController(val dist: Double): DriveController {
 
@@ -13,9 +15,9 @@ class PIDDistanceController(val dist: Double): DriveController {
     val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
-        val out = this.pidController.runController(controllerInput.leftEncoder.toDouble());
+        val out = this.pidController.runController(controllerInput.leftEncoder.numericValue(DistanceUnits.FEET));
         // todo: separate left and right rates
-        return DriveControllerOutput(ControlMode.PercentOutput, out, out);
+        return DriveControllerOutput(MotorControlMode.PIDDistance, out, out);
     }
 
     override fun start() {

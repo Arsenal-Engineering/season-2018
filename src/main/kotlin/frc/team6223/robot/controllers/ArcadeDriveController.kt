@@ -1,10 +1,10 @@
 package frc.team6223.robot.controllers
 
-import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.Joystick
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
+import frc.team6223.arsenalFramework.hardware.MotorControlMode
 
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 
@@ -38,16 +38,16 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
             rotateValue >= 0.0 ->
                 when {
                     // If we're turning right (or moving forward with no turning), we're in the 1st quadrant
-                    moveValue >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, rotateValue - moveValue)
+                    moveValue >= 0.0 -> DriveControllerOutput(MotorControlMode.VoltagePercentOut, maxInput, rotateValue - moveValue)
                     // Otherwise, we're in the second quadrant
-                    else -> DriveControllerOutput(ControlMode.PercentOutput, rotateValue + moveValue, maxInput)
+                    else -> DriveControllerOutput(MotorControlMode.VoltagePercentOut, rotateValue + moveValue, maxInput)
                 }
             else ->
                 when {
                     // If we're turning right (or moving forward with no turning, we're in the 3rd quadrant
-                    moveValue >= 0.0 -> DriveControllerOutput(ControlMode.PercentOutput, rotateValue + moveValue, maxInput)
+                    moveValue >= 0.0 -> DriveControllerOutput(MotorControlMode.VoltagePercentOut, rotateValue + moveValue, maxInput)
                     // Otherwise, we're in the fourth quadrant
-                    else -> DriveControllerOutput(ControlMode.PercentOutput, maxInput, rotateValue - moveValue)
+                    else -> DriveControllerOutput(MotorControlMode.VoltagePercentOut, maxInput, rotateValue - moveValue)
                 }
         }
     }
