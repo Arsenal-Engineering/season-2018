@@ -80,6 +80,18 @@ class RunningLinearRegression(private val bufferSize: Int) {
         get() = ySum / numPoints - slope * xSum / numPoints
 
     /**
+     * The x-point that is furthest back in the buffer
+     */
+    val furthestXPoint: Double
+        get() = xBuffer[bufferSize-1]
+
+    /**
+     * The x-point that was last added to the buffer (i.e it is the closest to the front of the buffer)
+     */
+    val closestXPoint: Double
+        get() = xBuffer[0]
+
+    /**
      * Add an x and y point to the buffer and pop out old points if necessary.
      *
      * @param x The x point to add
@@ -109,4 +121,6 @@ class RunningLinearRegression(private val bufferSize: Int) {
 interface CanLinearRegress {
     val slope: Double
     val intercept: Double
+
+    fun addPoint(x: Double, y: Double)
 }
