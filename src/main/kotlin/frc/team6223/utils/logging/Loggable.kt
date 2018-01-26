@@ -17,4 +17,9 @@ interface Loggable: Sendable {
      */
     val data: Array<Any>
 
+    /**
+     * This method is called whenever the primary dashboard periodic method is called on each loggable in turn.
+     */
+    fun dashboardPeriodic()
+
 }

@@ -20,6 +20,7 @@ class Logger(private val logObjects: MutableList<Loggable>, private val logPath:
         synchronized(logObjects) {
             for (loggable in logObjects) {
                 // do the logging here
+                loggable.dashboardPeriodic()
             }
         }
     }
