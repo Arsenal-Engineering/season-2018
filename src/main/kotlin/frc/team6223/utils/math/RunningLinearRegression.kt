@@ -4,9 +4,9 @@ import edu.wpi.first.wpilibj.CircularBuffer
 
 
 /**
- * A class that runs a linear math over a finite window of points.
+ * A class that runs a linear regression over a finite window of points.
  *
- * The linear math class uses a circular buffer of points in order to keep only a limited amount of points in
+ * The linear regression class uses a circular buffer of points in order to keep only a limited amount of points in
  * memory (due to memory restrictions on the RIO). This class can generate the slope and the y-intercept.
  *
  * Originally written by Noah Gleason of Team 449, modified by Evan Merlock of Team 6223 to work better with Kotlin
