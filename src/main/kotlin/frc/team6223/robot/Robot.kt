@@ -65,7 +65,7 @@ class Robot(): IterativeRobot() {
     }
 
     private fun dashboardPeriodic() {
-
+        this.driveSubsystem.dashboardPeriodic()
     }
 
     private fun runScheduler() {
