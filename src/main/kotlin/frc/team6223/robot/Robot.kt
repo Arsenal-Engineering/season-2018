@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import frc.team6223.robot.auto.AutoUtilites
 import frc.team6223.robot.commands.DriveTrainDistance
 import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.commands.DriveTrainVelocity
@@ -24,12 +26,15 @@ class Robot(): IterativeRobot() {
             TalonMotor(LEFT_DRIVE_CONTROLLER, true),
             TalonMotor(RIGHT_DRIVE_CONTROLLER, true)
     )
-    private val sendableChooser = SendableChooser<Command>()
+    private val commandChooser = SendableChooser<Command>()
+    private val robotSideChooser = AutoUtilites.generateSendableChooser()
 
     override fun robotInit() {
         super.robotInit()
-        sendableChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
-        sendableChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
+        commandChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
+        commandChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
+        SmartDashboard.putData(commandChooser)
+        SmartDashboard.putData(robotSideChooser)
     }
 
     override fun autonomousInit() {
@@ -51,14 +56,21 @@ class Robot(): IterativeRobot() {
 
     override fun autonomousPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
     }
 
     override fun disabledPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
     }
 
     override fun teleopPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
+    }
+
+    private fun dashboardPeriodic() {
+        this.driveSubsystem.dashboardPeriodic()
     }
 
     private fun runScheduler() {
