@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import frc.team6223.robot.auto.AutoUtilites
+import frc.team6223.robot.auto.AutoUtilities
 import frc.team6223.robot.commands.DriveTrainDistance
 import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.commands.DriveTrainVelocity
@@ -27,7 +27,7 @@ class Robot(): IterativeRobot() {
             TalonMotor(RIGHT_DRIVE_CONTROLLER, true)
     )
     private val commandChooser = SendableChooser<Command>()
-    private val robotSideChooser = AutoUtilites.generateSendableChooser()
+    private val robotSideChooser = AutoUtilities.generateSendableChooser()
 
     override fun robotInit() {
         super.robotInit()
