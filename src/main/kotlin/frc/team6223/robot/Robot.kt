@@ -56,14 +56,21 @@ class Robot(): IterativeRobot() {
 
     override fun autonomousPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
     }
 
     override fun disabledPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
     }
 
     override fun teleopPeriodic() {
         this.runScheduler()
+        this.dashboardPeriodic()
+    }
+
+    private fun dashboardPeriodic() {
+        this.driveSubsystem.dashboardPeriodic()
     }
 
     private fun runScheduler() {
