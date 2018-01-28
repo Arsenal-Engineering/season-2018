@@ -1,4 +1,4 @@
-package frc.team6223.utils.logging
+package frc.team6223.arsenalFramework.logging
 
 import edu.wpi.first.wpilibj.Sendable
 
