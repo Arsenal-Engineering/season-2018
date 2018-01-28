@@ -1,5 +1,7 @@
 package frc.team6223.robot
 
+import edu.wpi.first.wpilibj.Preferences
+import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import frc.team6223.robot.commands.DriveTrainDistance
@@ -12,15 +14,12 @@ import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 
-class Robot(): ArsenalRobot() {
+class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
     private lateinit var driveSubsystem: ArsenalDrive
-
-    override fun dashboardPeriodic() {
-        // put all SmartDash code here
-    }
 
     override fun injectAutonomousCommands(): SendableChooser<Command> {
         val sendableChooser = SendableChooser<Command>()
@@ -29,7 +28,7 @@ class Robot(): ArsenalRobot() {
         return sendableChooser
     }
 
-    override fun allocateSubsystems() {
+    override fun allocateSubsystems(preferences: Preferences) {
         driveSubsystem = ArsenalDrive(
                 ArcadeDriveController(operatorInterface.primaryJoystick),
                 ArsenalNavXMicro(),
@@ -38,11 +37,15 @@ class Robot(): ArsenalRobot() {
         )
     }
 
-    override fun allocateOperatorInterface(): ArsenalOperatorInterface {
+    override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
         return OI()
     }
 
     override fun setTeleoperatedCommand() {
         DriveTrainArcade(driveSubsystem, operatorInterface).start()
+    }
+
+    override fun injectLoggedItems(): MutableList<Loggable> {
+        return mutableListOf()
     }
 }

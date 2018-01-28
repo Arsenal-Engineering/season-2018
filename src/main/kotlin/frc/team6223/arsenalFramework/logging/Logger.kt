@@ -2,7 +2,7 @@ package frc.team6223.arsenalFramework.logging
 
 import java.nio.file.Path
 
-class Logger(private val logObjects: MutableList<Loggable>, private val logPath: Path): Runnable {
+class Logger(private val logObjects: MutableList<Loggable>, private val logPath: Path? = null): Runnable {
 
     fun addLoggable(loggable: Loggable) {
         logObjects.add(loggable)
@@ -17,11 +17,9 @@ class Logger(private val logObjects: MutableList<Loggable>, private val logPath:
     }
 
     override fun run() {
-        synchronized(logObjects) {
-            for (loggable in logObjects) {
-                // do the logging here
-                loggable.dashboardPeriodic()
-            }
+        for (loggable in logObjects) {
+            // do the logging here
+            loggable.dashboardPeriodic()
         }
     }
 }
