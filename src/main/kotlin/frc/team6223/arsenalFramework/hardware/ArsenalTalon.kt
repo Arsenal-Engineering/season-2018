@@ -5,12 +5,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
-import edu.wpi.first.wpilibj.Sendable
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.logging.Loggable
-import frc.team6223.arsenalFramework.logging.SendableDelegation
-import frc.team6223.arsenalFramework.software.units.Distance
-import frc.team6223.arsenalFramework.software.units.Velocity
+import frc.team6223.arsenalFramework.software.units.*
 
 /**
  * Manages a [TalonSRX] in order to keep the code complexity low.
@@ -27,8 +24,7 @@ import frc.team6223.arsenalFramework.software.units.Velocity
  * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
  * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
  */
-class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false):
-        Loggable, Sendable by SendableDelegation("Talon-{$talonId}", "Ungrouped", {}) {
+class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false): Loggable {
     /**
      * The internal Talon
      */
@@ -115,7 +111,11 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false)
     }
 
     override fun dashboardPeriodic() {
-
+        SmartDashboard.putNumber("Talon {$talonId} Position", position.numericValue(DistanceUnits.FEET))
+        SmartDashboard.putNumber("Talon {$talonId} Velocity (ft/sec)",
+                velocity.numericValue(RateScaleFactor(DistanceUnits.FEET, TimeUnits.SECONDS)))
+        SmartDashboard.putBoolean("Talon {$talonId} Inverted", inverted)
+        SmartDashboard.putString("Talon {$talonId} MCM", currentInternalControlMode.toString())
     }
 
     inner class FollowerSRX(followerId: Int) {
