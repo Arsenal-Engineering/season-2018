@@ -1,6 +1,7 @@
 package frc.team6223.robot.controllers
 
 import com.ctre.phoenix.motorcontrol.ControlMode
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
@@ -12,7 +13,8 @@ import frc.team6223.arsenalFramework.software.units.DistanceUnits
 class PIDDistanceController(val dist: Double): DriveController {
 
     // completely not tuned and literally just a guess
-    val pidController = PIDFController(PIDFConstants(1.0, 1.0, 0.0, 0.0), 0.0)
+    val pidfConstants = PIDFConstants(1.0, 1.0, 0.0, 0.0)
+    val pidController = PIDFController(pidfConstants, 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         val out = this.pidController.runController(controllerInput.leftEncoder.numericValue(DistanceUnits.FEET));
@@ -31,5 +33,19 @@ class PIDDistanceController(val dist: Double): DriveController {
         } else {
             println("Moved $dist ft")
         }
+    }
+
+    override val headers: Array<String>
+        get() = arrayOf("ControllerType", "DistanceTarget", "kP", "kI", "kD", "kF")
+    override val data: Array<Any>
+        get() = arrayOf("DistanceController", dist, pidfConstants.kP, pidfConstants.kI, pidfConstants.kD, pidfConstants.kF)
+
+    override fun dashboardPeriodic() {
+        SmartDashboard.putString("Current Controller", "DistanceController")
+        SmartDashboard.putNumber("Distance Target", dist)
+        SmartDashboard.putNumber("Current Controller kP", pidfConstants.kP)
+        SmartDashboard.putNumber("Current Controller kI", pidfConstants.kI)
+        SmartDashboard.putNumber("Current Controller kD", pidfConstants.kD)
+        SmartDashboard.putNumber("Current Controller kF", pidfConstants.kF)
     }
 }

@@ -1,13 +1,13 @@
 package frc.team6223.arsenalFramework.drive
 
-import com.ctre.phoenix.motorcontrol.ControlMode
 import com.kauailabs.navx.frc.AHRS
 import frc.team6223.arsenalFramework.hardware.MotorControlMode
+import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.software.units.Distance
 import frc.team6223.arsenalFramework.software.units.Velocity
 
 
-interface DriveController {
+interface DriveController: Loggable {
 
     fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput;
     fun start();

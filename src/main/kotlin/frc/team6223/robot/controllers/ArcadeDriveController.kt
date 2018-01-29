@@ -1,6 +1,7 @@
 package frc.team6223.robot.controllers
 
 import edu.wpi.first.wpilibj.Joystick
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
@@ -58,5 +59,16 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
 
     override fun stop() {
         println("Stopping Arcade Drive");
+    }
+
+    override val headers: Array<String>
+        get() = arrayOf("CurrentController", "MoveValue", "RotateValue")
+    override val data: Array<Any>
+        get() = arrayOf("ArcadeController", joystick.y, joystick.x)
+
+    override fun dashboardPeriodic() {
+        SmartDashboard.putString("CurrentController", "ArcadeController")
+        SmartDashboard.putNumber("CurrentControllerMoveValue", joystick.y)
+        SmartDashboard.putNumber("CurrentControllerRotateValue", joystick.x)
     }
 }
