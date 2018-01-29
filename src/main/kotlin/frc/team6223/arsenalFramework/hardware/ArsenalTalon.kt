@@ -5,6 +5,10 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
+import edu.wpi.first.wpilibj.Sendable
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder
+import frc.team6223.arsenalFramework.logging.Loggable
+import frc.team6223.arsenalFramework.logging.SendableDelegation
 import frc.team6223.arsenalFramework.software.units.Distance
 import frc.team6223.arsenalFramework.software.units.Velocity
 
@@ -23,7 +27,8 @@ import frc.team6223.arsenalFramework.software.units.Velocity
  * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
  * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
  */
-class ArsenalTalon(talonId: Int, quadratureEnabled: Boolean = false) {
+class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false):
+        Loggable, Sendable by SendableDelegation("Talon-{$talonId}", "Ungrouped", {}) {
     /**
      * The internal Talon
      */
@@ -38,6 +43,14 @@ class ArsenalTalon(talonId: Int, quadratureEnabled: Boolean = false) {
      * The internal sensor collection of the Talon. Only used if quadrature encoding is enabled
      */
     private var sensorCollection: SensorCollection? = null
+
+    override val headers: Array<String> = arrayOf("CANID", "CICM", "Inverted", "QuadPos", "QuadVel")
+    override val data: Array<Any>
+        get() {
+            return arrayOf(talonId, currentInternalControlMode, inverted, position, velocity)
+        }
+
+
 
     /**
      * The current internal control mode. This setting does NOT affect how you send data to the Talon.
@@ -101,6 +114,9 @@ class ArsenalTalon(talonId: Int, quadratureEnabled: Boolean = false) {
         followers.add(FollowerSRX(followerId))
     }
 
+    override fun dashboardPeriodic() {
+
+    }
 
     inner class FollowerSRX(followerId: Int) {
         private val follower: TalonSRX = TalonSRX(followerId)
@@ -108,6 +124,8 @@ class ArsenalTalon(talonId: Int, quadratureEnabled: Boolean = false) {
             follower.follow(this@ArsenalTalon.talonSrx)
         }
     }
+
+
 
     init {
         if (quadratureEnabled) {
