@@ -4,12 +4,12 @@ import edu.wpi.first.wpilibj.Preferences
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-import frc.team6223.robot.commands.DriveTrainDistance
-import frc.team6223.robot.commands.DriveTrainArcade
+import frc.team6223.arsenalFramework.software.commands.DriveTrainDistance
+import frc.team6223.arsenalFramework.software.commands.DriveTrainArcade
 import frc.team6223.robot.commands.DriveTrainVelocity
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
-import frc.team6223.robot.controllers.ArcadeDriveController
+import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
 import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot

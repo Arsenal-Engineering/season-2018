@@ -1,4 +1,4 @@
-package frc.team6223.robot.controllers
+package frc.team6223.arsenalFramework.software.controllers
 
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
