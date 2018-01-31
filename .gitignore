@@ -1,5 +1,33 @@
-# Created by .ignore support plugin (hsz.mobi)
-### Gradle template
+#FRC 6223 gitignore file
+
+### WPILib
+bin/
+dist/
+sysProps.xml
+workbench.xmi
+
+# Toast/GradleRIO
+run/
+gradle/.launch/
+
+# OS Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.AppleDouble
+.LSOverride
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# backup files
+*~
+
+# directory for XML generated after running junit tests through ant
+junit/
+
+### Gradle
 .gradle
 /build/
 
@@ -11,11 +39,12 @@ gradle-app.setting
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
 # gradle/wrapper/gradle-wrapper.properties
-### JetBrains template
-# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
-# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+### IDE's
+# Covers IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, Webstorm and Eclipse
 
 # User-specific stuff:
+.idea/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
@@ -41,8 +70,8 @@ cmake-build-debug/
 
 ## File-based project format:
 *.iws
-
-## Plugin-specific files:
+*.ipr
+*.iml
 
 # IntelliJ
 out/
@@ -61,7 +90,14 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-### Kotlin template
+
+
+.settings/
+.loadpath
+.project
+.classpath
+
+### Kotlin
 # Compiled class file
 *.class
 
