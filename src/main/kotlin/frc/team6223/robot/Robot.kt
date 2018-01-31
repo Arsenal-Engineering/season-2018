@@ -46,6 +46,6 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     }
 
     override fun injectLoggedItems(): MutableList<Loggable> {
-        return mutableListOf()
+        return mutableListOf(driveSubsystem)
     }
 }
