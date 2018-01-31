@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.logging.Loggable
 
 /**
  * A subsystem for running 2 [ArsenalTalon]'s using a [DriveController].
@@ -23,7 +24,7 @@ import frc.team6223.arsenalFramework.hardware.ArsenalTalon
 class ArsenalDrive(driveMode: DriveController,
                    private val navX: ArsenalNavXMicro,
                    private val leftController: ArsenalTalon,
-                   private val rightController: ArsenalTalon): Subsystem() {
+                   private val rightController: ArsenalTalon): Subsystem(), Loggable {
 
     /**
      * The current [DriveController] used by the [ArsenalDrive] to move the robot.
@@ -54,6 +55,15 @@ class ArsenalDrive(driveMode: DriveController,
 
     }
 
+    override val headers: Array<String>
+        get() = arrayOf("CurrentDriveMode")
+    override val data: Array<Any>
+        get() = arrayOf(driveMode.toString())
 
-
+    override fun dashboardPeriodic() {
+        this.leftController.dashboardPeriodic()
+        this.rightController.dashboardPeriodic()
+        this.driveMode.dashboardPeriodic()
+        this.navX.dashboardPeriodic()
+    }
 }
