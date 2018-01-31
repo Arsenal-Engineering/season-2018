@@ -8,6 +8,7 @@ import frc.team6223.utils.drivecontroller.DriveControllerOutput;
 import frc.team6223.utils.pid.PIDFConstants;
 import frc.team6223.utils.pid.PIDFController;
 import frc.team6223.utils.srx.MotorControlMode;
+import frc.team6223.utils.units.Distance;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -38,7 +39,7 @@ public class VelocityController implements DriveController {
     }
 
     @Override
-    public void start() {
+    public void start(@NotNull Distance leftInitial, @NotNull Distance rightInitial) {
 
     }
 

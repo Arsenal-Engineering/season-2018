@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Encoder
 import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.robot.conf.*
+import frc.team6223.robot.teleoperated.TeleopUtilities
 import frc.team6223.utils.drivecontroller.ControllerInput
 import frc.team6223.utils.drivecontroller.DriveController
 import frc.team6223.utils.srx.MotorControlMode
@@ -41,7 +42,7 @@ class DriveSystem(driveMode: DriveController,
         set(value) {
             this.driveMode.stop()
             field = value
-            this.driveMode.start()
+            this.driveMode.start(leftController.position, rightController.position)
         }
 
     override fun initDefaultCommand() {}
@@ -57,6 +58,10 @@ class DriveSystem(driveMode: DriveController,
         leftController.set(driveOut.controlMode, driveOut.left)
         rightController.set(driveOut.controlMode, driveOut.right)
 
+    }
+
+    fun dashboardPeriodic() {
+        TeleopUtilities.putValuesOnDash(leftController, rightController, navX)
     }
 
 
