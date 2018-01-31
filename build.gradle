@@ -40,7 +40,7 @@ repositories {
 }
 
 // Defining dependencies
-// Robot: WPILib, CTRE Phoenix (Talon SRX), NavX,
+// Robot: WPILib, CTRE Phoenix (Talon SRX), NavX, Pathfinder
 // Kotlin: Kotlin StdLibrary, Kotlin Reflect
 // Testing: KotlinTest
 dependencies {
@@ -52,6 +52,7 @@ dependencies {
     compile ctre()
     compile wpilib()
     compile navx()
+    compile pathfinder()
 }
 
 // Setting up jar file: generating fat jar, and adding WPILib manifest settings

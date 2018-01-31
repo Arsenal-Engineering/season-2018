@@ -42,7 +42,7 @@ class DriveSystem(driveMode: DriveController,
         set(value) {
             this.driveMode.stop()
             field = value
-            this.driveMode.start()
+            this.driveMode.start(leftController.position, rightController.position)
         }
 
     override fun initDefaultCommand() {}

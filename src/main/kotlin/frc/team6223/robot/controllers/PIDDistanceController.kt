@@ -7,6 +7,7 @@ import frc.team6223.utils.drivecontroller.DriveControllerOutput
 import frc.team6223.utils.pid.PIDFConstants
 import frc.team6223.utils.pid.PIDFController
 import frc.team6223.utils.srx.MotorControlMode
+import frc.team6223.utils.units.Distance
 
 class PIDDistanceController(val dist: Double): DriveController {
 
@@ -19,7 +20,7 @@ class PIDDistanceController(val dist: Double): DriveController {
         return DriveControllerOutput(MotorControlMode.PIDDistance, out, out);
     }
 
-    override fun start() {
+    override fun start(leftInitial: Distance, rightInitial: Distance) {
         println("Moving $dist ft");
         pidController.setPoint = dist
     }
