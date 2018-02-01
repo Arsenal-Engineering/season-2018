@@ -14,6 +14,8 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version "1.2.20"
     // Depend on Dokka for documentation management
     id "org.jetbrains.dokka" version "0.9.15"
+    // Depend on SSH plugin for file dropping support
+    id 'org.hidetake.ssh' version "2.9.0"
 }
 
 // Definitions
@@ -59,6 +61,28 @@ dependencies {
 jar {
     from configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     manifest GradleRIOPlugin.javaManifest(ROBOT_CLASS)
+}
+
+// SSH tasks and configuration
+remotes {
+    rio {
+        host = 'roboRIO-6223-frc.local'
+        user = 'lvuser'
+        knownHosts = allowAnyHosts
+    }
+}
+
+task('copyResources') {
+    doLast {
+        ssh.run {
+            session(remotes.rio) {
+                execute 'mkdir ~/6223_resources', ignoreError: true
+                execute 'mkdir ~/logs', ignoreError: true
+                put from: fileTree('src/main/resources'), into: './6223_resources/'
+                execute ". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r", ignoreError: true
+            }
+        }
+    }
 }
 
 // Setting a task to generate the wrapper files
