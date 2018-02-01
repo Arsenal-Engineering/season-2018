@@ -70,7 +70,7 @@ class RunningLinearRegression(private val bufferSize: Int) {
             val variance = (xySum - xSum * ySum / numPoints) / (numPoints - 1)
             return if (covariance == 0.0) {
                 0.0
-            } else variance / covariance // Covariance over variance equals slope
+            } else covariance / variance // Covariance over variance equals slope
         }
 
     /**
