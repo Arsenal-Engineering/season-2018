@@ -6,6 +6,7 @@ import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 import frc.team6223.arsenalFramework.hardware.MotorControlMode
+import frc.team6223.arsenalFramework.software.units.Distance
 
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 
@@ -53,7 +54,7 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
         }
     }
 
-    override fun start() {
+    override fun start(leftInitial: Distance, rightInitial: Distance) {
         println("Starting Arcade Drive");
     }
 

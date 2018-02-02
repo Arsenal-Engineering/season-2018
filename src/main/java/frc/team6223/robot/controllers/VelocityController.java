@@ -8,6 +8,7 @@ import frc.team6223.arsenalFramework.drive.DriveControllerOutput;
 import frc.team6223.arsenalFramework.hardware.MotorControlMode;
 import frc.team6223.arsenalFramework.software.PIDFConstants;
 import frc.team6223.arsenalFramework.software.PIDFController;
+import frc.team6223.arsenalFramework.software.units.Distance;
 import frc.team6223.arsenalFramework.software.units.DistanceUnits;
 import frc.team6223.arsenalFramework.software.units.TimeUnits;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,7 @@ public class VelocityController implements DriveController {
     }
 
     @Override
-    public void start() {
+    public void start(@NotNull Distance leftInitial, @NotNull Distance rightInitial) {
 
     }
 

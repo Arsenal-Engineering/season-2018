@@ -24,11 +24,13 @@ import frc.team6223.arsenalFramework.software.units.*
  * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
  * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
  */
-class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false): Loggable {
+class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
+                 startInverted: Boolean = false,
+                 startingSensorPhase: Boolean): Loggable {
     /**
      * The internal Talon
      */
-    private val talonSrx: TalonSRX  = TalonSRX(talonId)
+    private val talonSrx: TalonSRX = TalonSRX(talonId)
 
     /**
      * A list of the followers this Talon has attached to it
@@ -63,9 +65,13 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false)
      * Setting the value to true will invert the positive and negative output. Do this only if the motor turns the
      * opposite of the intended direction
      */
-    var inverted: Boolean = false
+    var inverted: Boolean = talonSrx.inverted
         set(value) {
             this.talonSrx.inverted = value
+            field = value
+        }
+        get() {
+            return this.talonSrx.inverted
         }
 
     /**
@@ -118,6 +124,14 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false)
         SmartDashboard.putString("Talon {$talonId} MCM", currentInternalControlMode.toString())
     }
 
+    fun setEncoderPhase(phase: Boolean) {
+        this.talonSrx.setSensorPhase(phase)
+    }
+
+    fun resetEncoder() {
+        sensorCollection?.setQuadraturePosition(0, 0)
+    }
+
     inner class FollowerSRX(followerId: Int) {
         private val follower: TalonSRX = TalonSRX(followerId)
         init {
@@ -135,8 +149,10 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false)
             // This should change frequency
             this.talonSrx.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
             this.sensorCollection = talonSrx.sensorCollection
-
         }
+
+        this.talonSrx.inverted = startInverted
+        this.talonSrx.setSensorPhase(startingSensorPhase)
     }
 
 }

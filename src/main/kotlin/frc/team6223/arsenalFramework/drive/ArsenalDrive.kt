@@ -35,7 +35,7 @@ class ArsenalDrive(driveMode: DriveController,
         set(value) {
             this.driveMode.stop()
             field = value
-            this.driveMode.start()
+            this.driveMode.start(this.leftController.position, this.rightController.position)
         }
 
     override fun initDefaultCommand() {}
@@ -65,5 +65,10 @@ class ArsenalDrive(driveMode: DriveController,
         this.rightController.dashboardPeriodic()
         this.driveMode.dashboardPeriodic()
         this.navX.dashboardPeriodic()
+    }
+
+    fun resetEncoders() {
+        leftController.resetEncoder()
+        rightController.resetEncoder()
     }
 }

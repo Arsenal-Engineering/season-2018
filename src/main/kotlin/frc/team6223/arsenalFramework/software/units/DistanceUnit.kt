@@ -75,6 +75,11 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
             // divide mag pulse number by 4096 then multiply that by wheel circumference
             return Distance(((magPulse / 4096) * wheelCircumference), DistanceUnits.INCHES)
         }
+
+        inline fun convertDistanceToMagPulse(dist: Distance): Double {
+            // convert dist to inches, then divide by wheel circumference and multiply by 4096
+            return (dist.numericValue(DistanceUnits.INCHES) / wheelCircumference) * 4096
+        }
     }
 
 }
