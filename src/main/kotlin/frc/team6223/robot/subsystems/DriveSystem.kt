@@ -12,6 +12,8 @@ import frc.team6223.utils.drivecontroller.ControllerInput
 import frc.team6223.utils.drivecontroller.DriveController
 import frc.team6223.utils.srx.MotorControlMode
 import frc.team6223.utils.srx.TalonMotor
+import frc.team6223.utils.units.DistanceUnits
+import frc.team6223.utils.units.TimeUnits
 
 /**
  * A subsystem for running 2 [TalonMotor]'s using a [DriveController].
@@ -52,8 +54,10 @@ class DriveSystem(driveMode: DriveController,
      */
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(
-                // todo: test talon's with proper encoder rates.
-                ControllerInput(0.0, 0.0, 0.0, 0.0, navX)
+                ControllerInput(leftController.position.numericValue(DistanceUnits.FEET),
+                        leftController.velocity.rescaleScalar(DistanceUnits.FEET, TimeUnits.SECONDS),
+                        rightController.position.numericValue(DistanceUnits.FEET),
+                        rightController.velocity.rescaleScalar(DistanceUnits.FEET, TimeUnits.SECONDS), navX)
         )
         leftController.set(driveOut.controlMode, driveOut.left)
         rightController.set(driveOut.controlMode, driveOut.right)
@@ -62,6 +66,11 @@ class DriveSystem(driveMode: DriveController,
 
     fun dashboardPeriodic() {
         TeleopUtilities.putValuesOnDash(leftController, rightController, navX)
+    }
+
+    fun resetEncoders() {
+        leftController.resetEncoder()
+        rightController.resetEncoder()
     }
 
 
