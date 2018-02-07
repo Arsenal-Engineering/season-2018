@@ -25,7 +25,7 @@ class Robot(): IterativeRobot() {
     private val driveSubsystem = DriveSystem(
             ArcadeDriveController(operatorInterface.primaryJoystick),
             AHRS(SerialPort.Port.kMXP),
-            TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, true),
+            TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, false),
             TalonMotor(RIGHT_DRIVE_CONTROLLER, true, true, false)
     )
     //private val pdpSubsystem = PDP(PDP_CAN_ID)
