@@ -5,6 +5,9 @@ import edu.wpi.first.wpilibj.util.BaseSystemNotInitializedException
 import frc.team6223.arsenalFramework.software.units.Time
 import frc.team6223.arsenalFramework.software.units.TimeUnits
 
+/**
+ * The current time of the robot in seconds.
+ */
 val currentTimeSec: Time
     get() {
         var time = Time(System.currentTimeMillis().toDouble(), TimeUnits.MILLISECONDS).rescale(TimeUnits.SECONDS)

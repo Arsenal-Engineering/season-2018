@@ -23,6 +23,8 @@ import frc.team6223.arsenalFramework.software.units.*
  *
  * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
  * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
+ * @param startInverted If the Talon should start inverted or not (ie motor leads are flipped)
+ * @param startingSensorPhase The starting sensor phase of the Talon
  */
 class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
                  startInverted: Boolean = false,
@@ -108,6 +110,10 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
         followers.add(FollowerSRX(followerId))
     }
 
+    /**
+     * Logs the current position and velocity of the talon, as well as if the talon is inverted and the internal
+     * control mode.
+     */
     override fun dashboardPeriodic() {
         SmartDashboard.putNumber("Talon {$talonId} Position", position.numericValue(DistanceUnits.FEET))
         SmartDashboard.putNumber("Talon {$talonId} Velocity (ft/sec)",
@@ -116,14 +122,23 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
         SmartDashboard.putString("Talon {$talonId} MCM", currentInternalControlMode.toString())
     }
 
+    /**
+     * Set the encoder phase of the internal SRX.
+     */
     fun setEncoderPhase(phase: Boolean) {
         this.talonSrx.setSensorPhase(phase)
     }
 
+    /**
+     * Reset the encoder to position 0
+     */
     fun resetEncoder() {
         sensorCollection?.setQuadraturePosition(0, 0)
     }
 
+    /**
+     * The internal class for the TalonSRX followers.
+     */
     inner class FollowerSRX(followerId: Int) {
         private val follower: TalonSRX = TalonSRX(followerId)
         init {
