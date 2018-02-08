@@ -29,24 +29,40 @@ public class Claw extends Subsystem {
         openCloseMotor.set(MotorControlMode.VoltagePercentOut, -0.5);
     }
 
-    public void raiseClaw() {
+    public void stopOpenCloseClaw() {
+        openCloseMotor.set(MotorControlMode.VoltagePercentOut, 0.0);
+    }
 
+    public void raiseClaw() {
+        upDownMotor.set(MotorControlMode.VoltagePercentOut, 0.5);
     }
 
     public void lowerClaw() {
+        upDownMotor.set(MotorControlMode.VoltagePercentOut, -0.5);
+    }
 
+    public void stopRaiseLowerClaw() {
+        upDownMotor.set(MotorControlMode.VoltagePercentOut, 0.0);
     }
 
     public void moveClawLeft() {
-
+        leftRightMotor.set(MotorControlMode.VoltagePercentOut, 0.5);
     }
 
     public void moveClawRight() {
+        leftRightMotor.set(MotorControlMode.VoltagePercentOut, -0.5);
+    }
 
+    public void stopLeftRightClaw() {
+        leftRightMotor.set(MotorControlMode.VoltagePercentOut, 0.0);
     }
 
     public void lowerWinch() {
+        winchMotor.set(MotorControlMode.VoltagePercentOut, 0.5);
+    }
 
+    public void stopWinch() {
+        winchMotor.set(MotorControlMode.VoltagePercentOut, 0.0);
     }
 
     @Override
