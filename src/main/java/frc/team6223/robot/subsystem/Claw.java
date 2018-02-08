@@ -2,6 +2,7 @@ package frc.team6223.robot.subsystem;
 
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.team6223.utils.srx.MotorControlMode;
 import frc.team6223.utils.srx.TalonMotor;
 
 
@@ -20,11 +21,12 @@ public class Claw extends Subsystem {
     }
 
     public void openClaw() {
-
+        // Assume positive and half max output
+        openCloseMotor.set(MotorControlMode.VoltagePercentOut, 0.5);
     }
 
     public void closeClaw() {
-
+        openCloseMotor.set(MotorControlMode.VoltagePercentOut, -0.5);
     }
 
     public void raiseClaw() {
