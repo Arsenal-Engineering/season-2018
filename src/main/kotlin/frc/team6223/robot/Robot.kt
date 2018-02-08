@@ -56,8 +56,4 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     override fun setTeleoperatedCommand() {
         MoveDriveTrainCommand(ArcadeDriveController(operatorInterface.primaryJoystick), driveSubsystem).start()
     }
-
-    override fun injectLoggedItems(): MutableList<Loggable> {
-        return mutableListOf(driveSubsystem)
-    }
 }

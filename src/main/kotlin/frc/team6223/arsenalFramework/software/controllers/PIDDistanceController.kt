@@ -1,6 +1,5 @@
 package frc.team6223.arsenalFramework.software.controllers
 
-import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
@@ -16,26 +15,26 @@ import frc.team6223.arsenalFramework.software.units.DistanceUnits
  *
  * @param dist The setpoint distance in feet
  */
-class PIDDistanceController(val dist: Double): DriveController {
+class PIDDistanceController(private val dist: Double): DriveController {
 
     /**
      * The PIDF constants for the robot
      */
-    val pidfConstants = PIDFConstants(1.0, 1.0, 0.0, 0.0)
+    private val pidfConstants = PIDFConstants(1.0, 1.0, 0.0, 0.0)
 
     /**
      * The internal controller for PID control
      */
-    val pidController = PIDFController(pidfConstants, 0.0)
+    private val pidController = PIDFController(pidfConstants, 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
-        val out = this.pidController.runController(controllerInput.leftEncoder.numericValue(DistanceUnits.FEET));
+        val out = this.pidController.runController(controllerInput.leftEncoder.numericValue(DistanceUnits.FEET))
         // todo: separate left and right rates
-        return DriveControllerOutput(MotorControlMode.PIDDistance, out, out);
+        return DriveControllerOutput(MotorControlMode.PIDDistance, out, out)
     }
 
     override fun start(leftInitial: Distance, rightInitial: Distance) {
-        println("Moving $dist ft");
+        println("Moving $dist ft")
         pidController.setPoint = dist
     }
 

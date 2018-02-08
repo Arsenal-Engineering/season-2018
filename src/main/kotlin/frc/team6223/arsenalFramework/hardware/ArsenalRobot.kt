@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 
 /**

@@ -5,7 +5,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.tan
 
-class Angle(val angle: Double, override val scale: AngleUnits): Unit<AngleUnits>() {
+class Angle(private val angle: Double, override val scale: AngleUnits): Unit<AngleUnits>() {
 
     val sine: Double = sin(this.numericValue(AngleUnits.RADIANS))
     val cosine: Double = cos(this.numericValue(AngleUnits.RADIANS))

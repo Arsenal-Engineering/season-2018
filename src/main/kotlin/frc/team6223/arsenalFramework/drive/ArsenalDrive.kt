@@ -1,6 +1,5 @@
 package frc.team6223.arsenalFramework.drive
 
-import com.ctre.phoenix.motorcontrol.ControlMode
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon

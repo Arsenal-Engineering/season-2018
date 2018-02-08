@@ -15,4 +15,4 @@ val currentTimeSec: Time
             time = Time(Timer.getFPGATimestamp(), TimeUnits.SECONDS)
         } catch (e: BaseSystemNotInitializedException) {}
         return time
-    };
+    }

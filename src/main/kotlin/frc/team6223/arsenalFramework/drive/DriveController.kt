@@ -1,6 +1,5 @@
 package frc.team6223.arsenalFramework.drive
 
-import com.kauailabs.navx.frc.AHRS
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.MotorControlMode
 import frc.team6223.arsenalFramework.logging.Loggable
@@ -63,7 +62,7 @@ interface DriveController: Loggable {
  * @param left The output for the left side of the drive system
  * @param right The output for the right side of the drive system
  */
-data class DriveControllerOutput(val controlMode: MotorControlMode, val left: Double, val right: Double);
+data class DriveControllerOutput(val controlMode: MotorControlMode, val left: Double, val right: Double)
 
 /**
  * A frame of output from the robot, provided by an [ArsenalDrive]

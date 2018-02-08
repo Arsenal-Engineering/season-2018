@@ -53,9 +53,9 @@ class Time(val time: Double, override val scale: TimeUnits): Unit<TimeUnits>() {
     }
 
     override fun equals(other: Any?): Boolean {
-        when (other) {
-            is Time -> return other.numericValue() == this.numericValue()
-            else -> return false
+        return when (other) {
+            is Time -> other.numericValue() == this.numericValue()
+            else -> false
         }
     }
 

@@ -17,8 +17,8 @@ import org.jetbrains.annotations.NotNull;
 public class VelocityController implements DriveController {
 
     private final double velocityTarget;
-    private PIDFConstants pidfConstants;
-    private PIDFController pidfController;
+    private final PIDFConstants pidfConstants;
+    private final PIDFController pidfController;
 
     public VelocityController(double velocityTarget) {
         this.velocityTarget = velocityTarget;

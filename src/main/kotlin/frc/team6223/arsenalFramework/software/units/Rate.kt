@@ -1,6 +1,6 @@
 package frc.team6223.arsenalFramework.software.units
 
-open class Rate<tU: ScaleUnit, dU: ScaleUnit>(val topUnit: Unit<tU>, val bottomUnit: Unit<dU>): Unit<RateScaleFactor<tU, dU>>() {
+open class Rate<tU: ScaleUnit, dU: ScaleUnit>(private val topUnit: Unit<tU>, private val bottomUnit: Unit<dU>): Unit<RateScaleFactor<tU, dU>>() {
     private val internalRate = topUnit.numericValue(topUnit.scale) / bottomUnit.numericValue(bottomUnit.scale)
     override val scale = RateScaleFactor(topUnit.scale, bottomUnit.scale)
     override val defaultScale: RateScaleFactor<tU, dU> = RateScaleFactor(topUnit.defaultScale, bottomUnit.defaultScale)

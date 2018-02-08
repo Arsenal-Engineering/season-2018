@@ -13,7 +13,7 @@ import frc.team6223.arsenalFramework.software.units.Distance
  *
  * @param joystick The primary driving joystick
  */
-class ArcadeDriveController(val joystick: Joystick): DriveController {
+class ArcadeDriveController(private val joystick: Joystick): DriveController {
 
     /**
      * Calculate the motor output based on the joystick provided
@@ -25,8 +25,8 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 
-        var moveValue = joystick.y;
-        var rotateValue = joystick.x;
+        var moveValue = joystick.y
+        var rotateValue = joystick.x
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
@@ -67,11 +67,11 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
     }
 
     override fun start(leftInitial: Distance, rightInitial: Distance) {
-        println("Starting Arcade Drive");
+        println("Starting Arcade Drive")
     }
 
     override fun stop() {
-        println("Stopping Arcade Drive");
+        println("Stopping Arcade Drive")
     }
 
     override fun isFinished(): Boolean {

@@ -29,9 +29,9 @@ class PIDFController(constants: PIDFConstants, target: Double) {
         set(value) {
             field = value
 
-            integralGain = 0.0;
-            lastTime = Time(Double.NaN, TimeUnits.SECONDS);
-            lastError = Double.NaN;
+            integralGain = 0.0
+            lastTime = Time(Double.NaN, TimeUnits.SECONDS)
+            lastError = Double.NaN
         }
 
     /**
@@ -39,12 +39,12 @@ class PIDFController(constants: PIDFConstants, target: Double) {
      */
     var setPoint: Double = target
         set(value) {
-            field = value;
+            field = value
 
-            integralGain = 0.0;
-            lastTime = Time(Double.NaN, TimeUnits.SECONDS);
-            lastError = Double.NaN;
-        };
+            integralGain = 0.0
+            lastTime = Time(Double.NaN, TimeUnits.SECONDS)
+            lastError = Double.NaN
+        }
 
     /**
      * The current error for the controller
@@ -60,17 +60,17 @@ class PIDFController(constants: PIDFConstants, target: Double) {
     /**
      * The previous error
      */
-    private var lastError: Double = Double.NaN;
+    private var lastError: Double = Double.NaN
 
     /**
      * The previous time
      */
-    private var lastTime = Time(Double.NaN, TimeUnits.SECONDS);
+    private var lastTime = Time(Double.NaN, TimeUnits.SECONDS)
 
     /**
      * The integration gain
      */
-    private var integralGain: Double = 0.0;
+    private var integralGain: Double = 0.0
 
     /**
      * Run the PIDF loop for one frame.
@@ -78,28 +78,28 @@ class PIDFController(constants: PIDFConstants, target: Double) {
     fun runController(current: Double): Double {
 
         // calculate constants for this iteration of the loop
-        this.currentError = setPoint - current;
+        this.currentError = setPoint - current
         val deltaTime = currentTimeSec - lastTime
         this.lastTime = currentTimeSec
 
-        val calculated: Double = this.constants.kD * (currentError - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS));
+        val calculated: Double = this.constants.kD * (currentError - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS))
         val derivative = if (calculated != 0.0 && calculated != Double.NaN) {
             calculated
         } else {
             0.0
         }
 
-        integralGain += currentError;
+        integralGain += currentError
 
         // first calculate the P, which should always exist
-        var output = (this.constants.kP * currentError);
+        var output = (this.constants.kP * currentError)
         // next check for the I gain
-        output += (this.constants.kI * integralGain);
+        output += (this.constants.kI * integralGain)
         // next check for the D gain
-        output += derivative;
+        output += derivative
         // next apply the kF gain
-        output += (this.constants.kF * setPoint);
-        return output;
+        output += (this.constants.kF * setPoint)
+        return output
     }
 
 }

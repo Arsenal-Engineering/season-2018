@@ -19,7 +19,8 @@ import jaci.pathfinder.modifiers.TankModifier
  * by the user. A [MotionProfileController] should be pre-calculated during the robotInit() function, preferably
  * after you allocate the subsystems.
  *
- * @param trajectory The pre-generated trajectory for the Motion Profile
+ * @param leftTrajectory The pre-generated left trajectory for the motion profile
+ * @param rightTrajectory The pre-generated right trajectory for the motion profile
  * @param maxVelocity The maximum velocity that the robot can go
  */
 class MotionProfileController(private var leftTrajectory: Trajectory, private var rightTrajectory: Trajectory,
