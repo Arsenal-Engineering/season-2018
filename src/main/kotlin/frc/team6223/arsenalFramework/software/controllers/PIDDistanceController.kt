@@ -40,11 +40,6 @@ class PIDDistanceController(val dist: Double): DriveController {
         return pidController.isFinished
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("ControllerType", "DistanceTarget", "kP", "kI", "kD", "kF")
-    override val data: Array<Any>
-        get() = arrayOf("DistanceController", dist, pidfConstants.kP, pidfConstants.kI, pidfConstants.kD, pidfConstants.kF)
-
     override fun dashboardPeriodic() {
         SmartDashboard.putString("Current Controller", "DistanceController")
         SmartDashboard.putNumber("Distance Target", dist)

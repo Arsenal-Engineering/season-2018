@@ -23,10 +23,5 @@ class NoMovementController: DriveController {
         return false
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("CurrentController")
-    override val data: Array<Any>
-        get() = arrayOf("NoMovementController")
-
     override fun dashboardPeriodic() {}
 }

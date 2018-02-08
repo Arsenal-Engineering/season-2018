@@ -100,11 +100,6 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
         }
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("CurrentController")
-    override val data: Array<Any>
-        get() = arrayOf("MotionProfileController")
-
     override fun dashboardPeriodic() {
         // there isn't much to do here yet
         SmartDashboard.putString("Current Controller", "MotionProfileController")

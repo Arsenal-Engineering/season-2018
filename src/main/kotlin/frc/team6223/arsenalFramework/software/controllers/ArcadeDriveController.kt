@@ -66,11 +66,6 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
         return false
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("CurrentController", "MoveValue", "RotateValue")
-    override val data: Array<Any>
-        get() = arrayOf("ArcadeController", joystick.y, joystick.x)
-
     override fun dashboardPeriodic() {
         SmartDashboard.putString("CurrentController", "ArcadeController")
         SmartDashboard.putNumber("CurrentControllerMoveValue", joystick.y)

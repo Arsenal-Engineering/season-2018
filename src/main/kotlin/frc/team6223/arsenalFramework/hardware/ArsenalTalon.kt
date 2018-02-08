@@ -42,14 +42,6 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      */
     private var sensorCollection: SensorCollection? = null
 
-    override val headers: Array<String> = arrayOf("CANID", "CICM", "Inverted", "QuadPos", "QuadVel")
-    override val data: Array<Any>
-        get() {
-            return arrayOf(talonId, currentInternalControlMode, inverted, position, velocity)
-        }
-
-
-
     /**
      * The current internal control mode. This setting does NOT affect how you send data to the Talon.
      *

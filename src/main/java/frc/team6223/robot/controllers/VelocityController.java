@@ -57,24 +57,6 @@ public class VelocityController implements DriveController {
         return pidfController.isFinished();
     }
 
-    @NotNull
-    @Override
-    public String[] getHeaders() {
-        return new String[] {"ControllerType", "VelocityTarget", "kP", "kI", "kD", "kF"};
-    }
-
-    @NotNull
-    @Override
-    public Object[] getData() {
-        return new Object[] {
-          "VelocityController",
-          velocityTarget,
-          pidfConstants.component1(),
-          pidfConstants.component2(),
-          pidfConstants.component3(),
-          pidfConstants.component4() };
-    }
-
     @Override
     public void dashboardPeriodic() {
         SmartDashboard.putString("Current Controller", "VelocityController");

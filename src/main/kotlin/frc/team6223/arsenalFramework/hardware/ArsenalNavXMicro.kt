@@ -11,11 +11,6 @@ class ArsenalNavXMicro(): AHRS(SerialPort.Port.kMXP), Gyro, Loggable {
         // we don't calibrate
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("Yaw", "Pitch", "Roll")
-    override val data: Array<Any>
-        get() = arrayOf(this.yaw, this.pitch, this.roll)
-
     override fun dashboardPeriodic() {
         SmartDashboard.putNumber("NavX Yaw", this.yaw.toDouble())
         SmartDashboard.putNumber("NavX Pitch", this.pitch.toDouble())

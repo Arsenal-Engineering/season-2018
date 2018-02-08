@@ -55,11 +55,6 @@ class ArsenalDrive(driveMode: DriveController,
 
     }
 
-    override val headers: Array<String>
-        get() = arrayOf("CurrentDriveMode")
-    override val data: Array<Any>
-        get() = arrayOf(driveMode.toString())
-
     override fun dashboardPeriodic() {
         this.leftController.dashboardPeriodic()
         this.rightController.dashboardPeriodic()
