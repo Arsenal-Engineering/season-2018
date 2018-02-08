@@ -12,9 +12,11 @@ import frc.team6223.robot.commands.DriveTrainDistance
 import frc.team6223.robot.commands.DriveTrainMovement
 import frc.team6223.robot.commands.DriveTrainVelocity
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
+import frc.team6223.robot.conf.PDP_CAN_ID
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystems.DriveSystem
+import frc.team6223.utils.pdp.PDP
 import frc.team6223.utils.srx.TalonMotor
 
 class Robot(): IterativeRobot() {
@@ -23,9 +25,10 @@ class Robot(): IterativeRobot() {
     private val driveSubsystem = DriveSystem(
             ArcadeDriveController(operatorInterface.primaryJoystick),
             AHRS(SerialPort.Port.kMXP),
-            TalonMotor(LEFT_DRIVE_CONTROLLER, true),
-            TalonMotor(RIGHT_DRIVE_CONTROLLER, true)
+            TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, true),
+            TalonMotor(RIGHT_DRIVE_CONTROLLER, true, true, false)
     )
+    //private val pdpSubsystem = PDP(PDP_CAN_ID)
     private val commandChooser = SendableChooser<Command>()
     private val robotSideChooser = AutoUtilities.generateSendableChooser()
 
@@ -35,6 +38,7 @@ class Robot(): IterativeRobot() {
         commandChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
         SmartDashboard.putData(commandChooser)
         SmartDashboard.putData(robotSideChooser)
+        this.driveSubsystem.resetEncoders()
     }
 
     override fun autonomousInit() {

@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.utils.units.Distance
 import frc.team6223.utils.units.Velocity
 
@@ -23,7 +24,9 @@ import frc.team6223.utils.units.Velocity
  * @param talonId The identifier for the [TalonSRX] to initialize (should be between 0 and 62)
  * @param quadratureEnabled If the CTRE Magnetic Encoder is attached to the Talon
  */
-class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
+class TalonMotor(private val talonId: Int, quadratureEnabled: Boolean = false,
+                 startInverted: Boolean = false,
+                 startingSensorPhase: Boolean) {
     /**
      * The internal Talon
      */
@@ -54,9 +57,13 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
      * Setting the value to true will invert the positive and negative output. Do this only if the motor turns the
      * opposite of the intended direction
      */
-    var inverted: Boolean = false
+    var inverted: Boolean = talonSrx.inverted
         set(value) {
             this.talonSrx.inverted = value
+            field = value
+        }
+        get() {
+            return this.talonSrx.inverted
         }
 
     /**
@@ -64,6 +71,7 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
      */
     val position: Distance
         get() {
+            SmartDashboard.putNumber("rawPos ${talonId}", sensorCollection?.quadraturePosition?.toDouble() ?: 0.0)
             return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
         }
 
@@ -101,6 +109,14 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
         followers.add(FollowerSRX(followerId))
     }
 
+    fun setEncoderPhase(phase: Boolean) {
+        this.talonSrx.setSensorPhase(phase)
+    }
+
+    fun resetEncoder() {
+        sensorCollection?.setQuadraturePosition(0, 0)
+    }
+
 
     inner class FollowerSRX(followerId: Int) {
         private val follower: TalonSRX = TalonSRX(followerId)
@@ -117,8 +133,10 @@ class TalonMotor(talonId: Int, quadratureEnabled: Boolean = false) {
             // This should change frequency
             this.talonSrx.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
             this.sensorCollection = talonSrx.sensorCollection
-
         }
+
+        this.talonSrx.inverted = startInverted
+        this.talonSrx.setSensorPhase(startingSensorPhase)
     }
 
 }
