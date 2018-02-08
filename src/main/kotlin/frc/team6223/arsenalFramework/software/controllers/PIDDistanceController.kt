@@ -11,10 +11,21 @@ import frc.team6223.arsenalFramework.software.PIDFController
 import frc.team6223.arsenalFramework.software.units.Distance
 import frc.team6223.arsenalFramework.software.units.DistanceUnits
 
+/**
+ * A controller that moves a certain distance based on PID control
+ *
+ * @param dist The setpoint distance in feet
+ */
 class PIDDistanceController(val dist: Double): DriveController {
 
-    // completely not tuned and literally just a guess
+    /**
+     * The PIDF constants for the robot
+     */
     val pidfConstants = PIDFConstants(1.0, 1.0, 0.0, 0.0)
+
+    /**
+     * The internal controller for PID control
+     */
     val pidController = PIDFController(pidfConstants, 0.0)
 
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {

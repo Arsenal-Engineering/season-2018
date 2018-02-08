@@ -6,6 +6,9 @@ import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 import frc.team6223.arsenalFramework.hardware.MotorControlMode
 import frc.team6223.arsenalFramework.software.units.Distance
 
+/**
+ * A controller to continually tell the motor that there is no movement.
+ */
 class NoMovementController: DriveController {
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         return DriveControllerOutput(MotorControlMode.VoltagePercentOut, 0.0, 0.0)

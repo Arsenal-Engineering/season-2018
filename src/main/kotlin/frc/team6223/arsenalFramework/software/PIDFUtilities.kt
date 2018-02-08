@@ -4,19 +4,39 @@ import frc.team6223.arsenalFramework.hardware.currentTimeSec
 import frc.team6223.arsenalFramework.software.units.Time
 import frc.team6223.arsenalFramework.software.units.TimeUnits
 
-public data class PIDFConstants(val kP: Double, val kI: Double, val kD: Double, val kF: Double)
+/**
+ * Constants for a PIDF controller
+ *
+ * @param kP The proportional constant
+ * @param kI The integral constant
+ * @param kD The derivative constant
+ * @param kF The feed-forward constant
+ */
+data class PIDFConstants(val kP: Double, val kI: Double, val kD: Double, val kF: Double)
 
-public class PIDFController(constants: PIDFConstants, target: Double) {
+/**
+ * A internal controller that runs based on a set of constants and a target.
+ *
+ * @param constants The PIDF constants for the controller
+ * @param target The setpoint value of the controller
+ */
+class PIDFController(constants: PIDFConstants, target: Double) {
 
+    /**
+     * The internal constants for PIDF
+     */
     var constants: PIDFConstants = constants
         set(value) {
-            field = value;
+            field = value
 
             integralGain = 0.0;
             lastTime = Time(Double.NaN, TimeUnits.SECONDS);
             lastError = Double.NaN;
-        };
+        }
 
+    /**
+     * The current setpoint for the controller
+     */
     var setPoint: Double = target
         set(value) {
             field = value;
@@ -26,16 +46,35 @@ public class PIDFController(constants: PIDFConstants, target: Double) {
             lastError = Double.NaN;
         };
 
+    /**
+     * The current error for the controller
+     */
     var currentError = setPoint
         private set
 
-    var isFinished = (setPoint - currentError) == 0.0
+    /**
+     * Whether or not the setpoint is equal to the current error
+     */
+    var isFinished = (setPoint == currentError)
 
+    /**
+     * The previous error
+     */
     private var lastError: Double = Double.NaN;
+
+    /**
+     * The previous time
+     */
     private var lastTime = Time(Double.NaN, TimeUnits.SECONDS);
 
+    /**
+     * The integration gain
+     */
     private var integralGain: Double = 0.0;
 
+    /**
+     * Run the PIDF loop for one frame.
+     */
     fun runController(current: Double): Double {
 
         // calculate constants for this iteration of the loop

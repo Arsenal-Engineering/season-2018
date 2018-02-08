@@ -8,8 +8,20 @@ import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 import frc.team6223.arsenalFramework.hardware.MotorControlMode
 import frc.team6223.arsenalFramework.software.units.Distance
 
+/**
+ * A controller that moves the robot based on the joystick inputs.
+ *
+ * @param joystick The primary driving joystick
+ */
 class ArcadeDriveController(val joystick: Joystick): DriveController {
 
+    /**
+     * Calculate the motor output based on the joystick provided
+     *
+     * @param controllerInput The input from the robot
+     *
+     * @return The frame of output for the robot
+     */
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 

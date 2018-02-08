@@ -5,6 +5,12 @@ import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.software.controllers.NoMovementController
 
+/**
+ * A command that will move the drive train based on a provided [DriveController].
+ *
+ * @param controller The drive controller responsible for providing the output to the motor
+ * @param driveSystem The [ArsenalDrive] responsible for moving currently
+ */
 class MoveDriveTrainCommand(
         private val controller: DriveController,
         private val driveSystem: ArsenalDrive): Command() {
