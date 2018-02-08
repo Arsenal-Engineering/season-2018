@@ -55,6 +55,9 @@ class ArsenalDrive(driveMode: DriveController,
 
     }
 
+    /**
+     * Called by the robot in order to log the drive system into the SmartDashboard
+     */
     override fun dashboardPeriodic() {
         this.leftController.dashboardPeriodic()
         this.rightController.dashboardPeriodic()
@@ -62,6 +65,9 @@ class ArsenalDrive(driveMode: DriveController,
         this.navX.dashboardPeriodic()
     }
 
+    /**
+     * Reset the encoders on the left and right motor controllers
+     */
     fun resetEncoders() {
         leftController.resetEncoder()
         rightController.resetEncoder()
