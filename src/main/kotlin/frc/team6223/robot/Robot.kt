@@ -1,88 +1,57 @@
 package frc.team6223.robot
 
-import com.kauailabs.navx.frc.AHRS
-import edu.wpi.first.wpilibj.IterativeRobot
-import edu.wpi.first.wpilibj.SerialPort
+import edu.wpi.first.wpilibj.Preferences
+import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
-import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.robot.auto.AutoUtilities
-import frc.team6223.robot.commands.DriveTrainDistance
-import frc.team6223.robot.commands.DriveTrainMovement
-import frc.team6223.robot.commands.DriveTrainVelocity
+import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
+import frc.team6223.arsenalFramework.drive.ArsenalDrive
+import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
+import frc.team6223.arsenalFramework.hardware.ArsenalRobot
+import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
+import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
+import frc.team6223.arsenalFramework.software.controllers.PIDDistanceController
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
-import frc.team6223.robot.conf.PDP_CAN_ID
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
-import frc.team6223.robot.controllers.ArcadeDriveController
-import frc.team6223.robot.subsystems.DriveSystem
-import frc.team6223.utils.pdp.PDP
-import frc.team6223.utils.srx.TalonMotor
+import frc.team6223.robot.controllers.VelocityController
 
-class Robot(): IterativeRobot() {
+class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
-    private val operatorInterface = OI()
-    private val driveSubsystem = DriveSystem(
-            ArcadeDriveController(operatorInterface.primaryJoystick),
-            AHRS(SerialPort.Port.kMXP),
-            TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, false),
-            TalonMotor(RIGHT_DRIVE_CONTROLLER, true, true, false)
-    )
+    private lateinit var driveSubsystem: ArsenalDrive
     //private val pdpSubsystem = PDP(PDP_CAN_ID)
-    private val commandChooser = SendableChooser<Command>()
     private val robotSideChooser = AutoUtilities.generateSendableChooser()
 
-    override fun robotInit() {
-        super.robotInit()
-        commandChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
-        commandChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
-        SmartDashboard.putData(commandChooser)
-        SmartDashboard.putData(robotSideChooser)
-        this.driveSubsystem.resetEncoders()
+    override fun injectAutonomousCommands(): SendableChooser<Command> {
+        val sendableChooser = SendableChooser<Command>()
+        sendableChooser
+                .addDefault(
+                        "Move 10ft using PID",
+                        MoveDriveTrainCommand(PIDDistanceController(10.0), driveSubsystem)
+                )
+        sendableChooser
+                .addObject(
+                        "Move 5 ft/s using PID",
+                        MoveDriveTrainCommand(VelocityController(5.0), driveSubsystem)
+                )
+        return sendableChooser
     }
 
-    override fun autonomousInit() {
-        super.autonomousInit()
-        this.clearScheduler()
-
+    override fun allocateSubsystems(preferences: Preferences) {
+        driveSubsystem = ArsenalDrive(
+                ArcadeDriveController(operatorInterface.primaryJoystick),
+                ArsenalNavXMicro(),
+                ArsenalTalon(LEFT_DRIVE_CONTROLLER, true, true, true),
+                ArsenalTalon(RIGHT_DRIVE_CONTROLLER, true, true, false)
+        )
     }
 
-    override fun teleopInit() {
-        super.teleopInit()
-        this.clearScheduler()
-        DriveTrainMovement(driveSubsystem, operatorInterface).start()
+    override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
+        return OI()
     }
 
-    override fun disabledInit() {
-        super.disabledInit()
-        this.clearScheduler()
+    override fun setTeleoperatedCommand() {
+        MoveDriveTrainCommand(ArcadeDriveController(operatorInterface.primaryJoystick), driveSubsystem).start()
     }
-
-    override fun autonomousPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
-    }
-
-    override fun disabledPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
-    }
-
-    override fun teleopPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
-    }
-
-    private fun dashboardPeriodic() {
-        this.driveSubsystem.dashboardPeriodic()
-    }
-
-    private fun runScheduler() {
-        Scheduler.getInstance().run()
-    }
-
-    private fun clearScheduler() {
-        Scheduler.getInstance().removeAll()
-    }
-
 }
