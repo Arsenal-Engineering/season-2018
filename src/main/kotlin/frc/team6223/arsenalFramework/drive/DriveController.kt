@@ -9,9 +9,10 @@ import frc.team6223.arsenalFramework.software.units.Velocity
 
 interface DriveController: Loggable {
 
-    fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput;
-    fun start(leftInitial: Distance, rightInitial: Distance);
-    fun stop();
+    fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput
+    fun start(leftInitial: Distance, rightInitial: Distance)
+    fun stop()
+    fun isFinished(): Boolean
 
 }
 

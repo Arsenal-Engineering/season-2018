@@ -62,6 +62,10 @@ class ArcadeDriveController(val joystick: Joystick): DriveController {
         println("Stopping Arcade Drive");
     }
 
+    override fun isFinished(): Boolean {
+        return false
+    }
+
     override val headers: Array<String>
         get() = arrayOf("CurrentController", "MoveValue", "RotateValue")
     override val data: Array<Any>

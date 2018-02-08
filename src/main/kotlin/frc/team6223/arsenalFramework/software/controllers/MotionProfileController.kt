@@ -22,18 +22,8 @@ import jaci.pathfinder.modifiers.TankModifier
  * @param trajectory The pre-generated trajectory for the Motion Profile
  * @param maxVelocity The maximum velocity that the robot can go
  */
-class MotionProfileController(private val trajectory: Trajectory,
+class MotionProfileController(private var leftTrajectory: Trajectory, private var rightTrajectory: Trajectory,
                               private val maxVelocity: Velocity): DriveController {
-
-    /**
-     * The internal left trajectory
-     */
-    private lateinit var leftTrajectory: Trajectory
-
-    /**
-     * The internal right trajectory
-     */
-    private lateinit var rightTrajectory: Trajectory
 
     /**
      * The follower for the left trajectory that ensures that the left side of the robot follows correctly
@@ -70,10 +60,6 @@ class MotionProfileController(private val trajectory: Trajectory,
      */
     override fun start(leftInitial: Distance, rightInitial: Distance) {
         println("Generating trajectory")
-        val tankModifier = TankModifier(trajectory).modify(wheelBaseWidth)
-
-        leftTrajectory = tankModifier.leftTrajectory
-        rightTrajectory = tankModifier.rightTrajectory
 
         leftTrajectoryFollower = EncoderFollower(leftTrajectory)
         rightTrajectoryFollower = EncoderFollower(rightTrajectory)
@@ -124,6 +110,10 @@ class MotionProfileController(private val trajectory: Trajectory,
         SmartDashboard.putString("Current Controller", "MotionProfileController")
     }
 
+    override fun isFinished(): Boolean {
+        return leftTrajectoryFollower.isFinished && rightTrajectoryFollower.isFinished
+    }
+
     /**
      * A secondary constructor that will accept an array of [Waypoint]s and a trajectory configuration.
      *
@@ -133,4 +123,10 @@ class MotionProfileController(private val trajectory: Trajectory,
      */
     constructor(points: Array<Waypoint>, trajectoryConfig: Trajectory.Config, maxVelocity: Velocity):
             this(Pathfinder.generate(points, trajectoryConfig), maxVelocity)
+
+    constructor(trajectory: Trajectory, maxVelocity: Velocity):
+            this(TankModifier(trajectory).modify(wheelBaseWidth).leftTrajectory,
+                    TankModifier(trajectory).modify(wheelBaseWidth).rightTrajectory,
+                    maxVelocity
+            )
 }

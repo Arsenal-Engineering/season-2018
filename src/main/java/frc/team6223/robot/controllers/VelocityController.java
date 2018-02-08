@@ -52,6 +52,11 @@ public class VelocityController implements DriveController {
 
     }
 
+    @Override
+    public boolean isFinished() {
+        return pidfController.isFinished();
+    }
+
     @NotNull
     @Override
     public String[] getHeaders() {

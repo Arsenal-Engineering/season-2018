@@ -36,6 +36,10 @@ class PIDDistanceController(val dist: Double): DriveController {
         }
     }
 
+    override fun isFinished(): Boolean {
+        return pidController.isFinished
+    }
+
     override val headers: Array<String>
         get() = arrayOf("ControllerType", "DistanceTarget", "kP", "kI", "kD", "kF")
     override val data: Array<Any>

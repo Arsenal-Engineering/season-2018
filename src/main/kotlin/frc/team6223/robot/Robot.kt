@@ -4,9 +4,6 @@ import edu.wpi.first.wpilibj.Preferences
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-import frc.team6223.arsenalFramework.software.commands.DriveTrainDistance
-import frc.team6223.arsenalFramework.software.commands.DriveTrainArcade
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.robot.auto.AutoUtilities
 import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
 import frc.team6223.arsenalFramework.drive.ArsenalDrive
@@ -15,9 +12,11 @@ import frc.team6223.arsenalFramework.hardware.ArsenalRobot
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
 import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
-import frc.team6223.robot.commands.DriveTrainVelocity
+import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
+import frc.team6223.arsenalFramework.software.controllers.PIDDistanceController
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
+import frc.team6223.robot.controllers.VelocityController
 
 class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
@@ -28,8 +27,16 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
     override fun injectAutonomousCommands(): SendableChooser<Command> {
         val sendableChooser = SendableChooser<Command>()
-        sendableChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
-        sendableChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
+        sendableChooser
+                .addDefault(
+                        "Move 10ft using PID",
+                        MoveDriveTrainCommand(PIDDistanceController(10.0), driveSubsystem)
+                )
+        sendableChooser
+                .addObject(
+                        "Move 5 ft/s using PID",
+                        MoveDriveTrainCommand(VelocityController(5.0), driveSubsystem)
+                )
         return sendableChooser
     }
 
@@ -47,7 +54,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     }
 
     override fun setTeleoperatedCommand() {
-        DriveTrainArcade(driveSubsystem, operatorInterface).start()
+        MoveDriveTrainCommand(ArcadeDriveController(operatorInterface.primaryJoystick), driveSubsystem).start()
     }
 
     override fun injectLoggedItems(): MutableList<Loggable> {
