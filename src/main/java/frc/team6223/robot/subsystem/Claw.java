@@ -4,9 +4,13 @@ package frc.team6223.robot.subsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team6223.utils.srx.MotorControlMode;
 import frc.team6223.utils.srx.TalonMotor;
+import frc.team6223.utils.units.Time;
+import frc.team6223.utils.units.TimeUnits;
 
 
 public class Claw extends Subsystem {
+
+    public static final Time timeToOpenClaw = new Time(5.0, TimeUnits.SECONDS);
 
     private TalonMotor leftRightMotor;
     private TalonMotor upDownMotor;
