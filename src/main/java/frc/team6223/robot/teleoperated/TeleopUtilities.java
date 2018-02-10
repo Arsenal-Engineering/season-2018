@@ -3,11 +3,12 @@ package frc.team6223.robot.teleoperated;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team6223.utils.srx.TalonMotor;
+import frc.team6223.arsenalFramework.hardware.ArsenalTalon;
+
 
 public class TeleopUtilities {
 
-    public static void putValuesOnDash(TalonMotor left, TalonMotor right, AHRS navX)
+    public static void putValuesOnDash(ArsenalTalon left, ArsenalTalon right, AHRS navX)
     {
         SmartDashboard.putBoolean("Inverted Left", left.getInverted());
         SmartDashboard.putBoolean("Inverted Right", right.getInverted());
