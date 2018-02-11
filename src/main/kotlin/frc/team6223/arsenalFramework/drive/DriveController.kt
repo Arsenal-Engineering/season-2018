@@ -78,6 +78,7 @@ data class DriveControllerOutput(val controlMode: MotorControlMode, val left: Do
  */
 data class ControllerInput(val leftEncoder: Distance, val leftEncoderRate: Velocity,
                            val rightEncoder: Distance, val rightEncoderRate: Velocity,
+                           val rawLeftEncoder: Double, val rawRightEncoder: Double,
                            val yawRotation: Float, val yawRate: Double,
                            val pitchRotation: Float,
                            val rollRotation: Float) {
@@ -85,8 +86,10 @@ data class ControllerInput(val leftEncoder: Distance, val leftEncoderRate: Veloc
     /**
      * An alternate constructor that uses the NavX directly
      */
-    constructor(leftEncoder: Distance, leftEncoderRate: Velocity, rightEncoder: Distance, rightEncoderRate: Velocity,
+    constructor(leftEncoder: Distance, leftRawEncoder: Double, leftEncoderRate: Velocity, rightEncoder: Distance,
+                rightRawEncoder: Double, rightEncoderRate: Velocity,
                 navX: ArsenalNavXMicro): this(leftEncoder, leftEncoderRate, rightEncoder, rightEncoderRate,
+            leftRawEncoder, rightRawEncoder,
             navX.yaw, navX.rate,
             navX.pitch,
             navX.roll)

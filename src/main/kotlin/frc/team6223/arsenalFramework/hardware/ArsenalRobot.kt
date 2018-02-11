@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
+import frc.team6223.arsenalFramework.software.FullTrajectory
 
 /**
  * The ArsenalRobot class is a wrapper around [TimedRobot] to make it so people can easily begin coding a robot.
@@ -24,12 +25,15 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
     /**
      * The [SendableChooser] for autonomous commands.
      */
-    private val autonomousChooser = this.injectAutonomousCommands()
+    private lateinit var autonomousChooser: SendableChooser<Command>
 
     /**
      * The [ArsenalOperatorInterface] for the robot.
      */
     lateinit var operatorInterface: ArsenalOperatorInterface
+        private set
+
+    lateinit var motionProfiles: List<FullTrajectory>
         private set
 
     /**
@@ -42,44 +46,38 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
         }
 
     override fun robotInit() {
-        super.robotInit()
         this.allocateSubsystems(Preferences.getInstance())
         this.operatorInterface = this.allocateOperatorInterface(Preferences.getInstance())
+        motionProfiles = this.retrieveMotionProfiles()
+        autonomousChooser = this.injectAutonomousCommands()
         SmartDashboard.putData(this.autonomousChooser)
     }
 
     override fun disabledInit() {
-        super.disabledInit()
         this.clearScheduler()
     }
 
     override fun disabledPeriodic() {
-        super.disabledPeriodic()
         this.dashboardPeriodic()
         this.runScheduler()
     }
 
     override fun autonomousInit() {
-        super.autonomousInit()
         this.clearScheduler()
         autonomousChooser.selected.start()
     }
 
     override fun autonomousPeriodic() {
-        super.autonomousPeriodic()
         this.dashboardPeriodic()
         this.runScheduler()
-        this.dashboardPeriodic()
     }
 
     override fun teleopInit() {
-        super.teleopInit()
         this.clearScheduler()
         this.setTeleoperatedCommand()
     }
 
     override fun teleopPeriodic() {
-        super.teleopPeriodic()
         this.dashboardPeriodic()
         this.runScheduler()
     }
@@ -108,6 +106,11 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
      * Sets the teleoperated command(s) that are called as soon as teleoperated is started.
      */
     abstract fun setTeleoperatedCommand()
+
+    /**
+     * Retrieve all of the motion profiles for the MotionProfileController(s)
+     */
+    abstract fun retrieveMotionProfiles(): List<FullTrajectory>
 
     /**
      * Convenience method to run the scheduler

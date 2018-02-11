@@ -45,8 +45,8 @@ class ArsenalDrive(driveMode: DriveController,
     fun driveMotors() {
         val driveOut = this.driveMode.calculateMotorOutput(
                 ControllerInput(
-                        leftController.position, leftController.velocity,
-                        rightController.position, rightController.velocity,
+                        leftController.position, leftController.rawPosition, leftController.velocity,
+                        rightController.position, rightController.rawPosition, rightController.velocity,
                         navX)
         )
         leftController.set(driveOut.controlMode, driveOut.left)

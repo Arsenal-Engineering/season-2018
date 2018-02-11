@@ -27,8 +27,9 @@ import frc.team6223.arsenalFramework.software.units.*
  * @param startingSensorPhase The starting sensor phase of the Talon
  */
 class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
-                 startInverted: Boolean = false,
-                 startingSensorPhase: Boolean): Loggable {
+                   startInverted: Boolean = false,
+                   startingSensorPhase: Boolean = false,
+                   var invertSensorOutput: Boolean = false): Loggable {
     /**
      * The internal Talon
      */
@@ -74,8 +75,15 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
     val position: Distance
         get() {
             SmartDashboard.putNumber("rawPos ${talonId}", sensorCollection?.quadraturePosition?.toDouble() ?: 0.0)
-            return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
+            if (invertSensorOutput) {
+                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition?.apply { -this } ?: 0)
+            } else {
+                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
+            }
         }
+
+    val rawPosition: Double
+        get() = sensorCollection?.quadraturePosition?.toDouble() ?: 0.0
 
     /**
      * The current encoder rate (velocity), translated from Talon native units per 100 ms to inches per millisecond.

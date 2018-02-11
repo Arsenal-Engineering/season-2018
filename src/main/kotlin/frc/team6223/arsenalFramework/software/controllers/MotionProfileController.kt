@@ -40,11 +40,14 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
      * Calculates the motor output based on the provided motion profile
      */
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
+
+        println(controllerInput)
+
         val leftMotor = leftTrajectoryFollower.calculate(
-                Distance.convertDistanceToMagPulse(controllerInput.leftEncoder).toInt()
+                controllerInput.rawLeftEncoder.toInt()
         )
         val rightMotor = rightTrajectoryFollower.calculate(
-                Distance.convertDistanceToMagPulse(controllerInput.rightEncoder).toInt()
+                controllerInput.rawRightEncoder.toInt()
         )
 
         val yawHeading = Angle(controllerInput.yawRotation.toDouble(), AngleUnits.DEGREES)
@@ -75,13 +78,13 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
                 wheelRadius * 2
         )
 
-        leftTrajectoryFollower.configurePIDVA(1.0,
+        leftTrajectoryFollower.configurePIDVA(10.0,
                 0.0,
                 0.0,
                 1 / maxVelocity.rescaleScalar(DistanceUnits.METERS, TimeUnits.SECONDS),
                 0.0)
 
-        rightTrajectoryFollower.configurePIDVA(1.0,
+        rightTrajectoryFollower.configurePIDVA(10.0,
                 0.0,
                 0.0,
                 1 / maxVelocity.rescaleScalar(DistanceUnits.METERS, TimeUnits.SECONDS),
