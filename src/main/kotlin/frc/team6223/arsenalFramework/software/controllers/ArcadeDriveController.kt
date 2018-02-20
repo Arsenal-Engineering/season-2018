@@ -1,5 +1,6 @@
 package frc.team6223.arsenalFramework.software.controllers
 
+import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.drive.ControllerInput
@@ -97,9 +98,9 @@ class ArcadeDriveController(private val joystick: Joystick): DriveController {
         return false
     }
 
-    override fun dashboardPeriodic() {
-        SmartDashboard.putString("CurrentController", "ArcadeController")
-        SmartDashboard.putNumber("CurrentControllerMoveValue", joystick.y)
-        SmartDashboard.putNumber("CurrentControllerRotateValue", joystick.x)
+    override fun dashboardPeriodic(table: NetworkTable) {
+        table.getEntry("CurrentController").setString("ArcadeDrive")
+        SmartDashboard.getEntry("CurrentControllerMoveValue").setNumber(joystick.y)
+        SmartDashboard.getEntry("CurrentControllerRotateValue").setNumber(joystick.x)
     }
 }

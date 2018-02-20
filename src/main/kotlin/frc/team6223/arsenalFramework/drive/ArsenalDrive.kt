@@ -1,9 +1,11 @@
 package frc.team6223.arsenalFramework.drive
 
+import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
 import frc.team6223.arsenalFramework.logging.Loggable
+import frc.team6223.arsenalFramework.software.genNetworkTables
 
 /**
  * A subsystem for running 2 [ArsenalTalon]'s using a [DriveController].
@@ -57,11 +59,11 @@ class ArsenalDrive(driveMode: DriveController,
     /**
      * Called by the robot in order to log the drive system into the SmartDashboard
      */
-    override fun dashboardPeriodic() {
-        this.leftController.dashboardPeriodic()
-        this.rightController.dashboardPeriodic()
-        this.driveMode.dashboardPeriodic()
-        this.navX.dashboardPeriodic()
+    override fun dashboardPeriodic(table: NetworkTable) {
+        this.leftController.dashboardPeriodic(genNetworkTables(table, "LeftTalon"))
+        this.rightController.dashboardPeriodic(genNetworkTables(table, "RightTalon"))
+        this.driveMode.dashboardPeriodic(genNetworkTables(table, "DriveMode"))
+        this.navX.dashboardPeriodic(genNetworkTables(table, "NavX"))
     }
 
     /**

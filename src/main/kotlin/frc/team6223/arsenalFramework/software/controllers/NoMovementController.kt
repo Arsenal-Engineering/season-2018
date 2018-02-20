@@ -1,5 +1,6 @@
 package frc.team6223.arsenalFramework.software.controllers
 
+import edu.wpi.first.networktables.NetworkTable
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
@@ -26,5 +27,7 @@ class NoMovementController: DriveController {
         return false
     }
 
-    override fun dashboardPeriodic() {}
+    override fun dashboardPeriodic(table: NetworkTable) {
+        table.getEntry("CurrentController").setString("NoMotionController")
+    }
 }

@@ -1,5 +1,7 @@
 package frc.team6223.arsenalFramework.logging
 
+import edu.wpi.first.networktables.NetworkTable
+
 /**
  * A loggable object can be sent to the SmartDashboard via the [dashboardPeriodic] method
  */
@@ -8,6 +10,6 @@ interface Loggable {
     /**
      * This method is called whenever the primary dashboard periodic method is called on each loggable in turn.
      */
-    fun dashboardPeriodic()
+    fun dashboardPeriodic(table: NetworkTable)
 
 }

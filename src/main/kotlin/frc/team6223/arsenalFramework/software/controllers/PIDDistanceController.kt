@@ -1,5 +1,6 @@
 package frc.team6223.arsenalFramework.software.controllers
 
+import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
@@ -50,10 +51,10 @@ class PIDDistanceController(private val dist: Double): DriveController {
         return pidController.isFinished
     }
 
-    override fun dashboardPeriodic() {
-        SmartDashboard.putString("Current Controller", "DistanceController")
-        SmartDashboard.putNumber("Distance Target", dist)
-        SmartDashboard.putNumber("Current Controller kP", pidfConstants.kP)
+    override fun dashboardPeriodic(table: NetworkTable) {
+        table.getEntry("CurrentController").setString("DistanceController")
+        table.getEntry("Distance Target").setNumber(dist)
+        table.getEntry("Current Controller kP").setNumber(pidfConstants.kP)
         SmartDashboard.putNumber("Current Controller kI", pidfConstants.kI)
         SmartDashboard.putNumber("Current Controller kD", pidfConstants.kD)
         SmartDashboard.putNumber("Current Controller kF", pidfConstants.kF)

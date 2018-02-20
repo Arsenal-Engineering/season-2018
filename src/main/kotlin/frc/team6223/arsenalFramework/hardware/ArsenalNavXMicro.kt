@@ -1,6 +1,7 @@
 package frc.team6223.arsenalFramework.hardware
 
 import com.kauailabs.navx.frc.AHRS
+import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -22,9 +23,9 @@ class ArsenalNavXMicro: AHRS(SerialPort.Port.kMXP), Gyro, Loggable {
     /**
      * Log the Yaw, Pitch, and Roll of the NavX.
      */
-    override fun dashboardPeriodic() {
-        SmartDashboard.putNumber("NavX Yaw", this.yaw.toDouble())
-        SmartDashboard.putNumber("NavX Pitch", this.pitch.toDouble())
-        SmartDashboard.putNumber("NavX Roll", this.roll.toDouble())
+    override fun dashboardPeriodic(table: NetworkTable) {
+        table.getEntry("Yaw").setNumber(this.yaw.toDouble())
+        table.getEntry("Pitch").setNumber(this.pitch.toDouble())
+        table.getEntry("Roll").setNumber(this.roll.toDouble())
     }
 }

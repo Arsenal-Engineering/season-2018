@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice
 import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
+import edu.wpi.first.networktables.NetworkTable
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.software.units.*
@@ -123,12 +124,11 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * Logs the current position and velocity of the talon, as well as if the talon is inverted and the internal
      * control mode.
      */
-    override fun dashboardPeriodic() {
-        SmartDashboard.putNumber("Talon {$talonId} Position", position.numericValue(DistanceUnits.FEET))
-        SmartDashboard.putNumber("Talon {$talonId} Velocity (ft/sec)",
-                velocity.numericValue(RateScaleFactor(DistanceUnits.FEET, TimeUnits.SECONDS)))
-        SmartDashboard.putBoolean("Talon {$talonId} Inverted", inverted)
-        SmartDashboard.putString("Talon {$talonId} MCM", currentInternalControlMode.toString())
+    override fun dashboardPeriodic(table: NetworkTable) {
+        table.getEntry("Position (ft)").setNumber(position.numericValue(DistanceUnits.FEET))
+        table.getEntry("Velocity (ft/sec)").setNumber(velocity.numericValue(RateScaleFactor(DistanceUnits.FEET, TimeUnits.SECONDS)))
+        table.getEntry("Inverted").setBoolean(inverted)
+        table.getEntry("MCM").setString(currentInternalControlMode.toString())
     }
 
     /**

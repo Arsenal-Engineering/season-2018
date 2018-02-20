@@ -1,13 +1,16 @@
 package frc.team6223.arsenalFramework.hardware
 
+import edu.wpi.first.networktables.NetworkTableInstance
 import edu.wpi.first.wpilibj.Preferences
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 import frc.team6223.arsenalFramework.software.FullTrajectory
+import frc.team6223.arsenalFramework.software.genNetworkTables
 
 /**
  * The ArsenalRobot class is a wrapper around [TimedRobot] to make it so people can easily begin coding a robot.
@@ -36,6 +39,8 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
     lateinit var motionProfiles: List<FullTrajectory>
         private set
 
+    protected lateinit var loggableItems: Map<String, Loggable>
+
     /**
      * The amount of time it takes for each cycle of the robot to occur.
      */
@@ -50,6 +55,7 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
         this.operatorInterface = this.allocateOperatorInterface(Preferences.getInstance())
         motionProfiles = this.retrieveMotionProfiles()
         autonomousChooser = this.injectAutonomousCommands()
+        loggableItems = this.injectLoggables()
         SmartDashboard.putData(this.autonomousChooser)
     }
 
@@ -85,7 +91,12 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
     /**
      * A method called periodically to update the dashboard.
      */
-    protected fun dashboardPeriodic() {}
+    protected fun dashboardPeriodic() {
+        val netTableInstance = NetworkTableInstance.getDefault().getTable("SmartDashboard")
+        for (item in loggableItems) {
+            item.value.dashboardPeriodic(genNetworkTables(netTableInstance, item.key))
+        }
+    }
 
     /**
      * Creates the sendable chooser for the commands for autonomous
@@ -111,6 +122,8 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
      * Retrieve all of the motion profiles for the MotionProfileController(s)
      */
     abstract fun retrieveMotionProfiles(): List<FullTrajectory>
+
+    abstract fun injectLoggables(): Map<String, Loggable>
 
     /**
      * Convenience method to run the scheduler

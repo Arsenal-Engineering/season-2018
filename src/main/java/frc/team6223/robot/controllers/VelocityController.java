@@ -1,6 +1,7 @@
 package frc.team6223.robot.controllers;
 
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team6223.arsenalFramework.drive.ControllerInput;
 import frc.team6223.arsenalFramework.drive.DriveController;
@@ -58,12 +59,12 @@ public class VelocityController implements DriveController {
     }
 
     @Override
-    public void dashboardPeriodic() {
-        SmartDashboard.putString("Current Controller", "VelocityController");
-        SmartDashboard.putNumber("Velocity Target", velocityTarget);
-        SmartDashboard.putNumber("Current Controller kP", pidfConstants.component1());
-        SmartDashboard.putNumber("Current Controller kI", pidfConstants.component2());
-        SmartDashboard.putNumber("Current Controller kD", pidfConstants.component3());
-        SmartDashboard.putNumber("Current Controller kF", pidfConstants.component4());
+    public void dashboardPeriodic(NetworkTable table) {
+        table.getEntry("CurrentController").setString("VelocityController");
+        table.getEntry("Velocity Target").setNumber(velocityTarget);
+        table.getEntry("Current Controller kP").setNumber(pidfConstants.component1());
+        table.getEntry("Current Controller kI").setNumber(pidfConstants.component2());
+        table.getEntry("Current Controller kD").setNumber(pidfConstants.component3());
+        table.getEntry("Current Controller kF").setNumber(pidfConstants.component4());
     }
 }

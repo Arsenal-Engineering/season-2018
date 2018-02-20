@@ -10,6 +10,7 @@ import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot
 import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 import frc.team6223.arsenalFramework.software.FullTrajectory
 import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
@@ -63,5 +64,9 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
     override fun setTeleoperatedCommand() {
         MoveDriveTrainCommand(ArcadeDriveController(operatorInterface.primaryJoystick), driveSubsystem).start()
+    }
+
+    override fun injectLoggables(): Map<String, Loggable> {
+        return mapOf(Pair("ArsenalDrive", this.driveSubsystem))
     }
 }
