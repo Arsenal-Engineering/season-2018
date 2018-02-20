@@ -90,7 +90,7 @@ data class ControllerInput(val leftEncoder: Distance, val leftEncoderRate: Veloc
                 rightRawEncoder: Double, rightEncoderRate: Velocity,
                 navX: ArsenalNavXMicro): this(leftEncoder, leftEncoderRate, rightEncoder, rightEncoderRate,
             leftRawEncoder, rightRawEncoder,
-            navX.yaw, navX.rate,
-            navX.pitch,
-            navX.roll)
+            0.0f, 0.0,
+            0.0f,
+            0.0f)
 }

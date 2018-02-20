@@ -56,7 +56,7 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
         val angleDifference = Pathfinder.boundHalfDegrees((desiredHeading - yawHeading).numericValue())
         val turn = 0.8 * (-1.0 / 80.0) * angleDifference
 
-        return DriveControllerOutput(MotorControlMode.VoltagePercentOut, leftMotor + turn, rightMotor - turn)
+        return DriveControllerOutput(MotorControlMode.VoltagePercentOut, leftMotor + turn, -(rightMotor - turn))
     }
 
     /**
@@ -110,7 +110,8 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
     }
 
     override fun isFinished(): Boolean {
-        return leftTrajectoryFollower.isFinished && rightTrajectoryFollower.isFinished
+        return false
+        //return leftTrajectoryFollower.isFinished && rightTrajectoryFollower.isFinished
     }
 
     /**

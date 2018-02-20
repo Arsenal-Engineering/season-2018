@@ -76,14 +76,20 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
         get() {
             SmartDashboard.putNumber("rawPos ${talonId}", sensorCollection?.quadraturePosition?.toDouble() ?: 0.0)
             if (invertSensorOutput) {
-                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition?.apply { -this } ?: 0)
+                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition?.unaryMinus() ?: 0)
             } else {
                 return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
             }
         }
 
     val rawPosition: Double
-        get() = sensorCollection?.quadraturePosition?.toDouble() ?: 0.0
+        get() {
+            if (invertSensorOutput) {
+                return sensorCollection?.quadraturePosition?.unaryMinus()?.toDouble() ?: 0.0
+            } else {
+                return sensorCollection?.quadraturePosition?.toDouble() ?: 0.0
+            }
+        }
 
     /**
      * The current encoder rate (velocity), translated from Talon native units per 100 ms to inches per millisecond.
@@ -164,6 +170,7 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
             // HALVE the period of the frame time: from 160 -> 80
             // This should change frequency
             this.talonSrx.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
+            this.resetEncoder()
             this.sensorCollection = talonSrx.sensorCollection
         }
 
