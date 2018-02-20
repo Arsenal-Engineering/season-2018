@@ -3,7 +3,7 @@ package frc.team6223.robot.teleoperated;
 
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team6223.arsenalFramework.hardware.ArsenalTalon;
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon;
 
 
 public class TeleopUtilities {

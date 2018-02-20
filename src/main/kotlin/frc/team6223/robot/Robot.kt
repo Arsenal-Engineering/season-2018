@@ -9,18 +9,16 @@ import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
 import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot
-import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 import frc.team6223.arsenalFramework.software.FullTrajectory
 import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
 import frc.team6223.arsenalFramework.software.controllers.MotionProfileController
 import frc.team6223.arsenalFramework.software.controllers.NoMovementController
-import frc.team6223.arsenalFramework.software.controllers.PIDDistanceController
 import frc.team6223.arsenalFramework.software.readMotionProfile
 import frc.team6223.arsenalFramework.software.units.*
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
-import frc.team6223.robot.controllers.VelocityController
 
 class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 

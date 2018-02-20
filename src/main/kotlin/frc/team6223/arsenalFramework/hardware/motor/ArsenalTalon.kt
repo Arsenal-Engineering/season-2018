@@ -1,4 +1,4 @@
-package frc.team6223.arsenalFramework.hardware
+package frc.team6223.arsenalFramework.hardware.motor
 
 import com.ctre.phoenix.motorcontrol.ControlMode
 import com.ctre.phoenix.motorcontrol.FeedbackDevice
@@ -29,16 +29,16 @@ import frc.team6223.arsenalFramework.software.units.*
 class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
                    startInverted: Boolean = false,
                    startingSensorPhase: Boolean = false,
-                   var invertSensorOutput: Boolean = false): Loggable {
+                   var invertSensorOutput: Boolean = false): ArsenalCANMotorController {
     /**
      * The internal Talon
      */
-    private val talonSrx: TalonSRX = TalonSRX(talonId)
+    override val internalMotorController: TalonSRX = TalonSRX(talonId)
 
     /**
      * A list of the followers this Talon has attached to it
      */
-    private val followers: MutableList<FollowerSRX> = ArrayList()
+    private val followers: MutableList<ArsenalCANMotorController> = ArrayList()
 
     /**
      * The internal sensor collection of the Talon. Only used if quadrature encoding is enabled
@@ -51,7 +51,7 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * Instead, the internal control mode will be used in the future to provide completion status to commands and
      * linked subsystems.
      */
-    var currentInternalControlMode: MotorControlMode = MotorControlMode.VoltagePercentOut
+    override var internalControlMode: MotorControlMode = MotorControlMode.VoltagePercentOut
         private set
 
     /**
@@ -60,13 +60,13 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * Setting the value to true will invert the positive and negative output. Do this only if the motor turns the
      * opposite of the intended direction
      */
-    var inverted: Boolean = talonSrx.inverted
+    override var inverted: Boolean = internalMotorController.inverted
         set(value) {
-            this.talonSrx.inverted = value
+            this.internalMotorController.inverted = value
             field = value
         }
         get() {
-            return this.talonSrx.inverted
+            return this.internalMotorController.inverted
         }
 
     /**
@@ -107,12 +107,12 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * any extra closed-loop features that may be implemented.
      *
      * @param mode The [MotorControlMode] to use
-     * @param percentOut A number between -1 and 1 that is the relative percentage output to push to the Talon. If
+     * @param output A number between -1 and 1 that is the relative percentage output to push to the Talon. If
      * negative doesn't make the motor move clockwise, ensure the Talon is inverted correctly
      */
-    fun set(mode: MotorControlMode = MotorControlMode.VoltagePercentOut, percentOut: Double) {
-        currentInternalControlMode = mode
-        talonSrx.set(ControlMode.PercentOutput, percentOut)
+    override fun set(mode: MotorControlMode, output: Double) {
+        internalControlMode = mode
+        internalMotorController.set(ControlMode.PercentOutput, output)
     }
 
     /**
@@ -121,8 +121,9 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * Given a Talon ID number, this method adds a new [FollowerSRX] to the follower list, which is then following
      * the exact voltage percent output as this Talon.
      */
-    fun addFollower(followerId: Int) {
-        followers.add(FollowerSRX(followerId))
+    override fun addFollower(controller: ArsenalCANMotorController) {
+        controller.internalMotorController.follow(this.internalMotorController)
+        followers.add(controller)
     }
 
     /**
@@ -134,14 +135,14 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
         SmartDashboard.putNumber("Talon {$talonId} Velocity (ft/sec)",
                 velocity.numericValue(RateScaleFactor(DistanceUnits.FEET, TimeUnits.SECONDS)))
         SmartDashboard.putBoolean("Talon {$talonId} Inverted", inverted)
-        SmartDashboard.putString("Talon {$talonId} MCM", currentInternalControlMode.toString())
+        SmartDashboard.putString("Talon {$talonId} MCM", internalControlMode.toString())
     }
 
     /**
      * Set the encoder phase of the internal SRX.
      */
     fun setEncoderPhase(phase: Boolean) {
-        this.talonSrx.setSensorPhase(phase)
+        this.internalMotorController.setSensorPhase(phase)
     }
 
     /**
@@ -151,61 +152,20 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
         sensorCollection?.setQuadraturePosition(0, 0)
     }
 
-    /**
-     * The internal class for the TalonSRX followers.
-     */
-    inner class FollowerSRX(followerId: Int) {
-        private val follower: TalonSRX = TalonSRX(followerId)
-        init {
-            follower.follow(this@ArsenalTalon.talonSrx)
-        }
-    }
-
-
 
     init {
         if (quadratureEnabled) {
             // we have CTRE mag encoder, swap to relative mode
-            this.talonSrx.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
+            this.internalMotorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
             // HALVE the period of the frame time: from 160 -> 80
             // This should change frequency
-            this.talonSrx.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
+            this.internalMotorController.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
             this.resetEncoder()
-            this.sensorCollection = talonSrx.sensorCollection
+            this.sensorCollection = internalMotorController.sensorCollection
         }
 
-        this.talonSrx.inverted = startInverted
-        this.talonSrx.setSensorPhase(startingSensorPhase)
+        this.internalMotorController.inverted = startInverted
+        this.internalMotorController.setSensorPhase(startingSensorPhase)
     }
-
-}
-
-/**
- * The supported control modes for all [ArsenalTalon]'s.
- *
- * If a method is labeled as Closed Loop, it _must_ still receive input. The reasoning behind marking something as
- * closed or open loop is for checking if the motor controller can be finished (closed-loop can be, open-loop cannot).
- */
-enum class MotorControlMode {
-    /**
-     * Open Loop Voltage Percentage Out
-     */
-    VoltagePercentOut,
-    /**
-     * Closed Loop [frc.team6223.utils.pid.PIDFController] Distance
-     */
-    PIDDistance,
-    /**
-     * Closed Loop [frc.team6223.utils.pid.PIDFController] Velocity
-     */
-    PIDVelocity,
-    /**
-     * Closed Loop [frc.team6223.utils.pid.PIDFController] Turn to Relative Angle
-     */
-    PIDRelativeAngle,
-    /**
-     * Closed Loop Motion Profiling (experimental!)
-     */
-    ExperimentalMotionProfiling,
 
 }

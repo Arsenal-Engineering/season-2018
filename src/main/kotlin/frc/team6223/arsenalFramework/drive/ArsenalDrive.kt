@@ -2,7 +2,7 @@ package frc.team6223.arsenalFramework.drive
 
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
-import frc.team6223.arsenalFramework.hardware.ArsenalTalon
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
 import frc.team6223.arsenalFramework.logging.Loggable
 
 /**

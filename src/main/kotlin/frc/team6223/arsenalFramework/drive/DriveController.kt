@@ -1,7 +1,7 @@
 package frc.team6223.arsenalFramework.drive
 
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
-import frc.team6223.arsenalFramework.hardware.MotorControlMode
+import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode
 import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.software.units.Distance
 import frc.team6223.arsenalFramework.software.units.Velocity
