@@ -10,7 +10,9 @@ import frc.team6223.utils.units.TimeUnits;
 
 public class Claw extends Subsystem {
 
-    public static final Time timeToOpenClaw = new Time(5.0, TimeUnits.SECONDS);
+    public static final Double timeToOpenClaw = 5.0;
+    public static final Double timeToMoveClawFurthestLR = 5.0;
+    public static final Double timeToLowerWinch = 5.0;
 
     private TalonMotor leftRightMotor;
     private TalonMotor upDownMotor;
