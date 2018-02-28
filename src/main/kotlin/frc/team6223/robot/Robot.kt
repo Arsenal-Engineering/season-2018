@@ -47,7 +47,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
                 NoMovementController(),
                 ArsenalNavXMicro(),
                 ArsenalTalon(LEFT_DRIVE_CONTROLLER, true, startInverted = true, invertSensorOutput = true),
-                ArsenalTalon(RIGHT_DRIVE_CONTROLLER, true, startInverted = true, invertSensorOutput = false)
+                ArsenalTalon(RIGHT_DRIVE_CONTROLLER, true, startInverted = false, invertSensorOutput = false)
         )
     }
 

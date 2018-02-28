@@ -26,16 +26,7 @@ class ArcadeDriveController(private val joystick: Joystick): DriveController {
         // set the DriveControllerOutput based on the controller input
 
         var rotateValue = joystick.x
-        var moveValue = -joystick.y
-
-        // apply dead zone
-        if (moveValue in -0.25..0.25) {
-            moveValue = 0.0
-        }
-
-        if (rotateValue in -0.25..0.25) {
-            rotateValue = 0.0
-        }
+        var moveValue = joystick.y
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
