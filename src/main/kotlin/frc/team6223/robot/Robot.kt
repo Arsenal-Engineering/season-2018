@@ -15,22 +15,25 @@ import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.PDP_CAN_ID
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
+import frc.team6223.robot.subsystem.Claw
 import frc.team6223.robot.subsystems.DriveSystem
 import frc.team6223.utils.pdp.PDP
 import frc.team6223.utils.srx.TalonMotor
 
 class Robot(): IterativeRobot() {
 
-    private val operatorInterface = OI()
+    private val clawSubsystem = Claw(/*0, 0, 0,*/ TalonMotor(5, false, true, false))
+    //private val pdpSubsystem = PDP(PDP_CAN_ID)
+    private val commandChooser = SendableChooser<Command>()
+    private val robotSideChooser = AutoUtilities.generateSendableChooser()
+    private val operatorInterface = OI(clawSubsystem)
     private val driveSubsystem = DriveSystem(
             ArcadeDriveController(operatorInterface.primaryJoystick),
             AHRS(SerialPort.Port.kMXP),
             TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, false),
             TalonMotor(RIGHT_DRIVE_CONTROLLER, true, true, false)
     )
-    //private val pdpSubsystem = PDP(PDP_CAN_ID)
-    private val commandChooser = SendableChooser<Command>()
-    private val robotSideChooser = AutoUtilities.generateSendableChooser()
+
 
     override fun robotInit() {
         super.robotInit()
