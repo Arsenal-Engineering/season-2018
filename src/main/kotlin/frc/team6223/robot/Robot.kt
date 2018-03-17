@@ -1,18 +1,23 @@
 package frc.team6223.robot
 
-import com.kauailabs.navx.frc.AHRS
-import edu.wpi.first.wpilibj.IterativeRobot
-import edu.wpi.first.wpilibj.SerialPort
+import edu.wpi.first.wpilibj.Preferences
+import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj.command.Command
-import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import frc.team6223.robot.auto.AutoUtilities
-import frc.team6223.robot.commands.DriveTrainDistance
-import frc.team6223.robot.commands.DriveTrainMovement
-import frc.team6223.robot.commands.DriveTrainVelocity
+import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
+import frc.team6223.arsenalFramework.drive.ArsenalDrive
+import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
+import frc.team6223.arsenalFramework.hardware.ArsenalRobot
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
+import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
+import frc.team6223.arsenalFramework.software.FullTrajectory
+import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
+import frc.team6223.arsenalFramework.software.controllers.MotionProfileController
+import frc.team6223.arsenalFramework.software.controllers.NoMovementController
+import frc.team6223.arsenalFramework.software.readMotionProfile
+import frc.team6223.arsenalFramework.software.units.*
 import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
-import frc.team6223.robot.conf.PDP_CAN_ID
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.controllers.ArcadeDriveController
 import frc.team6223.robot.subsystem.Claw
@@ -20,72 +25,47 @@ import frc.team6223.robot.subsystems.DriveSystem
 import frc.team6223.utils.pdp.PDP
 import frc.team6223.utils.srx.TalonMotor
 
-class Robot(): IterativeRobot() {
+class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
     private val clawSubsystem = Claw(/*0, 0, 0,*/ TalonMotor(5, false, true, false))
+    private lateinit var driveSubsystem: ArsenalDrive
     //private val pdpSubsystem = PDP(PDP_CAN_ID)
-    private val commandChooser = SendableChooser<Command>()
     private val robotSideChooser = AutoUtilities.generateSendableChooser()
-    private val operatorInterface = OI(clawSubsystem)
-    private val driveSubsystem = DriveSystem(
-            ArcadeDriveController(operatorInterface.primaryJoystick),
-            AHRS(SerialPort.Port.kMXP),
-            TalonMotor(LEFT_DRIVE_CONTROLLER, true, false, false),
-            TalonMotor(RIGHT_DRIVE_CONTROLLER, true, true, false)
-    )
 
-
-    override fun robotInit() {
-        super.robotInit()
-        commandChooser.addDefault("Move 10ft using PID", DriveTrainDistance(10.0, driveSubsystem))
-        commandChooser.addObject("Move 5 ft/s using PID", DriveTrainVelocity(5.0, driveSubsystem))
-        SmartDashboard.putData(commandChooser)
-        SmartDashboard.putData(robotSideChooser)
-        this.driveSubsystem.resetEncoders()
+    override fun injectAutonomousCommands(): SendableChooser<Command> {
+        val sendableChooser = SendableChooser<Command>()
+        val fullTrajectory: FullTrajectory = this.motionProfiles[0]
+        sendableChooser
+                .addDefault(
+                        "Move 5ft using Motion Profiling",
+                        MoveDriveTrainCommand(
+                                MotionProfileController(
+                                        fullTrajectory.leftTrajectory,
+                                        fullTrajectory.rightTrajectory,
+                                        Velocity(Distance(4.0, DistanceUnits.FEET), Time(1.0, TimeUnits.SECONDS))),
+                                driveSubsystem)
+                )
+        return sendableChooser
     }
 
-    override fun autonomousInit() {
-        super.autonomousInit()
-        this.clearScheduler()
-
+    override fun allocateSubsystems(preferences: Preferences) {
+        driveSubsystem = ArsenalDrive(
+                NoMovementController(),
+                ArsenalNavXMicro(),
+                ArsenalTalon(LEFT_DRIVE_CONTROLLER, true, startInverted = true, invertSensorOutput = true),
+                ArsenalTalon(RIGHT_DRIVE_CONTROLLER, true, startInverted = true, invertSensorOutput = false)
+        )
     }
 
-    override fun teleopInit() {
-        super.teleopInit()
-        this.clearScheduler()
-        DriveTrainMovement(driveSubsystem, operatorInterface).start()
+    override fun retrieveMotionProfiles(): List<FullTrajectory> {
+        return listOf(readMotionProfile("5ftForward"))
     }
 
-    override fun disabledInit() {
-        super.disabledInit()
-        this.clearScheduler()
+    override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
+        return OI()
     }
 
-    override fun autonomousPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
+    override fun setTeleoperatedCommand() {
+        MoveDriveTrainCommand(ArcadeDriveController(operatorInterface.primaryJoystick), driveSubsystem).start()
     }
-
-    override fun disabledPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
-    }
-
-    override fun teleopPeriodic() {
-        this.runScheduler()
-        this.dashboardPeriodic()
-    }
-
-    private fun dashboardPeriodic() {
-        this.driveSubsystem.dashboardPeriodic()
-    }
-
-    private fun runScheduler() {
-        Scheduler.getInstance().run()
-    }
-
-    private fun clearScheduler() {
-        Scheduler.getInstance().removeAll()
-    }
-
 }

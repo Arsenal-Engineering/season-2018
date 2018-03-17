@@ -2,4 +2,18 @@ package frc.team6223.robot.conf
 
 const val LEFT_DRIVE_CONTROLLER = 1
 const val RIGHT_DRIVE_CONTROLLER = 2
+
+const val STAGE_TWO_UPWARD_MOTION = 3
+const val STAGE_TWO_DOWNWARD_MOTION_MASTER = 4
+const val V_STAGE_TWO_DOWNWARD_MOTION_SECONDARY = 8
+
+const val CLAW_OPEN_CLOSE_MOTION = 5
+const val CLAW_WINCH_MOTION = 6
+
+const val STAGE_THREE_UP_DOWN_MOTION_MASTER = 7
+const val V_STAGE_THREE_UP_DOWN_MOTION_SECONDARY = 9
+
+
+
+
 const val PDP_CAN_ID = 0

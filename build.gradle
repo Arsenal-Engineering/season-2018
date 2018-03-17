@@ -79,6 +79,7 @@ task('copyResources') {
                 execute 'mkdir ~/6223_resources', ignoreError: true
                 execute 'mkdir ~/logs', ignoreError: true
                 put from: fileTree('src/main/resources'), into: './6223_resources/'
+                execute 'chmod -R 755 ~/6223_resources'
                 execute ". /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r", ignoreError: true
             }
         }
