@@ -14,7 +14,7 @@ class NoMovementController: DriveController {
         return DriveControllerOutput(MotorControlMode.VoltagePercentOut, 0.0, 0.0)
     }
 
-    override fun start(leftInitial: Distance, rightInitial: Distance) {
+    override fun start(leftInitial: Int, rightInitial: Int) {
         println("No Movement Controller enabled")
     }
 

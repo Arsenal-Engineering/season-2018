@@ -11,11 +11,11 @@ interface ArsenalOperatorInterface {
     /**
      * The primary driving joystick.
      */
-    val primaryJoystick: Joystick
+    val primaryJoystick: ArsenalJoystick
 
     /**
      * A list of the remainder of the joysticks.
      */
-    val joysticks: List<Joystick>
+    val joysticks: List<ArsenalJoystick>
 
 }

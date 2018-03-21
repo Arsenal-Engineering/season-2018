@@ -13,7 +13,7 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
         return this.numericValue() / rep.scaleFactor
     }
 
-    override val defaultScale: DistanceUnits = DistanceUnits.METERS
+    override val defaultScale: DistanceUnits = DistanceUnits.FEET
 
     override fun unit(): Distance {
         return Distance(distance * scale.scaleFactor, defaultScale)
@@ -75,20 +75,12 @@ class Distance(val distance: Double, override val scale: DistanceUnits): Unit<Di
             // divide mag pulse number by 4096 then multiply that by wheel circumference
             return Distance(((magPulse / 4096) * wheelCircumference), DistanceUnits.INCHES)
         }
-
-        inline fun convertDistanceToMagPulse(dist: Distance): Double {
-            // convert dist to inches, then divide by wheel circumference and multiply by 4096
-            return (dist.numericValue(DistanceUnits.INCHES) / wheelCircumference) * 4096
-        }
     }
 
 }
 
 enum class DistanceUnits(override val scaleFactor: Double, override val abbreviation: String): ScaleUnit {
-    MILLIMETERS(.001, "mm"),
-    CENTIMETERS(.01, "cm"),
-    METERS(1.0, "m"),
-    KILOMETERS(1000.0, "km"),
-    INCHES(0.0254, "in"),
-    FEET(0.3048, "ft"),
+    METERS(39.37, "m"),
+    INCHES(12.0, "in"),
+    FEET(1.0, "ft"),
 }

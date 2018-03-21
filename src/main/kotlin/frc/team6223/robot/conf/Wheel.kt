@@ -5,4 +5,4 @@ import kotlin.math.PI
 // The approximate circumference of the drive train wheels
 const val wheelRadius: Double = 3.0
 const val wheelCircumference: Double = 2 * PI * wheelRadius
-const val wheelBaseWidth: Double = 0.86
+const val wheelBaseWidth: Double = 2.4

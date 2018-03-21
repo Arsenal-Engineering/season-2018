@@ -43,7 +43,7 @@ public class VelocityController implements DriveController {
     }
 
     @Override
-    public void start(@NotNull Distance leftInitial, @NotNull Distance rightInitial) {
+    public void start(@NotNull int leftInitial, @NotNull int rightInitial) {
 
     }
 

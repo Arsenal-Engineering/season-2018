@@ -85,7 +85,7 @@ abstract class ArsenalRobot(robotPeriod: Double, private val updatePeriod: Doubl
     /**
      * A method called periodically to update the dashboard.
      */
-    protected fun dashboardPeriodic() {}
+    abstract fun dashboardPeriodic()
 
     /**
      * Creates the sendable chooser for the commands for autonomous

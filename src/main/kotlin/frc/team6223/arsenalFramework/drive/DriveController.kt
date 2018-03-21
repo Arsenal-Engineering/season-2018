@@ -36,7 +36,7 @@ interface DriveController: Loggable {
      * @param leftInitial The initial encoder distance of the left encoder
      * @param rightInitial The initial encoder distance of the right encoder
      */
-    fun start(leftInitial: Distance, rightInitial: Distance)
+    fun start(leftInitial: Int, rightInitial: Int)
 
     /**
      * Called when the DriveController is stopped.
@@ -90,7 +90,7 @@ data class ControllerInput(val leftEncoder: Distance, val leftEncoderRate: Veloc
                 rightRawEncoder: Double, rightEncoderRate: Velocity,
                 navX: ArsenalNavXMicro): this(leftEncoder, leftEncoderRate, rightEncoder, rightEncoderRate,
             leftRawEncoder, rightRawEncoder,
-            0.0f, 0.0,
-            0.0f,
-            0.0f)
+            navX.yaw, navX.rate,
+            navX.pitch,
+            navX.roll)
 }

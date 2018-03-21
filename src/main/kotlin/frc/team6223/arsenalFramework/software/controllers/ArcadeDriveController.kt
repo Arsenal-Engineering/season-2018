@@ -6,6 +6,7 @@ import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode
+import frc.team6223.arsenalFramework.operator.ArsenalJoystick
 import frc.team6223.arsenalFramework.software.units.Distance
 
 /**
@@ -13,7 +14,7 @@ import frc.team6223.arsenalFramework.software.units.Distance
  *
  * @param joystick The primary driving joystick
  */
-class ArcadeDriveController(private val joystick: Joystick): DriveController {
+class ArcadeDriveController(private val joystick: Joystick, private val scaleFactor: Double = 1.0): DriveController {
 
     /**
      * Calculate the motor output based on the joystick provided
@@ -25,8 +26,8 @@ class ArcadeDriveController(private val joystick: Joystick): DriveController {
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
         // set the DriveControllerOutput based on the controller input
 
-        var rotateValue = joystick.x
-        var moveValue = joystick.y
+        var rotateValue = joystick.x * scaleFactor
+        var moveValue = -joystick.y * scaleFactor
 
         // Square the inputs (while preserving the sign) to increase fine control
         // while permitting full power.
@@ -76,7 +77,7 @@ class ArcadeDriveController(private val joystick: Joystick): DriveController {
         return DriveControllerOutput(MotorControlMode.VoltagePercentOut, leftOut, rightOut)
     }
 
-    override fun start(leftInitial: Distance, rightInitial: Distance) {
+    override fun start(leftInitial: Int, rightInitial: Int) {
         println("Starting Arcade Drive")
     }
 

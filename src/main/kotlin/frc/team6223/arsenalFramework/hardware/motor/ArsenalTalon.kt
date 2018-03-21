@@ -74,20 +74,21 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      */
     val position: Distance
         get() {
-            SmartDashboard.putNumber("rawPos ${talonId}", sensorCollection?.quadraturePosition?.toDouble() ?: 0.0)
+            SmartDashboard.putNumber("rawPos Pos ${talonId}", this.internalMotorController.getSelectedSensorPosition(0).toDouble())
             if (invertSensorOutput) {
-                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition?.unaryMinus() ?: 0)
+                return Distance.convertMagPulseToDistance(-this.internalMotorController.getSelectedSensorPosition(0))
             } else {
-                return Distance.convertMagPulseToDistance(sensorCollection?.quadraturePosition ?: 0)
+                return Distance.convertMagPulseToDistance(this.internalMotorController.getSelectedSensorPosition(0))
             }
         }
 
     val rawPosition: Double
         get() {
+            SmartDashboard.putNumber("rawPos ${talonId}", this.internalMotorController.getSelectedSensorPosition(0).toDouble())
             if (invertSensorOutput) {
-                return sensorCollection?.quadraturePosition?.unaryMinus()?.toDouble() ?: 0.0
+                return -this.internalMotorController.getSelectedSensorPosition(0).toDouble()
             } else {
-                return sensorCollection?.quadraturePosition?.toDouble() ?: 0.0
+                return this.internalMotorController.getSelectedSensorPosition(0).toDouble()
             }
         }
 
@@ -96,7 +97,7 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      */
     val velocity: Velocity
         get() {
-            return Velocity.convertMagPulseRateToVelocity(sensorCollection?.quadratureVelocity ?: 0)
+            return Velocity.convertMagPulseRateToVelocity(this.internalMotorController.getSelectedSensorVelocity(0))
         }
 
     /**
@@ -131,11 +132,11 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
      * control mode.
      */
     override fun dashboardPeriodic() {
-        SmartDashboard.putNumber("Talon {$talonId} Position", position.numericValue(DistanceUnits.FEET))
-        SmartDashboard.putNumber("Talon {$talonId} Velocity (ft/sec)",
+        SmartDashboard.putNumber("Talon $talonId Position", position.numericValue(DistanceUnits.FEET))
+        SmartDashboard.putNumber("Talon $talonId Velocity (ft/sec)",
                 velocity.numericValue(RateScaleFactor(DistanceUnits.FEET, TimeUnits.SECONDS)))
-        SmartDashboard.putBoolean("Talon {$talonId} Inverted", inverted)
-        SmartDashboard.putString("Talon {$talonId} MCM", internalControlMode.toString())
+        SmartDashboard.putBoolean("Talon $talonId Inverted", inverted)
+        SmartDashboard.putString("Talon $talonId MCM", internalControlMode.toString())
     }
 
     /**
@@ -159,7 +160,7 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
             this.internalMotorController.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0)
             // HALVE the period of the frame time: from 160 -> 80
             // This should change frequency
-            this.internalMotorController.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 80, 0)
+            this.internalMotorController.setStatusFramePeriod(StatusFrameEnhanced.Status_3_Quadrature, 5, 0)
             this.resetEncoder()
             this.sensorCollection = internalMotorController.sensorCollection
         }

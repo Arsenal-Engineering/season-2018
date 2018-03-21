@@ -7,11 +7,10 @@ import frc.team6223.arsenalFramework.drive.DriveControllerOutput
 import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode
 import frc.team6223.arsenalFramework.software.units.*
 import frc.team6223.robot.conf.wheelBaseWidth
-import frc.team6223.robot.conf.wheelRadius
 import jaci.pathfinder.Pathfinder
 import jaci.pathfinder.Trajectory
 import jaci.pathfinder.Waypoint
-import jaci.pathfinder.followers.EncoderFollower
+import jaci.pathfinder.followers.DistanceFollower
 import jaci.pathfinder.modifiers.TankModifier
 
 /**
@@ -29,65 +28,69 @@ class MotionProfileController(private var leftTrajectory: Trajectory, private va
     /**
      * The follower for the left trajectory that ensures that the left side of the robot follows correctly
      */
-    private lateinit var leftTrajectoryFollower: EncoderFollower
+    private lateinit var leftTrajectoryFollower: DistanceFollower
 
     /**
      * The follower for the right trajectory that ensures that the right side of the robot follows correctly
      */
-    private lateinit var rightTrajectoryFollower: EncoderFollower
+    private lateinit var rightTrajectoryFollower: DistanceFollower
+
+    private var leftLastDistance = Distance(0.0, DistanceUnits.FEET)
+    private var rightLastDistance = Distance(0.0, DistanceUnits.FEET)
 
     /**
      * Calculates the motor output based on the provided motion profile
      */
     override fun calculateMotorOutput(controllerInput: ControllerInput): DriveControllerOutput {
 
-        println(controllerInput)
+        println("Left: ${controllerInput.leftEncoder} Right: ${controllerInput.rightEncoder}")
 
-        val leftMotor = leftTrajectoryFollower.calculate(
-                controllerInput.rawLeftEncoder.toInt()
-        )
-        val rightMotor = rightTrajectoryFollower.calculate(
-                controllerInput.rawRightEncoder.toInt()
-        )
+        val leftMotor = leftTrajectoryFollower
+                .calculate((controllerInput.leftEncoder.numericValue(DistanceUnits.FEET) - leftLastDistance.numericValue(DistanceUnits.FEET)))
+        leftLastDistance = controllerInput.leftEncoder.rescale(DistanceUnits.FEET)
 
-        val yawHeading = Angle(controllerInput.yawRotation.toDouble(), AngleUnits.DEGREES)
-        val desiredHeading = Angle(leftTrajectoryFollower.heading, AngleUnits.RADIANS)
+        val rightMotor = rightTrajectoryFollower
+                .calculate((controllerInput.rightEncoder.numericValue(DistanceUnits.FEET) - rightLastDistance.numericValue(DistanceUnits.FEET)))
+        rightLastDistance = controllerInput.rightEncoder.rescale(DistanceUnits.FEET)
 
-        val angleDifference = Pathfinder.boundHalfDegrees((desiredHeading - yawHeading).numericValue())
-        val turn = 0.8 * (-1.0 / 80.0) * angleDifference
+        val yawHeading = controllerInput.yawRotation.toDouble()
+        val desiredHeading = Pathfinder.r2d(leftTrajectoryFollower.heading)
 
-        return DriveControllerOutput(MotorControlMode.VoltagePercentOut, leftMotor + turn, -(rightMotor - turn))
+        println("Yaw Out: $yawHeading Desired: $desiredHeading")
+
+        val angleDifference = Pathfinder.boundHalfDegrees((desiredHeading - yawHeading))
+        //val turn = 0.8 * (-1.0 / 80.0) * angleDifference
+
+        val turn = .00004 * angleDifference
+
+        //println("Angle Difference: $angleDifference Turn: $turn")
+
+        SmartDashboard.putNumber("Left Output", leftMotor)
+        SmartDashboard.putNumber("Right Output", rightMotor)
+
+        return DriveControllerOutput(MotorControlMode.VoltagePercentOut, (leftMotor - turn), (rightMotor +
+                turn))
     }
 
     /**
      * Generate the trajectories for the left and the right
      */
-    override fun start(leftInitial: Distance, rightInitial: Distance) {
+    override fun start(leftInitial: Int, rightInitial: Int) {
         println("Generating trajectory")
 
-        leftTrajectoryFollower = EncoderFollower(leftTrajectory)
-        rightTrajectoryFollower = EncoderFollower(rightTrajectory)
+        leftTrajectoryFollower = DistanceFollower(leftTrajectory)
+        rightTrajectoryFollower = DistanceFollower(rightTrajectory)
 
-        leftTrajectoryFollower.configureEncoder(
-                Distance.convertDistanceToMagPulse(leftInitial).toInt(),
-                4096,
-                wheelRadius * 2)
-        rightTrajectoryFollower.configureEncoder(
-                Distance.convertDistanceToMagPulse(rightInitial).toInt(),
-                4096,
-                wheelRadius * 2
-        )
-
-        leftTrajectoryFollower.configurePIDVA(10.0,
+        leftTrajectoryFollower.configurePIDVA(0.00005,
                 0.0,
                 0.0,
-                1 / maxVelocity.rescaleScalar(DistanceUnits.METERS, TimeUnits.SECONDS),
+                1 / maxVelocity.rescaleScalar(DistanceUnits.FEET, TimeUnits.SECONDS),
                 0.0)
 
-        rightTrajectoryFollower.configurePIDVA(10.0,
+        rightTrajectoryFollower.configurePIDVA(0.00005,
                 0.0,
                 0.0,
-                1 / maxVelocity.rescaleScalar(DistanceUnits.METERS, TimeUnits.SECONDS),
+                1 / maxVelocity.rescaleScalar(DistanceUnits.FEET, TimeUnits.SECONDS),
                 0.0)
         println("Finished generating trajectory")
         println("Started motion profile controller")

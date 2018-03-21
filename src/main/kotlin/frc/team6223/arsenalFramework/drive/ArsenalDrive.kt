@@ -1,9 +1,11 @@
 package frc.team6223.arsenalFramework.drive
 
+import com.sun.org.apache.xpath.internal.operations.Bool
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
 import frc.team6223.arsenalFramework.logging.Loggable
+import frc.team6223.arsenalFramework.software.controllers.NoMovementController
 
 /**
  * A subsystem for running 2 [ArsenalTalon]'s using a [DriveController].
@@ -34,7 +36,7 @@ class ArsenalDrive(driveMode: DriveController,
         set(value) {
             this.driveMode.stop()
             field = value
-            this.driveMode.start(this.leftController.position, this.rightController.position)
+            this.driveMode.start(this.leftController.rawPosition.toInt(), this.rightController.rawPosition.toInt())
         }
 
     override fun initDefaultCommand() {}
@@ -51,7 +53,11 @@ class ArsenalDrive(driveMode: DriveController,
         )
         leftController.set(driveOut.controlMode, driveOut.left)
         rightController.set(driveOut.controlMode, driveOut.right)
+    }
 
+    fun setEncoderPhase(left: Boolean = false, right: Boolean = false) {
+        this.leftController.setEncoderPhase(left)
+        this.rightController.setEncoderPhase(right)
     }
 
     /**
@@ -70,5 +76,9 @@ class ArsenalDrive(driveMode: DriveController,
     fun resetEncoders() {
         leftController.resetEncoder()
         rightController.resetEncoder()
+    }
+
+    fun zeroYaw() {
+        navX.reset()
     }
 }

@@ -16,7 +16,7 @@ open class ArsenalJoystick(private val joystickId: Int, var deadBand: Double): J
      */
     open val deadBandX: Double
         get() {
-            if (x in -deadBand..deadBand) {
+            if (this.x in -deadBand..deadBand) {
                 return 0.0
             }
             return x
@@ -27,10 +27,10 @@ open class ArsenalJoystick(private val joystickId: Int, var deadBand: Double): J
      */
     open val deadBandY: Double
         get() {
-            if (y in -deadBand..deadBand) {
+            if (this.y in -deadBand..deadBand) {
                 return 0.0
             }
-            return y
+            return this.y
         }
 
 }

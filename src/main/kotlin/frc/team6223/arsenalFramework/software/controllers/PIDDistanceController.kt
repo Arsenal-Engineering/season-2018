@@ -33,7 +33,7 @@ class PIDDistanceController(private val dist: Double): DriveController {
         return DriveControllerOutput(MotorControlMode.PIDDistance, out, out)
     }
 
-    override fun start(leftInitial: Distance, rightInitial: Distance) {
+    override fun start(leftInitial: Int, rightInitial: Int) {
         println("Moving $dist ft")
         pidController.setPoint = dist
     }
