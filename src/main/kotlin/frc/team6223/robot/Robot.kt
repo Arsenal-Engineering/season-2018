@@ -13,6 +13,7 @@ import frc.team6223.arsenalFramework.drive.ArsenalDrive
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.ArsenalRobot
 import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalVictor
 import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 import frc.team6223.arsenalFramework.software.FullTrajectory
 import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
@@ -25,12 +26,23 @@ import frc.team6223.robot.conf.LEFT_DRIVE_CONTROLLER
 import frc.team6223.robot.conf.PDP_CAN_ID
 import frc.team6223.robot.conf.RIGHT_DRIVE_CONTROLLER
 import frc.team6223.robot.subsystem.Claw
+import frc.team6223.robot.subsystem.Climber
 import jaci.pathfinder.Trajectory
 import jaci.pathfinder.Waypoint
 
 class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
-    private val clawSubsystem = Claw(/*0, 0, 0,*/ ArsenalTalon(5, false, true, false))
+    private val clawSubsystem = Claw(
+            ArsenalTalon(5, false, true, false),
+            ArsenalTalon(6, false, false, false)
+    )
+    private val climberSubsystem = Climber(
+            ArsenalTalon(3, false, false, false),
+            ArsenalTalon(7, false, false, false)
+                    .also { it.addFollower(ArsenalVictor(9)) },
+            ArsenalTalon(4, false, false, false)
+                    .also { it.addFollower(ArsenalVictor(8)) }
+    )
     private lateinit var driveSubsystem: ArsenalDrive
     //private val pdpSubsystem = PDP(PDP_CAN_ID)
     private val robotSideChooser = AutoUtilities.generateSendableChooser()
@@ -86,7 +98,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     }
 
     override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
-        return OI(clawSubsystem)
+        return OI(clawSubsystem, climberSubsystem)
     }
 
     override fun setTeleoperatedCommand() {

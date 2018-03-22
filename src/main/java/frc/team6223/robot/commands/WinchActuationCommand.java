@@ -2,32 +2,46 @@ package frc.team6223.robot.commands;
 
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team6223.arsenalFramework.hardware.TimeKt;
+import frc.team6223.arsenalFramework.software.units.Time;
+import frc.team6223.arsenalFramework.software.units.TimeUnits;
 import frc.team6223.robot.subsystem.Claw;
-import frc.team6223.utils.time.TimeKt;
-import frc.team6223.utils.units.Time;
-import frc.team6223.utils.units.TimeUnits;
 
 
-public class LowerWinchCommand extends Command {
+public class WinchActuationCommand extends Command {
 
     private Claw clawSubsystem;
     private Time commandStart;
+    private WinchDirection winchDirection;
     private boolean passedFiveSeconds = false;
 
-    public LowerWinchCommand(Claw clawSubsystem) {
+    public WinchActuationCommand(Claw clawSubsystem, WinchDirection direction) {
         this.clawSubsystem = clawSubsystem;
+        this.winchDirection = direction;
+    }
+
+    public enum WinchDirection {
+        UP,
+        DOWN,
     }
 
     @Override
     public synchronized void start() {
         super.start();
         commandStart = TimeKt.getCurrentTimeSec();
-        this.clawSubsystem.lowerWinch();
     }
 
     @Override
     protected void execute() {
         super.execute();
+        switch (winchDirection) {
+            case UP:
+                this.clawSubsystem.raiseWinch();
+                break;
+            case DOWN:
+                this.clawSubsystem.lowerWinch();
+                break;
+        }
         if (commandStart.minus(TimeKt.getCurrentTimeSec()).numericValue(TimeUnits.SECONDS) >= 5.0) {
             passedFiveSeconds = true;
         }
