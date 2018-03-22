@@ -2,11 +2,10 @@ package frc.team6223.robot.commands;
 
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team6223.arsenalFramework.hardware.TimeKt;
+import frc.team6223.arsenalFramework.software.units.Time;
+import frc.team6223.arsenalFramework.software.units.TimeUnits;
 import frc.team6223.robot.subsystem.Claw;
-import frc.team6223.utils.units.Time;
-import frc.team6223.utils.time.TimeKt;
-import frc.team6223.utils.units.TimeUnits;
-
 
 public class ClawActuationCommand extends Command {
 

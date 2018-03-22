@@ -86,7 +86,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     }
 
     override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
-        return OI()
+        return OI(clawSubsystem)
     }
 
     override fun setTeleoperatedCommand() {

@@ -10,8 +10,11 @@ import frc.team6223.robot.conf.JOYSTICK_PORT
 import frc.team6223.robot.subsystem.Claw
 
 
-public class OI(claw: Claw) {
-    public val primaryJoystick = Joystick(JOYSTICK_PORT)
+class OI(claw: Claw): ArsenalOperatorInterface {
+    override val primaryJoystick: ArsenalJoystick
+        get() = ArsenalFlightStick(1, 0.15)
+    override val joysticks: List<ArsenalJoystick>
+        get() = listOf(primaryJoystick)
 
     init {
         // Place anything to start the controllers here

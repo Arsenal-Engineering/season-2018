@@ -2,10 +2,8 @@ package frc.team6223.robot.subsystem;
 
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team6223.utils.srx.MotorControlMode;
-import frc.team6223.utils.srx.TalonMotor;
-import frc.team6223.utils.units.Time;
-import frc.team6223.utils.units.TimeUnits;
+import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon;
+import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode;
 
 
 public class Claw extends Subsystem {
@@ -17,9 +15,9 @@ public class Claw extends Subsystem {
     //private TalonMotor leftRightMotor;
     //private TalonMotor upDownMotor;
     //private TalonMotor winchMotor;
-    private TalonMotor openCloseMotor;
+    private ArsenalTalon openCloseMotor;
 
-    public Claw(/*TalonMotor leftRightMotor, TalonMotor upDownMotor, TalonMotor winchMotor,*/ TalonMotor
+    public Claw(/*TalonMotor leftRightMotor, TalonMotor upDownMotor, TalonMotor winchMotor,*/ ArsenalTalon
     openCloseMotor) {
         //this.leftRightMotor = leftRightMotor;
         //this.upDownMotor = upDownMotor;
