@@ -26,10 +26,10 @@ public class StageThreeMove extends Command {
         super.execute();
         switch(direction) {
             case UP:
-                climber.raiseStageThree(0.5);
+                climber.raiseStageThree(0.1);
                 break;
             case DOWN:
-                climber.lowerStageThree(0.5);
+                climber.lowerStageThree(0.1);
                 break;
         }
     }
@@ -37,7 +37,7 @@ public class StageThreeMove extends Command {
     @Override
     protected void end() {
         super.end();
-        climber.holdStageThree(0.5);
+        //climber.holdStageThree(0.5);
     }
 
     @Override

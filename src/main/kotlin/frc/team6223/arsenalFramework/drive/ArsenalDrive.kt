@@ -4,6 +4,7 @@ import com.sun.org.apache.xpath.internal.operations.Bool
 import edu.wpi.first.wpilibj.command.Subsystem
 import frc.team6223.arsenalFramework.hardware.ArsenalNavXMicro
 import frc.team6223.arsenalFramework.hardware.motor.ArsenalTalon
+import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode
 import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.software.controllers.NoMovementController
 
@@ -53,6 +54,11 @@ class ArsenalDrive(driveMode: DriveController,
         )
         leftController.set(driveOut.controlMode, driveOut.left)
         rightController.set(driveOut.controlMode, driveOut.right)
+    }
+
+    fun manualOverride(left: Double, right: Double) {
+        leftController.set(MotorControlMode.VoltagePercentOut, 0.5)
+        rightController.set(MotorControlMode.VoltagePercentOut, 0.5)
     }
 
     fun setEncoderPhase(left: Boolean = false, right: Boolean = false) {

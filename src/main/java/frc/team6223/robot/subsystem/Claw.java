@@ -8,8 +8,7 @@ import frc.team6223.arsenalFramework.hardware.motor.MotorControlMode;
 
 public class Claw extends Subsystem {
 
-    public static final Double timeToOpenClaw = 1.0;
-    public static final Double timeToMoveWinch = 1.0;
+    public static final Double timeToOpenClaw = 3.0;
 
     private ArsenalTalon winchMotor;
     private ArsenalTalon openCloseMotor;
@@ -21,11 +20,11 @@ public class Claw extends Subsystem {
 
     public void openClaw() {
         // Assume positive and half max output
-        openCloseMotor.set(MotorControlMode.VoltagePercentOut, 1.0);
+        openCloseMotor.set(MotorControlMode.VoltagePercentOut, -1.0);
     }
 
     public void closeClaw() {
-        openCloseMotor.set(MotorControlMode.VoltagePercentOut, -1.0);
+        openCloseMotor.set(MotorControlMode.VoltagePercentOut, 1.0);
     }
 
     public void stopOpenCloseClaw() {
@@ -43,6 +42,14 @@ public class Claw extends Subsystem {
     public void stopWinch() {
         winchMotor.set(MotorControlMode.VoltagePercentOut, 0.0);
     }
+	
+	public void holdClaw() {
+		openCloseMotor.set(MotorControlMode.VoltagePercentOut, 1.0);
+	}
+	
+	public double getOpenCurrent() {
+		return openCloseMotor.getOutputCurrent();
+	}
 
     @Override
     protected void initDefaultCommand() {

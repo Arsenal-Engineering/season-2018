@@ -27,10 +27,12 @@ class MoveDriveTrainCommand(
 
     override fun end() {
         driveSystem.driveMode = NoMovementController()
+        driveSystem.driveMotors()
     }
 
     override fun interrupted() {
         driveSystem.driveMode = NoMovementController()
+        driveSystem.driveMotors()
     }
 
     override fun execute() {

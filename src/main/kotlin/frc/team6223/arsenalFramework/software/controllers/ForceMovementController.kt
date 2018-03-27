@@ -1,5 +1,7 @@
 package frc.team6223.arsenalFramework.software.controllers
 
+import edu.wpi.first.wpilibj.Timer
+import edu.wpi.first.wpilibj.internal.HardwareTimer
 import frc.team6223.arsenalFramework.drive.ControllerInput
 import frc.team6223.arsenalFramework.drive.DriveController
 import frc.team6223.arsenalFramework.drive.DriveControllerOutput
@@ -20,7 +22,7 @@ class ForceMovementController(private val deltaTime: Time, private val leftMotor
 
     override fun start(leftInitial: Int, rightInitial: Int) {
         println("Starting FMC")
-        startTime = currentTimeSec
+        startTime = currentTimeSec()
     }
 
     override fun stop() {
@@ -28,7 +30,7 @@ class ForceMovementController(private val deltaTime: Time, private val leftMotor
     }
 
     override fun isFinished(): Boolean {
-        return (currentTimeSec - startTime).numericValue(TimeUnits.SECONDS) >= deltaTime.numericValue(TimeUnits.SECONDS)
+        return (currentTimeSec() - startTime).numericValue(TimeUnits.SECONDS) >= deltaTime.numericValue(TimeUnits.SECONDS)
     }
 
     override fun dashboardPeriodic() {

@@ -24,15 +24,7 @@ public class ClawActuationCommand extends Command {
     @Override
     protected void execute() {
         super.execute();
-        switch (actuation) {
-            case OPEN:
-                clawSubsystem.openClaw();
-                break;
-            case CLOSE:
-                clawSubsystem.closeClaw();
-                break;
-        }
-        if (commandStart.minus(TimeKt.getCurrentTimeSec()).numericValue(TimeUnits.SECONDS) >= Claw.timeToOpenClaw) {
+        if (commandStart.minus(TimeKt.currentTimeSec()).numericValue(TimeUnits.SECONDS) >= Claw.timeToOpenClaw) {
             passedFiveSeconds = true;
         }
     }
@@ -52,7 +44,15 @@ public class ClawActuationCommand extends Command {
     @Override
     public synchronized void start() {
         super.start();
-        commandStart = TimeKt.getCurrentTimeSec();
+        commandStart = TimeKt.currentTimeSec();
+		switch (actuation) {
+            case OPEN:
+                clawSubsystem.openClaw();
+                break;
+            case CLOSE:
+                clawSubsystem.closeClaw();
+                break;
+        }
     }
 
     @Override

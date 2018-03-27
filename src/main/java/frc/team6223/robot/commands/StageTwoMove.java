@@ -9,11 +9,13 @@ public class StageTwoMove extends Command {
 
     private Climber climber;
     private StageTwoDirection direction;
+    private boolean moveWinch = true;
 
-    public StageTwoMove(Climber climber, StageTwoDirection direction) {
+    public StageTwoMove(Climber climber, StageTwoDirection direction, boolean moveWinch) {
         requires(climber);
         this.climber = climber;
         this.direction = direction;
+        this.moveWinch = moveWinch;
     }
 
     public enum StageTwoDirection {
@@ -26,10 +28,18 @@ public class StageTwoMove extends Command {
         super.execute();
         switch (this.direction) {
             case UP:
-                climber.raiseStageTwo(0.5);
+                if (moveWinch) {
+                    climber.raiseStageTwoWinch(1.0);
+                } else {
+                    climber.raiseStageTwo(0.3);
+                }
                 break;
             case DOWN:
-                climber.lowerStageTwo(0.5);
+                if (moveWinch) {
+                    climber.lowerStageTwoWinch(0.3);
+                } else {
+                    climber.lowerStageTwo(0.3);
+                }
                 break;
         }
     }
@@ -37,7 +47,13 @@ public class StageTwoMove extends Command {
     @Override
     protected void end() {
         super.end();
-        climber.holdStageTwo(0.5);
+        climber.stopStageTwo();
+    }
+
+    @Override
+    protected void interrupted() {
+        super.interrupted();
+        climber.stopStageTwo();
     }
 
     @Override

@@ -79,8 +79,8 @@ class PIDFController(constants: PIDFConstants, target: Double) {
 
         // calculate constants for this iteration of the loop
         this.currentError = setPoint - current
-        val deltaTime = currentTimeSec - lastTime
-        this.lastTime = currentTimeSec
+        val deltaTime = currentTimeSec() - lastTime
+        this.lastTime = currentTimeSec()
 
         val calculated: Double = this.constants.kD * (currentError - this.lastError / deltaTime.numericValue(TimeUnits.SECONDS))
         val derivative = if (calculated != 0.0 && calculated != Double.NaN) {

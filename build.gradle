@@ -9,7 +9,7 @@ plugins {
     // Allow for the use of the IntelliJ IDEA IDE
     id "idea"
     // Depend on GradleRIO
-    id "jaci.openrio.gradle.GradleRIO" version "2018.01.15"
+    id "jaci.openrio.gradle.GradleRIO" version "2018.03.06"
     // Depend on Kotlin for the JVM
     id 'org.jetbrains.kotlin.jvm' version "1.2.20"
     // Depend on Dokka for documentation management

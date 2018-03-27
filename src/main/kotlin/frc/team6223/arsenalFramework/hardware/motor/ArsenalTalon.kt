@@ -6,7 +6,6 @@ import com.ctre.phoenix.motorcontrol.SensorCollection
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced
 import com.ctre.phoenix.motorcontrol.can.TalonSRX
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
-import frc.team6223.arsenalFramework.logging.Loggable
 import frc.team6223.arsenalFramework.software.units.*
 
 /**
@@ -30,6 +29,9 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
                    startInverted: Boolean = false,
                    startingSensorPhase: Boolean = false,
                    var invertSensorOutput: Boolean = false): ArsenalCANMotorController {
+
+    // ccw pos, cw neg
+
     /**
      * The internal Talon
      */
@@ -152,6 +154,10 @@ class ArsenalTalon(private val talonId: Int, quadratureEnabled: Boolean = false,
     fun resetEncoder() {
         sensorCollection?.setQuadraturePosition(0, 0)
     }
+	
+	fun getOutputCurrent(): Double {
+		return this.internalMotorController.getOutputCurrent()
+	}
 
 
     init {

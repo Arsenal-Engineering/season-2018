@@ -11,9 +11,7 @@ import frc.team6223.robot.subsystem.Claw;
 public class WinchActuationCommand extends Command {
 
     private Claw clawSubsystem;
-    private Time commandStart;
     private WinchDirection winchDirection;
-    private boolean passedFiveSeconds = false;
 
     public WinchActuationCommand(Claw clawSubsystem, WinchDirection direction) {
         this.clawSubsystem = clawSubsystem;
@@ -26,12 +24,6 @@ public class WinchActuationCommand extends Command {
     }
 
     @Override
-    public synchronized void start() {
-        super.start();
-        commandStart = TimeKt.getCurrentTimeSec();
-    }
-
-    @Override
     protected void execute() {
         super.execute();
         switch (winchDirection) {
@@ -41,9 +33,6 @@ public class WinchActuationCommand extends Command {
             case DOWN:
                 this.clawSubsystem.lowerWinch();
                 break;
-        }
-        if (commandStart.minus(TimeKt.getCurrentTimeSec()).numericValue(TimeUnits.SECONDS) >= 5.0) {
-            passedFiveSeconds = true;
         }
     }
 
@@ -61,6 +50,6 @@ public class WinchActuationCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return passedFiveSeconds;
+        return false;
     }
 }

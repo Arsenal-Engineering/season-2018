@@ -1,10 +1,7 @@
 package frc.team6223.robot
 
 import com.kauailabs.navx.frc.AHRS
-import edu.wpi.first.wpilibj.IterativeRobot
-import edu.wpi.first.wpilibj.Preferences
-import edu.wpi.first.wpilibj.SerialPort
-import edu.wpi.first.wpilibj.TimedRobot
+import edu.wpi.first.wpilibj.*
 import edu.wpi.first.wpilibj.command.Command
 import edu.wpi.first.wpilibj.command.Scheduler
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
@@ -18,6 +15,7 @@ import frc.team6223.arsenalFramework.operator.ArsenalOperatorInterface
 import frc.team6223.arsenalFramework.software.FullTrajectory
 import frc.team6223.arsenalFramework.software.commands.MoveDriveTrainCommand
 import frc.team6223.arsenalFramework.software.controllers.ArcadeDriveController
+import frc.team6223.arsenalFramework.software.controllers.ForceMovementController
 import frc.team6223.arsenalFramework.software.controllers.MotionProfileController
 import frc.team6223.arsenalFramework.software.controllers.NoMovementController
 import frc.team6223.arsenalFramework.software.units.*
@@ -32,10 +30,6 @@ import jaci.pathfinder.Waypoint
 
 class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
-    private val clawSubsystem = Claw(
-            ArsenalTalon(5, false, true, false),
-            ArsenalTalon(6, false, false, false)
-    )
     private val climberSubsystem = Climber(
             ArsenalTalon(3, false, false, false),
             ArsenalTalon(7, false, false, false)
@@ -49,21 +43,23 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
 
     override fun injectAutonomousCommands(): SendableChooser<Command> {
         val sendableChooser = SendableChooser<Command>()
-        /*sendableChooser
-                .addDefault(
-                        "Force Move",
-                        MoveDriveTrainCommand(
-                            ForceMovementController(
-                                    Time(1.5, TimeUnits.SECONDS),
-                                    -0.35, 0.1
-                            ), driveSubsystem))*/
         sendableChooser.addDefault(
-                        "Move 5ft using Motion Profiling",
+                "Move forward for 2 sec",
+                MoveDriveTrainCommand(
+                        ForceMovementController(
+                                Time(4.0, TimeUnits.SECONDS),
+                                0.5, 0.5
+                        ),
+                        driveSubsystem
+                )
+        )
+        /*sendableChooser.addDefault(
+                        "Move 15ft? using Motion Profiling",
                         MoveDriveTrainCommand(
                                 MotionProfileController(
                                         arrayOf(
                                                 Waypoint(0.0, 0.0, 0.0),
-                                                Waypoint(5.0, 5.0, 90.0)
+                                                Waypoint(15.0, 0.0, 0.0)
                                         ),
                                         Trajectory.Config(
                                                 Trajectory.FitMethod.HERMITE_QUINTIC,
@@ -75,6 +71,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
                                         Velocity(Distance(6.54, DistanceUnits.FEET), Time(1.0, TimeUnits.SECONDS))),
                                 driveSubsystem)
                 )
+                */
         return sendableChooser
     }
 
@@ -98,7 +95,7 @@ class Robot: ArsenalRobot(TimedRobot.DEFAULT_PERIOD, 0.05) {
     }
 
     override fun allocateOperatorInterface(preferences: Preferences): ArsenalOperatorInterface {
-        return OI(clawSubsystem, climberSubsystem)
+        return OI(climberSubsystem)
     }
 
     override fun setTeleoperatedCommand() {

@@ -22,23 +22,29 @@ public class Climber extends Subsystem {
         this.stageTwoDownwardTalon = stageTwoDownwardTalon;
     }
 
-    private final PIDFConstants raiseConstants = new PIDFConstants(1.0, 0.0, 0.0, 1.0);
-    private final PIDFConstants lowerConstants = new PIDFConstants(.5, 0.0, 0.0, 1.0);
-
     public void raiseStageTwo(double voltageOut) {
         stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
-        stageTwoDownwardTalon.set(MotorControlMode.VoltagePercentOut, -voltageOut);
     }
 
     public void lowerStageTwo(double voltageOut) {
         stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, -voltageOut);
+    }
+
+    public void raiseStageTwoWinch(double voltageOut) {
+        //stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
+        stageTwoDownwardTalon.set(MotorControlMode.VoltagePercentOut, -voltageOut);
+    }
+
+    public void lowerStageTwoWinch(double voltageOut) {
+        //stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, -voltageOut);
         stageTwoDownwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
     }
 
-    public void holdStageTwo(double voltageOut) {
-        stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
-        stageTwoDownwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
+    public void stopStageTwo() {
+        stageTwoUpwardTalon.set(MotorControlMode.VoltagePercentOut, 0);
+        stageTwoDownwardTalon.set(MotorControlMode.VoltagePercentOut, 0);
     }
+
 
     public void raiseStageThree(double voltageOut) {
         stageThreeUpwardTalon.set(MotorControlMode.VoltagePercentOut, voltageOut);
